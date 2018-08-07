@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tv_temu_lurah"
+        android:text="@string/temu_lurah"
+        android:textSize="24sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eceff1"
+        android:padding="8dp"
+        android:textColor="#000000"
+        android:layout_margin="4dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/tv_keliling"
+        android:text="@string/keliling"
+        android:textSize="24sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#cfd8dc"
+        android:padding="8dp"
+        android:textColor="#000000"
+        android:layout_margin="4dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/tv_lapor"
+        android:text="@string/lapor"
+        android:textSize="24sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#b0bec5"
+        android:padding="8dp"
+        android:textColor="#000000"
+        android:layout_margin="4dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/tv_acara"
+        android:text="@string/acara"
+        android:textSize="24sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#90a4ae"
+        android:padding="8dp"
+        android:textColor="#000000"
+        android:layout_margin="4dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/tv_fasilitas"
+        android:text="@string/fasilitas"
+        android:textSize="24sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#78909c"
+        android:padding="8dp"
+        android:textColor="#000000"
+        android:layout_margin="4dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/tv_galang_dana"
+        android:text="@string/galang_dana"
+        android:textSize="24sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#607d8b"
+        android:padding="8dp"
+        android:textColor="#000000"
+        android:layout_margin="4dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/tv_stub_1"
+        android:text="@string/stub_1"
+        android:textSize="24sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#546e7a"
+        android:padding="8dp"
+        android:textColor="#000000"
+        android:layout_margin="4dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"/>
+</LinearLayout>
