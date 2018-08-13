@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -29,11 +30,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nagare.MainActivity;
 import com.nagare.R;
+import com.nagare.model.User;
+import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -45,9 +50,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private final Context context = this;
 
     private ImageView       nagareLogo;
-    private LinearLayout    usernameField, passwordField;
+    private LinearLayout    usernameLayout, passwordLayout;
     private TextView        loginTextView, signUpTextView;
     private Button          loginButton;
+    private EditText        usernameField, passwordField;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -77,8 +83,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_login);
 
+        DataUtil.getInstance().initUserStub();
+
         initComponent();
         setSignUpAction();
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doLogin();
+            }
+        });
 
 //        // Set up the login form.
 //        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -113,11 +128,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private void initComponent() {
         nagareLogo      = findViewById(R.id.iv_nagare_logo);
-        usernameField   = findViewById(R.id.ll_username_field);
-        passwordField   = findViewById(R.id.ll_password_field);
+        usernameLayout  = findViewById(R.id.ll_username_field);
+        passwordLayout  = findViewById(R.id.ll_password_field);
         loginTextView   = findViewById(R.id.tv_login);
         signUpTextView  = findViewById(R.id.tv_sign_up);
         loginButton     = findViewById(R.id.btn_login);
+        usernameField   = findViewById(R.id.et_username);
+        passwordField   = findViewById(R.id.et_password);
 
         ViewUtil.loadImage(context, nagareLogo, R.drawable.nagare_logo);
     }
@@ -131,8 +148,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onClick(View v) {
                 Pair[] sharedElements = new Pair[]{
                         Pair.create((View) nagareLogo, getString(R.string.tn_nagare_logo)),
-                        Pair.create((View) usernameField, getString(R.string.tn_username_field)),
-                        Pair.create((View) passwordField, getString(R.string.tn_password_field)),
+                        Pair.create((View) usernameLayout, getString(R.string.tn_username_field)),
+                        Pair.create((View) passwordLayout, getString(R.string.tn_password_field)),
                         Pair.create((View) loginButton, getString(R.string.tn_btn_auth))
                 };
 
@@ -140,6 +157,55 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
     }
+
+    private void doLogin() {
+        String username = usernameField.getText().toString().trim().toLowerCase();
+        String password = passwordField.getText().toString();
+
+        if (isSuccessLogin(username, password)) {
+            doSuccessLogin();
+            Toast.makeText(context, "Success Login", Toast.LENGTH_SHORT).show();
+        } else {
+            doFailedLogin();
+            Toast.makeText(context, "Failed login", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private boolean isValidLoginInput(String username, String password) {
+        View focusView = null;
+        boolean valid = true;
+
+        if (TextUtils.isEmpty(username)) {
+            usernameField.setError("This field is required");
+            focusView = usernameField;
+            valid = false;
+        }
+
+        if (TextUtils.isEmpty((password))) {
+            passwordField.setError("This field is required");
+            focusView = usernameField;
+            valid = false;
+        }
+
+        if (!valid) focusView.requestFocus();
+
+        return valid;
+    }
+
+    private boolean isSuccessLogin(String username, String password) {
+        return DataUtil.getInstance().isExistUser(new User(username,"",password));
+    }
+
+    private void doSuccessLogin() {
+        Intent intent = new Intent(context, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void doFailedLogin() {
+
+    }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {

@@ -1,7 +1,6 @@
 package com.nagare.auth;
 
 import android.content.Context;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,9 +14,9 @@ import com.nagare.util.ViewUtil;
 public class SignUpActivity extends AppCompatActivity {
     private Context context = SignUpActivity.this;
 
-    private ImageView nagareLogo;
-    private LinearLayout usernameField, passwordField;
-    private TextView loginTextView;
+    private ImageView       nagareLogo;
+    private LinearLayout    usernameLayout, passwordLayout;
+    private TextView        loginTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +32,8 @@ public class SignUpActivity extends AppCompatActivity {
      */
     private void initComponent() {
         nagareLogo      = findViewById(R.id.iv_nagare_logo);
-        usernameField   = findViewById(R.id.ll_username_field);
-        passwordField   = findViewById(R.id.ll_password_field);
+        usernameLayout = findViewById(R.id.ll_username_field);
+        passwordLayout = findViewById(R.id.ll_password_field);
         loginTextView   = findViewById(R.id.tv_login);
 
         ViewUtil.loadImage(context, nagareLogo, R.drawable.nagare_logo);
