@@ -26,4 +26,6 @@
     <string name="username">Username: </string>
     <string name="password">Password:</string>
     <string name="submit">Submit</string>
+    <string name="not_have_account">Doesn\'t have account?</string>
+    <string name="signup">sign up</string>
 </resources>
