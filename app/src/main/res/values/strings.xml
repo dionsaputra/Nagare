@@ -26,8 +26,11 @@
     <string name="username">Username: </string>
     <string name="password">Password:</string>
     <string name="submit">Submit</string>
-    <string name="not_have_account">Doesn\'t have account?</string>
-    <string name="signup">sign up</string>
+    <string name="not_have_account">Doesn\'t have an account?</string>
+    <string name="have_account">Have an account?</string>
+    <string name="sign_up">Sign Up</string>
     <string name="tagline">Didedikasikan untuk keamanan, kenyamanan, dan kesejahteraan kelurahan</string>
     <string name="nagare_logo">nagare_logo</string>
+    <string name="email">Email:</string>
+    <string name="password_confirm">Confirm:</string>
 </resources>

@@ -14,21 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".auth.OpeningActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".auth.LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-
-        <activity android:name=".MainActivity"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".activity.TemuLurah" />
         <activity android:name=".activity.Keliling" />
         <activity android:name=".activity.Acara" />
@@ -36,7 +34,7 @@
         <activity android:name=".activity.Fasilitas" />
         <activity android:name=".activity.GalangDana" />
         <activity android:name=".activity.StubOne" />
-
+        <activity android:name=".auth.SignupActivity"></activity>
     </application>
 
 </manifest>
