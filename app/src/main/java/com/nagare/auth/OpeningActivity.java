@@ -26,6 +26,9 @@ public class OpeningActivity extends AppCompatActivity {
         setNagareLogoAction();
     }
 
+    /**
+     * Define all component, load image if exist.
+     */
     private void initComponent() {
         nagareLogo = findViewById(R.id.iv_nagare_logo);
         openingBackground = findViewById(R.id.iv_opening_background);

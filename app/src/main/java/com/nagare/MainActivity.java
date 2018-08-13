@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void prepareOtherActivity(int textViewResId, final Class intentClass) {
-        TextView textView = (TextView) findViewById(textViewResId);
+        TextView textView = findViewById(textViewResId);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

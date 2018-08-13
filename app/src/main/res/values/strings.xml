@@ -39,4 +39,5 @@
     <string name="tn_login">tn_login</string>
     <string name="tn_username_field">tn_username_field</string>
     <string name="tn_password_field">tn_password_field</string>
+    <string name="tn_btn_auth">tn_btn_auth</string>
 </resources>
