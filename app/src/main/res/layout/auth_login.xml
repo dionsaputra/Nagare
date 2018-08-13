@@ -19,6 +19,7 @@
             <ImageView
                 android:id="@+id/nagare_logo"
                 android:src="@drawable/nagare_logo"
+                android:transitionName="@string/nagare_logo"
                 android:scaleType="centerCrop"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
