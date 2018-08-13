@@ -3,7 +3,6 @@ package com.nagare.auth;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,9 +12,10 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.nagare.MainActivity;
 import com.nagare.R;
+import com.nagare.util.ViewUtil;
 
 public class OpeningActivity extends AppCompatActivity {
-    private Context context = this;
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class OpeningActivity extends AppCompatActivity {
      */
     private void loadOpeningBackground() {
         ImageView openingBackground = (ImageView) findViewById(R.id.opening_background);
-        Glide.with(this).load(R.drawable.opening_background).into(openingBackground);
+        Glide.with(context).load(R.drawable.opening_background).into(openingBackground);
     }
 
     /**
@@ -42,26 +42,10 @@ public class OpeningActivity extends AppCompatActivity {
         nagareLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hasLogin()) {
-                    startNewActivity(MainActivity.class, nagareLogo, R.string.nagare_logo);
-                } else {
-                    startNewActivity(LoginActivity.class, nagareLogo, R.string.nagare_logo);
-                }
+                Class targetActivity = hasLogin() ? MainActivity.class : LoginActivity.class;
+                ViewUtil.startNewActivity(context, targetActivity, nagareLogo, R.string.tn_nagare_logo);
             }
         });
-    }
-
-    /**
-     * Start new activity by sharedElement transition.
-     * @param targetActivity        next activity to start
-     * @param sharedElement         shared element between two activity
-     * @param sharedElementResId    string resource of sharedElement
-     */
-    private void startNewActivity(Class targetActivity, View sharedElement, int sharedElementResId) {
-        Intent intent = new Intent(context, targetActivity);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                (Activity) context, sharedElement, getString(sharedElementResId));
-        startActivity(intent, options.toBundle());
     }
 
     /**

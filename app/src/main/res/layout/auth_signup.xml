@@ -19,7 +19,7 @@
             <ImageView
                 android:id="@+id/nagare_logo"
                 android:src="@drawable/nagare_logo"
-                android:transitionName="@string/nagare_logo"
+                android:transitionName="@string/tn_nagare_logo"
                 android:scaleType="centerCrop"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
@@ -27,6 +27,7 @@
 
             <TextView
                 android:text="@string/sign_up"
+                android:transitionName="@string/tn_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -147,8 +148,10 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/tv_login"
                 android:text="@string/login"
-                android:layout_marginLeft="4dp"
+                android:transitionName="@string/tn_login"
+                android:layout_marginStart="4dp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

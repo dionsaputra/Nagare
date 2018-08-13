@@ -30,7 +30,11 @@
     <string name="have_account">Have an account?</string>
     <string name="sign_up">Sign Up</string>
     <string name="tagline">Didedikasikan untuk keamanan, kenyamanan, dan kesejahteraan kelurahan</string>
-    <string name="nagare_logo">nagare_logo</string>
     <string name="email">Email:</string>
     <string name="password_confirm">Confirm:</string>
+
+    <!-- Strings related to sharedElement-->
+    <string name="tn_nagare_logo">tn_nagare_logo</string>
+    <string name="tn_sign_up">tn_sign_up</string>
+    <string name="tn_login">tn_login</string>
 </resources>

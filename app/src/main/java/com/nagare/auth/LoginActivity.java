@@ -3,6 +3,7 @@ package com.nagare.auth;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -23,11 +24,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.nagare.R;
+import com.nagare.util.ViewUtil;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -35,6 +38,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+    private final Context context = this;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -64,6 +68,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_login);
 
+        setSignUpAction();
+
 //        // Set up the login form.
 //        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 //        populateAutoComplete();
@@ -90,6 +96,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //
 //        mLoginFormView = findViewById(R.id.login_form);
 //        mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void setSignUpAction() {
+        final TextView signUpTextView = (TextView) findViewById(R.id.tv_sign_up);
+        signUpTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewUtil.startNewActivity(context, SignupActivity.class, signUpTextView, R.string.tn_sign_up);
+            }
+        });
     }
 
     private void populateAutoComplete() {
