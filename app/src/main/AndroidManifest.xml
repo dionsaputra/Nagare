@@ -30,7 +30,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
-            android:name=".auth.SignupActivity"
+            android:name=".auth.SignUpActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity android:name=".MainActivity" />

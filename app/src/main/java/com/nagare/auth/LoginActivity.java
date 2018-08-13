@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Pair.create((View) passwordField, getString(R.string.tn_password_field)),
                         Pair.create((View) signUpTextView, getString(R.string.tn_sign_up))
                 };
-                ViewUtil.startNewActivity(context, SignupActivity.class, sharedElements);
+                ViewUtil.startNewActivity(context, SignUpActivity.class, sharedElements);
             }
         });
     }

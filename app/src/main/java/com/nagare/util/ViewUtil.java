@@ -36,7 +36,13 @@ public class ViewUtil {
         startNewActivity(context, targetActivity, Pair.create(sharedElement, context.getString(sharedElementResId)));
     }
 
-    public static void loadImage(Context context, ImageView imageView, int imageViewResId) {
-        Glide.with(context).load(imageViewResId).into(imageView);
+    /**
+     * Load image with glide to minimize memory use.
+     * @param context           current activity
+     * @param imageView         ImageView defined object
+     * @param imageSrc    ImageView src in drawable
+     */
+    public static void loadImage(Context context, ImageView imageView, int imageSrc) {
+        Glide.with(context).load(imageSrc).into(imageView);
     }
 }
