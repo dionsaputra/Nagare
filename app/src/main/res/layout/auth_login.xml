@@ -17,8 +17,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/nagare_logo"
-                android:src="@drawable/nagare_logo"
+                android:id="@+id/iv_nagare_logo"
                 android:transitionName="@string/tn_nagare_logo"
                 android:scaleType="centerCrop"
                 android:layout_width="64dp"
@@ -42,7 +41,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- Username field -->
             <LinearLayout
+                android:id="@+id/ll_username_field"
+                android:transitionName="@string/tn_username_field"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -62,7 +64,10 @@
 
             </LinearLayout>
 
+            <!-- Password field -->
             <LinearLayout
+                android:id="@+id/ll_password_field"
+                android:transitionName="@string/tn_password_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -98,7 +103,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="32dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:padding="8dp">
 
             <TextView
                 android:text="@string/not_have_account"
@@ -112,7 +118,7 @@
                 android:layout_marginLeft="4dp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         
     </LinearLayout>

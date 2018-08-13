@@ -2,8 +2,6 @@ package com.nagare.auth;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,28 +15,29 @@ import com.nagare.util.ViewUtil;
 public class OpeningActivity extends AppCompatActivity {
     private final Context context = this;
 
+    private ImageView nagareLogo, openingBackground;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_opening);
 
-        loadOpeningBackground();
+        initComponent();
         setNagareLogoAction();
     }
 
-    /**
-     * Load opening background image using glide to minimize memory use.
-     */
-    private void loadOpeningBackground() {
-        ImageView openingBackground = (ImageView) findViewById(R.id.opening_background);
-        Glide.with(context).load(R.drawable.opening_background).into(openingBackground);
+    private void initComponent() {
+        nagareLogo = findViewById(R.id.iv_nagare_logo);
+        openingBackground = findViewById(R.id.iv_opening_background);
+
+        ViewUtil.loadImage(context, nagareLogo, R.drawable.nagare_logo);
+        ViewUtil.loadImage(context, openingBackground, R.drawable.opening_background);
     }
 
     /**
      * Define action to do when nagare logo clicked.
      */
     private void setNagareLogoAction() {
-        final ImageView nagareLogo = (ImageView) findViewById(R.id.nagare_logo);
         nagareLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -8,9 +8,8 @@
 
     <!-- opening background -->
     <ImageView
-        android:src="@drawable/opening_background"
         android:scaleType="centerCrop"
-        android:id="@+id/opening_background"
+        android:id="@+id/iv_opening_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.2"/>
@@ -43,8 +42,7 @@
             android:layout_marginBottom="12dp"/>
 
         <ImageView
-            android:id="@+id/nagare_logo"
-            android:src="@drawable/nagare_logo"
+            android:id="@+id/iv_nagare_logo"
             android:transitionName="@string/tn_nagare_logo"
             android:scaleType="centerCrop"
             android:layout_width="64dp"

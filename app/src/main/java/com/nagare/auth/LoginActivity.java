@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -24,6 +25,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,6 +42,10 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     private final Context context = this;
+
+    private ImageView nagareLogo;
+    private LinearLayout usernameField, passwordField;
+    private TextView signUpTextView;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -68,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_login);
 
+        initComponent();
         setSignUpAction();
 
 //        // Set up the login form.
@@ -98,12 +106,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        mProgressView = findViewById(R.id.login_progress);
     }
 
+    private void initComponent() {
+        nagareLogo      = findViewById(R.id.iv_nagare_logo);
+        usernameField   = findViewById(R.id.ll_username_field);
+        passwordField   = findViewById(R.id.ll_password_field);
+        signUpTextView  = findViewById(R.id.tv_sign_up);
+
+        ViewUtil.loadImage(context, nagareLogo, R.drawable.nagare_logo);
+    }
+
     private void setSignUpAction() {
-        final TextView signUpTextView = (TextView) findViewById(R.id.tv_sign_up);
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.startNewActivity(context, SignupActivity.class, signUpTextView, R.string.tn_sign_up);
+                Pair[] sharedElements = new Pair[]{
+                        Pair.create((View) nagareLogo, getString(R.string.tn_nagare_logo)),
+                        Pair.create((View) usernameField, getString(R.string.tn_username_field)),
+                        Pair.create((View) passwordField, getString(R.string.tn_password_field)),
+                        Pair.create((View) signUpTextView, getString(R.string.tn_sign_up))
+                };
+                ViewUtil.startNewActivity(context, SignupActivity.class, sharedElements);
             }
         });
     }
