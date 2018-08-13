@@ -30,7 +30,7 @@
         <activity android:name=".activity.GalangDana" />
         <activity android:name=".activity.StubOne" />
         <activity
-            android:name=".auth.Login"
+            android:name=".auth.LoginActivity"
             android:label="@string/title_activity_sign_up" />
     </application>
 

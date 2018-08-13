@@ -3,14 +3,12 @@ package com.nagare.auth;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.nagare.MainActivity;
 import com.nagare.R;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class OpeningActivity extends AppCompatActivity {
     private final int OPENING_TIME = 2000;
@@ -20,40 +18,42 @@ public class OpeningActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opening);
 
-        // load openingBackground using glide to minimize memory use
-        ImageView openingBackground = (ImageView) findViewById(R.id.opening_background);
-        Glide.with(this).load(R.drawable.opening_background).into(openingBackground);
-
-        startOpening(OPENING_TIME);
+        loadOpeningBackground();
+        setNagareLogoAction();
     }
 
-    /***
-     * Return true if user has login before.
-     * @return
+    /**
+     * Load opening background image using glide to minimize memory use.
+     */
+    private void loadOpeningBackground() {
+        ImageView openingBackground = (ImageView) findViewById(R.id.opening_background);
+        Glide.with(this).load(R.drawable.opening_background).into(openingBackground);
+    }
+
+    /**
+     * Define action to do when nagare logo clicked.
+     */
+    private void setNagareLogoAction() {
+        ImageView nagareLogo = (ImageView) findViewById(R.id.nagare_logo);
+        nagareLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasLogin()) {
+                    Intent intent = new Intent(OpeningActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(OpeningActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
+    /**
+     * @return true if user has login, else false.
      */
     private boolean hasLogin() {
         // TODO use preference to check login state of user
         return true;
-    }
-
-    /**
-     * Show opening layer in timerValue ms and then show next activity.
-     * @param timerValue
-     */
-    private void startOpening(int timerValue) {
-        try {
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Class nextClass = hasLogin() ? MainActivity.class : Login.class;
-                    Intent intent = new Intent(OpeningActivity.this, nextClass);
-                    startActivity(intent);
-                    finish();
-                }
-            }, timerValue);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

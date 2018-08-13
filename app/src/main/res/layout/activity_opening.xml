@@ -7,8 +7,46 @@
     tools:context=".auth.OpeningActivity">
 
     <ImageView
+        android:src="@drawable/opening_background"
         android:scaleType="centerCrop"
         android:id="@+id/opening_background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:alpha="0.2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:text="@string/app_name"
+            android:textAllCaps="true"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="40sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:text="Didedikasikan untuk keamanan, kenyamanan, dan kesejahteraan kelurahan"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"/>
+
+        <ImageView
+            android:id="@+id/nagare_logo"
+            android:src="@drawable/nagare_logo"
+            android:scaleType="centerCrop"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
 </FrameLayout>
