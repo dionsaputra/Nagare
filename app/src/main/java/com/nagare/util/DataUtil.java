@@ -36,15 +36,15 @@ public class DataUtil {
 
     /*** STUB section ***/
     public void initUserStub() {
-        addUser(new User("dion", "dion@email.com", "dion123"));
-        addUser(new User("ilham", "ilham@email.com", "ilham123"));
-        addUser(new User("mol", "mol@email.com", "mol123"));
+        addUser(new User("dion@email.com", "dion123"));
+        addUser(new User("ilham@email.com", "ilham123"));
+        addUser(new User("mol@email.com", "mol123"));
     }
 
     public boolean isExistUser(User user) {
         boolean found = false;
         for (User u : users) {
-            if (u.getName().equals(user.getName()) && u.getPassword().equals(user.getPassword())) {
+            if (u.getEmail().equals(user.getEmail()) && u.getPassword().equals(user.getPassword())) {
                 found = true;
                 break;
             }

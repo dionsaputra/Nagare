@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private LinearLayout    emailLayout, passwordLayout, loginForm, progressView;
     private TextView        loginTextView, signUpTextView;
     private Button          loginButton;
-    private EditText        usernameField, passwordField;
+    private EditText emailField, passwordField;
 
     private UserLoginTask loginTask = null;
 
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         emailLayout     = findViewById(R.id.ll_email_field);
         passwordLayout  = findViewById(R.id.ll_password_field);
         loginButton     = findViewById(R.id.btn_login);
-        usernameField   = findViewById(R.id.et_username);
+        emailField       = findViewById(R.id.et_email);
         passwordField   = findViewById(R.id.et_password);
         loginForm       = findViewById(R.id.ll_form_login);
         progressView    = findViewById(R.id.ll_progress_view);
@@ -98,11 +98,11 @@ public class LoginActivity extends AppCompatActivity {
     private void attempLogin() {
         if (loginTask != null) return;
 
-        String username = usernameField.getText().toString().trim().toLowerCase();
+        String email = emailField.getText().toString().trim().toLowerCase();
         String password = passwordField.getText().toString();
 
         showProgress(true);
-        loginTask = new UserLoginTask(username, password);
+        loginTask = new UserLoginTask(email, password);
         loginTask.execute();
     }
 
@@ -111,14 +111,14 @@ public class LoginActivity extends AppCompatActivity {
         boolean valid = true;
 
         if (TextUtils.isEmpty(username)) {
-            usernameField.setError("This field is required");
-            focusView = usernameField;
+            emailField.setError("This field is required");
+            focusView = emailField;
             valid = false;
         }
 
         if (TextUtils.isEmpty((password))) {
             passwordField.setError("This field is required");
-            focusView = usernameField;
+            focusView = emailField;
             valid = false;
         }
 
@@ -127,8 +127,8 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    private boolean isSuccessLogin(String username, String password) {
-        return DataUtil.getInstance().isExistUser(new User(username,"",password));
+    private boolean isSuccessLogin(String email, String password) {
+        return DataUtil.getInstance().isExistUser(new User(email,password));
     }
 
     private void doSuccessLogin() {
@@ -177,16 +177,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
+     * Represents an asynchronous login/registration task used to authenticate the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String username;
+        private final String email;
         private final String password;
 
-        public UserLoginTask(String username, String password) {
-            this.username = username;
+        public UserLoginTask(String email, String password) {
+            this.email = email;
             this.password = password;
         }
 
@@ -201,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
 
-            return DataUtil.getInstance().isExistUser(new User(username,"",password));
+            return DataUtil.getInstance().isExistUser(new User(email,password));
         }
 
         @Override
