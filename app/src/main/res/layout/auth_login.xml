@@ -49,22 +49,23 @@
 
         </RelativeLayout>
 
-        <!-- Username, password, and button login container -->
+        <!-- Email, password, and button login container -->
         <LinearLayout
+            android:id="@+id/ll_form_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Username field -->
+            <!-- Email field -->
             <LinearLayout
-                android:id="@+id/ll_username_field"
-                android:transitionName="@string/tn_username_field"
+                android:id="@+id/ll_email_field"
+                android:transitionName="@string/tn_email_field"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="@string/username"
+                    android:text="@string/email"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -111,6 +112,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_progress_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </LinearLayout>

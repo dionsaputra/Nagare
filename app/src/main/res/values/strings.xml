@@ -37,7 +37,8 @@
     <string name="tn_nagare_logo">tn_nagare_logo</string>
     <string name="tn_sign_up">tn_sign_up</string>
     <string name="tn_login">tn_login</string>
-    <string name="tn_username_field">tn_username_field</string>
+    <string name="tn_email_field">tn_email_field</string>
     <string name="tn_password_field">tn_password_field</string>
     <string name="tn_btn_auth">tn_btn_auth</string>
+    <string name="full_name">Full Name:</string>
 </resources>
