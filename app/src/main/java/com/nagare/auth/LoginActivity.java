@@ -135,7 +135,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /*** True if username and password exist in database ***/
     private boolean isSuccessLogin(String email, String password) {
-        return DataUtil.getInstance().isExistUser(new User(email,password));
+        return true;
+//        return DataUtil.getInstance().isExistUser(new User(email,password));
     }
 
     /*** Action when login success ***/
@@ -173,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 return false;
             }
