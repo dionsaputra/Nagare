@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -44,5 +47,13 @@ public class ViewUtil {
      */
     public static void loadImage(Context context, ImageView imageView, int imageSrc) {
         Glide.with(context).load(imageSrc).into(imageView);
+    }
+
+    public static void loadFragment(Context context, Fragment fragment, int fragmentResId) {
+        FragmentTransaction transaction =
+                ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+        transaction.replace(fragmentResId, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

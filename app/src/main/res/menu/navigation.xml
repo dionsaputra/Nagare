@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_keliling"
+        android:icon="@drawable/keliling"
+        android:title="@string/keliling"/>
+
+    <item
+        android:id="@+id/nav_acara"
+        android:icon="@drawable/acara"
+        android:title="@string/acara"/>
+
+    <item
+        android:id="@+id/nav_temu_lurah"
+        android:icon="@drawable/temu_lurah"
+        android:title="@string/temu_lurah"/>
+
+    <item
+        android:id="@+id/nav_lapor"
+        android:icon="@drawable/lapor"
+        android:title="@string/lapor"/>
+
+    <item
+        android:id="@+id/nav_galang_dana"
+        android:icon="@drawable/galang_dana"
+        android:title="@string/galang_dana"/>
+
+</menu>

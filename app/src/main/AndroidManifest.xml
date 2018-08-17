@@ -31,13 +31,15 @@
 
         <activity
             android:name=".auth.LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".auth.SignUpActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme"/>
+
         <activity android:name=".activity.TemuLurah" />
         <activity android:name=".activity.Keliling" />
         <activity android:name=".activity.Acara" />
