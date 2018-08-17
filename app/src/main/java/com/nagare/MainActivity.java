@@ -7,11 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.nagare.activity.Acara;
-import com.nagare.activity.Fasilitas;
 import com.nagare.activity.GalangDana;
 import com.nagare.activity.Keliling;
 import com.nagare.activity.Lapor;
-import com.nagare.activity.StubOne;
 import com.nagare.activity.TemuLurah;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         prepareOtherActivity(R.id.tv_keliling, Keliling.class);
         prepareOtherActivity(R.id.tv_lapor, Lapor.class);
         prepareOtherActivity(R.id.tv_acara, Acara.class);
-        prepareOtherActivity(R.id.tv_fasilitas, Fasilitas.class);
         prepareOtherActivity(R.id.tv_galang_dana, GalangDana.class);
         prepareOtherActivity(R.id.tv_stub_1, MapsActivity.class);
 

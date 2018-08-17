@@ -42,7 +42,6 @@
         <activity android:name=".activity.Keliling" />
         <activity android:name=".activity.Acara" />
         <activity android:name=".activity.Lapor" />
-        <activity android:name=".activity.Fasilitas" />
         <activity android:name=".activity.GalangDana" />
         <activity android:name=".activity.StubOne" />
         <activity android:name=".MapsActivity"/>
