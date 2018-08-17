@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <activity
             android:name=".auth.OpeningActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
@@ -41,6 +45,7 @@
         <activity android:name=".activity.Fasilitas" />
         <activity android:name=".activity.GalangDana" />
         <activity android:name=".activity.StubOne" />
+        <activity android:name=".MapsActivity"/>
     </application>
 
 </manifest>

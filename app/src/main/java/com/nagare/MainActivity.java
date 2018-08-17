@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         prepareOtherActivity(R.id.tv_acara, Acara.class);
         prepareOtherActivity(R.id.tv_fasilitas, Fasilitas.class);
         prepareOtherActivity(R.id.tv_galang_dana, GalangDana.class);
-        prepareOtherActivity(R.id.tv_stub_1, StubOne.class);
+        prepareOtherActivity(R.id.tv_stub_1, MapsActivity.class);
 
     }
 
