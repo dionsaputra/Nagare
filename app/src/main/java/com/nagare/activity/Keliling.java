@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.nagare.R;
 import com.nagare.util.MapsUtil;
 
-public class Keliling extends FragmentActivity implements OnMapReadyCallback {
+public class Keliling extends AppCompatActivity implements OnMapReadyCallback {
 
     private Context context = this;
     private GoogleMap kelilingMap;

@@ -142,8 +142,7 @@ public class LoginActivity extends AppCompatActivity {
     /*** Action when login success ***/
     private void doSuccessLogin() {
         Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(context, MainActivity.class);
-        startActivity(intent);
+        ViewUtil.startNewActivity(context, MainActivity.class, nagareLogo, R.string.tn_nagare_logo);
     }
 
     /*** Action when login failed ***/
