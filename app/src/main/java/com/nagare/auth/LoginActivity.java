@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nagare.MainActivity;
 import com.nagare.R;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button          loginButton;
     private EditText emailField, passwordField;
 
+    /*** Asyncronous task to login ***/
     private UserLoginTask loginTask = null;
 
     @Override
@@ -59,15 +61,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Define all component, load image if exist.
-     */
+    /*** Define all UI component ***/
     private void initComponent() {
         nagareLogo      = findViewById(R.id.iv_nagare_logo);
         emailLayout     = findViewById(R.id.ll_email_field);
         passwordLayout  = findViewById(R.id.ll_password_field);
         loginButton     = findViewById(R.id.btn_login);
-        emailField       = findViewById(R.id.et_email);
+        emailField      = findViewById(R.id.et_email);
         passwordField   = findViewById(R.id.et_password);
         loginForm       = findViewById(R.id.ll_form_login);
         progressView    = findViewById(R.id.ll_progress_view);
@@ -76,9 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         ViewUtil.loadImage(context, nagareLogo, R.drawable.nagare_logo);
     }
 
-    /**
-     * Define action to do when sign up text clicked.
-     */
+    /*** Define action to do when sign up text view click ***/
     private void setSignUpAction() {
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,96 +87,76 @@ public class LoginActivity extends AppCompatActivity {
                         Pair.create((View) passwordLayout, getString(R.string.tn_password_field)),
                         Pair.create((View) loginButton, getString(R.string.tn_btn_auth))
                 };
-
                 ViewUtil.startNewActivity(context, SignUpActivity.class, sharedElements);
             }
         });
     }
 
+    /*** Login function ***/
     private void attempLogin() {
         if (loginTask != null) return;
 
         String email = emailField.getText().toString().trim().toLowerCase();
         String password = passwordField.getText().toString();
 
-        showProgress(true);
-        loginTask = new UserLoginTask(email, password);
-        loginTask.execute();
+        boolean validLoginInput = isValidLoginInput(email, password);
+
+        if (validLoginInput) {
+            showProgress(true);
+            loginTask = new UserLoginTask(email, password);
+            loginTask.execute();
+        }
     }
 
-    private boolean isValidLoginInput(String username, String password) {
-        View focusView = null;
+    /*** True if email and password field valid  ***/
+    private boolean isValidLoginInput(String email, String password) {
         boolean valid = true;
-
-        if (TextUtils.isEmpty(username)) {
-            emailField.setError("This field is required");
-            focusView = emailField;
+        if (!isValidEmail(email)) {
+            emailField.setHint("email not valid");
             valid = false;
         }
-
-        if (TextUtils.isEmpty((password))) {
-            passwordField.setError("This field is required");
-            focusView = emailField;
+        if (!isValidPassword((password))) {
+            passwordField.setHint("password not valid");
             valid = false;
         }
-
-        if (!valid) focusView.requestFocus();
 
         return valid;
     }
 
+    /*** True if email is valid ***/
+    private boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email);
+    }
+
+    /*** True if password is valid ***/
+    private boolean isValidPassword(String password) {
+        return !TextUtils.isEmpty(password) && password.length() > 0;
+    }
+
+    /*** True if username and password exist in database ***/
     private boolean isSuccessLogin(String email, String password) {
         return DataUtil.getInstance().isExistUser(new User(email,password));
     }
 
+    /*** Action when login success ***/
     private void doSuccessLogin() {
+        Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, MainActivity.class);
         startActivity(intent);
     }
 
+    /*** Action when login failed ***/
     private void doFailedLogin() {
-
+        Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
-            loginForm.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            progressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+    /*** Show loading progress ***/
+    private void showProgress(boolean show) {
+        progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate the user.
-     */
+    /*** Represents an asynchronous login/registration task used to authenticate the user ***/
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String email;
@@ -200,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
 
-            return DataUtil.getInstance().isExistUser(new User(email,password));
+            return isSuccessLogin(email, password);
         }
 
         @Override
@@ -211,8 +189,7 @@ public class LoginActivity extends AppCompatActivity {
             if (success) {
                 doSuccessLogin();
             } else {
-//                mPasswordView.setError(getString(R.string.error_incorrect_password));
-//                mPasswordView.requestFocus();
+                doFailedLogin();
             }
         }
 
