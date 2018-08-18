@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 if (activeMenuItem != null) {
                     activeMenuItem.setChecked(false);
                 } else {
-                    bottomNavbar.setSelectedItemId(R.id.nav_temu_lurah);
+                    bottomNavbar.setSelectedItemId(R.id.nav_galang_dana);
                 }
                 activeMenuItem = bottomNavbar.getMenu().getItem(position);
                 activeMenuItem.setChecked(true);
@@ -84,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
     private void addAllFragments(SimpleFragmentPagerAdapter adapter) {
         adapter.addFragment(new KelilingFragment());
         adapter.addFragment(new AcaraFragment());
+        adapter.addFragment(new GalangDanaFragment());
         adapter.addFragment(new TemuLurahFragment());
         adapter.addFragment(new LaporFragment());
-        adapter.addFragment(new GalangDanaFragment());
     }
 
     private void setupBottomNavbar() {
@@ -96,14 +96,14 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.nav_keliling      : viewPager.setCurrentItem(0); break;
                     case R.id.nav_acara         : viewPager.setCurrentItem(1); break;
-                    case R.id.nav_temu_lurah    : viewPager.setCurrentItem(2); break;
-                    case R.id.nav_lapor         : viewPager.setCurrentItem(3); break;
-                    case R.id.nav_galang_dana   : viewPager.setCurrentItem(4); break;
+                    case R.id.nav_galang_dana   : viewPager.setCurrentItem(2); break;
+                    case R.id.nav_temu_lurah    : viewPager.setCurrentItem(3); break;
+                    case R.id.nav_lapor         : viewPager.setCurrentItem(4); break;
                 }
                 return true;
             }
         });
-        bottomNavbar.setSelectedItemId(R.id.nav_temu_lurah);
+        bottomNavbar.setSelectedItemId(R.id.nav_galang_dana);
     }
 
 }
