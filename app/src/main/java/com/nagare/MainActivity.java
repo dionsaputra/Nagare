@@ -37,15 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         initComponent();
         setupComponent();
-
-
-//        prepareOtherActivity(R.id.tv_temu_lurah, TemuLurah.class);
-//        prepareOtherActivity(R.id.tv_keliling, Keliling.class);
-//        prepareOtherActivity(R.id.tv_lapor, Lapor.class);
-//        prepareOtherActivity(R.id.tv_acara, Acara.class);
-//        prepareOtherActivity(R.id.tv_galang_dana, GalangDana.class);
-//        prepareOtherActivity(R.id.tv_stub_1, MapsActivity.class);
-
     }
 
     private void initComponent() {
@@ -115,14 +106,4 @@ public class MainActivity extends AppCompatActivity {
         bottomNavbar.setSelectedItemId(R.id.nav_temu_lurah);
     }
 
-    private void prepareOtherActivity(int textViewResId, final Class intentClass) {
-        TextView textView = findViewById(textViewResId);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, intentClass);
-                startActivity(intent);
-            }
-        });
-    }
 }

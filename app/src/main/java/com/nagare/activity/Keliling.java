@@ -27,7 +27,7 @@ public class Keliling extends AppCompatActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fr_keliling);
 
-        MapsUtil.showMaps(context, mapFragment);
+        //MapsUtil.showMaps(context, mapFragment);
     }
 
     @Override

@@ -15,8 +15,4 @@ import com.nagare.R;
 
 public class MapsUtil{
 
-    public static void showMaps(Context context, SupportMapFragment mapFragment) {
-        mapFragment.getMapAsync((OnMapReadyCallback) context);
-    }
-
 }
