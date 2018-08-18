@@ -40,13 +40,6 @@
         <activity android:name=".MainActivity"
             android:theme="@style/AppTheme"/>
 
-        <activity android:name=".activity.TemuLurah" />
-        <activity android:name=".activity.Keliling" />
-        <activity android:name=".activity.Acara" />
-        <activity android:name=".activity.Lapor" />
-        <activity android:name=".activity.GalangDana" />
-        <activity android:name=".activity.StubOne" />
-        <activity android:name=".MapsActivity"/>
     </application>
 
 </manifest>

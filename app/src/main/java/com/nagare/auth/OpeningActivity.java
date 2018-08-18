@@ -1,13 +1,12 @@
 package com.nagare.auth;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.util.ViewUtil;
@@ -16,6 +15,7 @@ public class OpeningActivity extends AppCompatActivity {
     private final Context context = this;
 
     private ImageView nagareLogo, openingBackground;
+    private FrameLayout openingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +23,14 @@ public class OpeningActivity extends AppCompatActivity {
         setContentView(R.layout.auth_opening);
 
         initComponent();
-        setNagareLogoAction();
+        setOpeningLayoutAction();
     }
 
     /**
      * Define all component, load image if exist.
      */
     private void initComponent() {
+        openingLayout = findViewById(R.id.fl_opening);
         nagareLogo = findViewById(R.id.iv_nagare_logo);
         openingBackground = findViewById(R.id.iv_opening_background);
 
@@ -38,10 +39,10 @@ public class OpeningActivity extends AppCompatActivity {
     }
 
     /**
-     * Define action to do when nagare logo clicked.
+     * Define action to do when openingLayout clicked.
      */
-    private void setNagareLogoAction() {
-        nagareLogo.setOnClickListener(new View.OnClickListener() {
+    private void setOpeningLayoutAction() {
+        openingLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Class targetActivity = hasLogin() ? MainActivity.class : LoginActivity.class;
