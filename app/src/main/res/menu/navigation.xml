@@ -17,7 +17,7 @@
         android:icon="@drawable/temu_lurah"
         android:title="@string/temu_lurah"/>
     <item
-        android:id="@+id/nav_lapor"
+        android:id="@+id/nav_firebase"
         android:icon="@drawable/lapor"
-        android:title="@string/lapor"/>
+        android:title="Firebase"/>
 </menu>
