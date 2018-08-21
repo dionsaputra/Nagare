@@ -13,12 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nagare.adapter.SimpleFragmentPagerAdapter;
-import com.nagare.fragment.AcaraFragment;
+import com.nagare.fragment.CalendarFragment;
 import com.nagare.fragment.Firebase;
 import com.nagare.fragment.GalangDanaFragment;
-import com.nagare.fragment.KelilingFragment;
-import com.nagare.fragment.LaporFragment;
-import com.nagare.fragment.TemuLurahFragment;
+import com.nagare.fragment.MapsFragment;
 import com.nagare.util.ViewUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,11 +79,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addAllFragments(SimpleFragmentPagerAdapter adapter) {
-        adapter.addFragment(new KelilingFragment());
-        adapter.addFragment(new AcaraFragment());
+        adapter.addFragment(new MapsFragment());
+        adapter.addFragment(new CalendarFragment());
         adapter.addFragment(new GalangDanaFragment());
-        adapter.addFragment(new TemuLurahFragment());
-        //adapter.addFragment(new LaporFragment());
         adapter.addFragment(new Firebase());
     }
 
@@ -94,12 +90,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.nav_keliling      : viewPager.setCurrentItem(0); break;
-                    case R.id.nav_acara         : viewPager.setCurrentItem(1); break;
+                    case R.id.nav_maps          : viewPager.setCurrentItem(0); break;
+                    case R.id.nav_calendar      : viewPager.setCurrentItem(1); break;
                     case R.id.nav_galang_dana   : viewPager.setCurrentItem(2); break;
-                    case R.id.nav_temu_lurah    : viewPager.setCurrentItem(3); break;
-                    //case R.id.nav_lapor         : viewPager.setCurrentItem(4); break;
-                    case R.id.nav_firebase      : viewPager.setCurrentItem(4); break;
+                    case R.id.nav_firebase      : viewPager.setCurrentItem(3); break;
                 }
                 return true;
             }
