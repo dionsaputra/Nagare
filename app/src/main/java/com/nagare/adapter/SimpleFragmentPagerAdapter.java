@@ -5,12 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.nagare.fragment.AcaraFragment;
-import com.nagare.fragment.GalangDanaFragment;
-import com.nagare.fragment.KelilingFragment;
-import com.nagare.fragment.LaporFragment;
-import com.nagare.fragment.TemuLurahFragment;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,33 +1,28 @@
 package com.nagare;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nagare.adapter.SimpleFragmentPagerAdapter;
-import com.nagare.fragment.AcaraFragment;
+import com.nagare.fragment.CalendarFragment;
 import com.nagare.fragment.GalangDanaFragment;
-import com.nagare.fragment.KelilingFragment;
-import com.nagare.fragment.LaporFragment;
-import com.nagare.fragment.TemuLurahFragment;
+import com.nagare.fragment.MapsFragment;
 import com.nagare.util.ViewUtil;
 
 public class MainActivity extends AppCompatActivity {
 
     private Context context = this;
 
+    /*** UI Component ***/
     private ImageView nagareLogo;
     private BottomNavigationView bottomNavbar;
     private ViewPager viewPager;
-
     private MenuItem activeMenuItem;
 
     @Override
@@ -63,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 if (activeMenuItem != null) {
                     activeMenuItem.setChecked(false);
-                } else {
-                    bottomNavbar.setSelectedItemId(R.id.nav_galang_dana);
                 }
                 activeMenuItem = bottomNavbar.getMenu().getItem(position);
                 activeMenuItem.setChecked(true);
@@ -82,11 +75,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addAllFragments(SimpleFragmentPagerAdapter adapter) {
-        adapter.addFragment(new KelilingFragment());
-        adapter.addFragment(new AcaraFragment());
+        adapter.addFragment(new MapsFragment());
+        adapter.addFragment(new CalendarFragment());
         adapter.addFragment(new GalangDanaFragment());
-        adapter.addFragment(new TemuLurahFragment());
-        adapter.addFragment(new LaporFragment());
     }
 
     private void setupBottomNavbar() {
@@ -94,16 +85,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.nav_keliling      : viewPager.setCurrentItem(0); break;
-                    case R.id.nav_acara         : viewPager.setCurrentItem(1); break;
-                    case R.id.nav_galang_dana   : viewPager.setCurrentItem(2); break;
-                    case R.id.nav_temu_lurah    : viewPager.setCurrentItem(3); break;
-                    case R.id.nav_lapor         : viewPager.setCurrentItem(4); break;
+                    case R.id.nav_maps:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.nav_calendar:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.nav_galang_dana:
+                        viewPager.setCurrentItem(2);
+                        break;
                 }
                 return true;
             }
         });
-        bottomNavbar.setSelectedItemId(R.id.nav_galang_dana);
+        bottomNavbar.setSelectedItemId(R.id.nav_calendar);
     }
-
 }

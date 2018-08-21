@@ -1,5 +1,6 @@
 package com.nagare.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,6 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,13 +21,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.nagare.R;
+import com.nagare.util.ViewUtil;
 
-public class LaporFragment extends Fragment implements OnMapReadyCallback{
-    private GoogleMap laporMap;
-    private MapView mapView;
+public class MapsFragment extends Fragment implements OnMapReadyCallback{
+
     private View view;
 
-    public LaporFragment() {}
+    /*** Google Maps Component ***/
+    private GoogleMap kelilingMap;
+    private MapView mapView;
+
+    public MapsFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,7 +41,7 @@ public class LaporFragment extends Fragment implements OnMapReadyCallback{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_lapor, container, false);
+        view = inflater.inflate(R.layout.fragment_maps, container, false);
         return view;
     }
 
@@ -51,11 +60,11 @@ public class LaporFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
-        laporMap = googleMap;
+        kelilingMap = googleMap;
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
-        laporMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        laporMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        kelilingMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        kelilingMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
