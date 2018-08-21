@@ -22,11 +22,14 @@ public class Firebase extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_firebase, container, false);
         return rootView;
     }
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         TextView firebase = (TextView) getView().findViewById(R.id.firebase);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
         myRef.setValue("maulanakamlllllllllll");
         firebase.setText("MOLGANTENGSEKALI");
     }
+
 }
