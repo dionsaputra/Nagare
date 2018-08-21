@@ -3,11 +3,11 @@
     <item
         android:id="@+id/nav_maps"
         android:icon="@drawable/maps"
-        android:title="@string/keliling"/>
+        android:title="@string/peta"/>
     <item
         android:id="@+id/nav_calendar"
         android:icon="@drawable/calendar"
-        android:title="@string/acara"/>
+        android:title="@string/kalender"/>
     <item
         android:id="@+id/nav_galang_dana"
         android:icon="@drawable/galang_dana"
