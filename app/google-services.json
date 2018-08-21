@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1071045428639",
+    "firebase_url": "https://nagare-123.firebaseio.com",
+    "project_id": "nagare-123",
+    "storage_bucket": "nagare-123.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071045428639:android:321c5a1489d7abeb",
+        "android_client_info": {
+          "package_name": "com.nagare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071045428639-bjjqg0eum5koc1dfj1bp9dm6j9stecr9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nagare",
+            "certificate_hash": "3c17496345122ca8b46c00954cc38eb91d724ea0"
+          }
+        },
+        {
+          "client_id": "1071045428639-foth9de9g5c6mko3j0jp9nk1oceud5vq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP2iD8vmNwPhvK_t_7UTXcW0Ed0si5lcE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071045428639-foth9de9g5c6mko3j0jp9nk1oceud5vq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
