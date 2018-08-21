@@ -152,8 +152,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /*** Show loading progress ***/
     private void showProgress(boolean show) {
-        progressView.setVisibility(show ? View.VISIBLE : View.GONE);
         loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
+        progressView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     /*** Represents an asynchronous login/registration task used to authenticate the user ***/
@@ -171,12 +171,12 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                return false;
-            }
+//            try {
+//                // Simulate network access.
+//                Thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                return false;
+//            }
 
             return isSuccessLogin(email, password);
         }

@@ -42,7 +42,7 @@ public class OpeningActivity extends AppCompatActivity {
      * Define action to do when openingLayout clicked.
      */
     private void setOpeningLayoutAction() {
-        openingLayout.setOnClickListener(new View.OnClickListener() {
+        nagareLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Class targetActivity = hasLogin() ? MainActivity.class : LoginActivity.class;

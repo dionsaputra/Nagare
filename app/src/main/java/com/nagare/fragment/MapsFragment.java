@@ -1,11 +1,16 @@
 package com.nagare.fragment;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,6 +41,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -66,5 +72,32 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         LatLng sydney = new LatLng(-34, 151);
         kelilingMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         kelilingMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.maps_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.keliling_action) {
+            showKeliling();
+        } else {
+            showLapor();
+        }
+        return true;
+    }
+
+    private void showKeliling() {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.keliling));
+    }
+
+    private void showLapor() {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.lapor));
+
     }
 }

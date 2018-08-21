@@ -1,16 +1,14 @@
 package com.nagare;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nagare.adapter.SimpleFragmentPagerAdapter;
 import com.nagare.fragment.CalendarFragment;
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 if (activeMenuItem != null) {
                     activeMenuItem.setChecked(false);
                 } else {
-                    bottomNavbar.setSelectedItemId(R.id.nav_galang_dana);
+                    bottomNavbar.setSelectedItemId(R.id.nav_maps);
                 }
                 activeMenuItem = bottomNavbar.getMenu().getItem(position);
                 activeMenuItem.setChecked(true);
@@ -98,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        bottomNavbar.setSelectedItemId(R.id.nav_galang_dana);
+        bottomNavbar.setSelectedItemId(R.id.nav_maps);
     }
 
 }
