@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="maps_options">
+        <item>@string/keliling</item>
+        <item>@string/lapor</item>
+    </string-array>
+    <string-array name="calendar_options">
+        <item>@string/acara</item>
+        <item>@string/temu_lurah</item>
+    </string-array>
+</resources>

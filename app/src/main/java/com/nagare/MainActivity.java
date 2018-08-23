@@ -4,11 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.nagare.adapter.SimpleFragmentPagerAdapter;
 import com.nagare.fragment.CalendarFragment;
@@ -17,7 +19,10 @@ import com.nagare.fragment.GalangDanaFragment;
 import com.nagare.fragment.MapsFragment;
 import com.nagare.util.ViewUtil;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
+
+    private static final int ACTIVE_FRAGMENT_MAPS = 0;
+    private static final int ACTIVE_FRAGMENT_CALENDAR = 1;
 
     private Context context = this;
 
@@ -26,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
 
     private MenuItem activeMenuItem;
+    private int activeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +64,15 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 if (activeMenuItem != null) {
                     activeMenuItem.setChecked(false);
-                } else {
-                    bottomNavbar.setSelectedItemId(R.id.nav_maps);
                 }
                 activeMenuItem = bottomNavbar.getMenu().getItem(position);
                 activeMenuItem.setChecked(true);
+                activeFragment = position;
+                if (activeFragment == ACTIVE_FRAGMENT_MAPS) {
+                    addSpinnerTitle(R.array.maps_options);
+                } else if (activeFragment == ACTIVE_FRAGMENT_CALENDAR) {
+                    addSpinnerTitle(R.array.calendar_options);
+                }
             }
 
             @Override
@@ -74,6 +84,18 @@ public class MainActivity extends AppCompatActivity {
         SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(context, getSupportFragmentManager());
         addAllFragments(adapter);
         viewPager.setAdapter(adapter);
+    }
+
+    public void addSpinnerTitle(int optionsResId) {
+        if (getSupportActionBar() == null) return;
+
+        getSupportActionBar().setCustomView(R.layout.custom_action_bar);
+        Spinner actionBarSpinner = getSupportActionBar().getCustomView().findViewById(R.id.custom_action_bar_spinner);
+
+        ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource(context, optionsResId, R.layout.title_spinner);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        actionBarSpinner.setAdapter(spinnerAdapter);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
     }
 
     private void addAllFragments(SimpleFragmentPagerAdapter adapter) {
@@ -98,5 +120,4 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomNavbar.setSelectedItemId(R.id.nav_maps);
     }
-
 }

@@ -1,11 +1,10 @@
 package com.nagare.fragment;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,10 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,7 +38,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -76,11 +72,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.maps_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+        inflater.inflate(R.menu.menu_maps, menu);
 
+        MenuItem item =  menu.findItem(R.id.maps_spinner);
+        android.widget.Spinner mapsSpinner = (android.widget.Spinner) android.support.v4.view.MenuItemCompat.getActionView(item);
+
+        ArrayAdapter mapsSpinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.maps_options, android.R.layout.simple_spinner_item);
+        mapsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+
+        mapsSpinner.setAdapter(mapsSpinnerAdapter);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(mapsSpinner);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowCustomEnabled(true);
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -12,6 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.nagare.R;
 
@@ -22,7 +24,18 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+    }
+
+    public void setupActionBar() {
+        android.support.v7.app.ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar == null) return;
+
+        actionBar.setCustomView(R.layout.custom_action_bar);
+        Spinner actionBarSpinner = actionBar.getCustomView().findViewById(R.id.custom_action_bar_spinner);
+        ArrayAdapter mapsSpinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.calendar_options, R.layout.title_spinner);
+        mapsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        actionBarSpinner.setAdapter(mapsSpinnerAdapter);
+        actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM | android.support.v7.app.ActionBar.DISPLAY_SHOW_HOME);
     }
 
     @Nullable
