@@ -40,7 +40,7 @@ public class DataUtil {
         addUser(new User("ilham@email.com", "ilham123"));
         addUser(new User("mol@email.com", "mol123"));
     }
-
+/**
     public boolean isExistUser(User user) {
         boolean found = false;
         for (User u : users) {
@@ -50,5 +50,5 @@ public class DataUtil {
             }
         }
         return found;
-    }
+    }*/
 }

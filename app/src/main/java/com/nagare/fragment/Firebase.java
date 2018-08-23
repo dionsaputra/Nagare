@@ -15,6 +15,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.nagare.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Firebase extends Fragment {
     @Nullable
     @Override
@@ -25,11 +28,7 @@ public class Firebase extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        TextView firebase = (TextView) getView().findViewById(R.id.firebase);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("maulanakamlllllllllll");
-        firebase.setText("MOLGANTENGSEKALI");
+
     }
 
 }
