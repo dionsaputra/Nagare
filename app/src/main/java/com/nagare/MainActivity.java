@@ -8,9 +8,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.nagare.adapter.SimpleFragmentPagerAdapter;
 import com.nagare.fragment.CalendarFragment;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity{
 
     private static final int ACTIVE_FRAGMENT_MAPS = 0;
     private static final int ACTIVE_FRAGMENT_CALENDAR = 1;
+    private static final int ACTIVE_FRAGMENT_GALANG_DANA = 2;
 
     private Context context = this;
 
@@ -62,16 +65,16 @@ public class MainActivity extends AppCompatActivity{
 
             @Override
             public void onPageSelected(int position) {
-                if (activeMenuItem != null) {
-                    activeMenuItem.setChecked(false);
-                }
+                if (activeMenuItem != null) activeMenuItem.setChecked(false);
+
                 activeMenuItem = bottomNavbar.getMenu().getItem(position);
                 activeMenuItem.setChecked(true);
                 activeFragment = position;
-                if (activeFragment == ACTIVE_FRAGMENT_MAPS) {
-                    addSpinnerTitle(R.array.maps_options);
-                } else if (activeFragment == ACTIVE_FRAGMENT_CALENDAR) {
-                    addSpinnerTitle(R.array.calendar_options);
+
+                switch (activeFragment) {
+                    case ACTIVE_FRAGMENT_MAPS:      setupActionBar(R.array.maps_options); break;
+                    case ACTIVE_FRAGMENT_CALENDAR:  setupActionBar(R.array.calendar_options); break;
+                    default:                        setupActionBar(-1); break;
                 }
             }
 
@@ -86,15 +89,24 @@ public class MainActivity extends AppCompatActivity{
         viewPager.setAdapter(adapter);
     }
 
-    public void addSpinnerTitle(int optionsResId) {
+    public void setupActionBar(int optionsResId) {
         if (getSupportActionBar() == null) return;
 
         getSupportActionBar().setCustomView(R.layout.custom_action_bar);
-        Spinner actionBarSpinner = getSupportActionBar().getCustomView().findViewById(R.id.custom_action_bar_spinner);
 
-        ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource(context, optionsResId, R.layout.title_spinner);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        actionBarSpinner.setAdapter(spinnerAdapter);
+        Spinner actionBarSpinner = getSupportActionBar().getCustomView().findViewById(R.id.custom_action_bar_spinner);
+        TextView actionBarTitle = getSupportActionBar().getCustomView().findViewById(R.id.custom_action_bar_title);
+
+        if (optionsResId == R.array.calendar_options || optionsResId == R.array.maps_options) {
+            actionBarTitle.setVisibility(View.GONE);
+            ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource(context, optionsResId, R.layout.title_spinner);
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            actionBarSpinner.setAdapter(spinnerAdapter);
+        } else {
+            actionBarSpinner.setVisibility(View.GONE);
+            actionBarTitle.setVisibility(View.VISIBLE);
+        }
+
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
     }
 
@@ -119,5 +131,6 @@ public class MainActivity extends AppCompatActivity{
             }
         });
         bottomNavbar.setSelectedItemId(R.id.nav_maps);
+        setupActionBar(R.array.maps_options);
     }
 }

@@ -11,4 +11,9 @@
         android:layout_height="match_parent"
         android:spinnerMode="dropdown"/>
 
+    <TextView
+        android:id="@+id/custom_action_bar_title"
+        android:text="@string/galang_dana"
+        style="@style/custom_title"
+        android:visibility="gone"/>
 </LinearLayout>
