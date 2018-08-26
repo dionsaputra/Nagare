@@ -35,11 +35,12 @@ public class DataUtil {
     }
 
     /*** STUB section ***/
+    /**
     public void initUserStub() {
         addUser(new User("dion@email.com", "dion123"));
         addUser(new User("ilham@email.com", "ilham123"));
         addUser(new User("mol@email.com", "mol123"));
-    }
+    }**/
 /**
     public boolean isExistUser(User user) {
         boolean found = false;

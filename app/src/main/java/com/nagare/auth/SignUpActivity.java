@@ -55,7 +55,6 @@ public class SignUpActivity extends AppCompatActivity {
         fullnameEt = findViewById(R.id.et_full_name);
         emailEt = findViewById(R.id.et_email);
         passwordEt = findViewById(R.id.et_password);
-
         nagareLogo = findViewById(R.id.iv_nagare_logo);
         emailLayout = findViewById(R.id.ll_email_field);
         passwordLayout = findViewById(R.id.ll_password_field);
@@ -77,9 +76,18 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUp() {
+        /**
+         * TODO : Input validation
+         */
+        String fullname = fullnameEt.getText().toString();
+        String email = emailEt.getText().toString();
+        String password = passwordEt.getText().toString();
+
         DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("users");
-        Map<String, Object> newUser = new HashMap<>();
-        newUser.put(fullnameEt.getText().toString(), new User(fullnameEt.getText().toString(), passwordEt.getText().toString()));
-        users.updateChildren(newUser);
+        User newUser = new User(fullname, email, password);
+        Map<String, Object> newUserMap = new HashMap<>();
+        String key = Integer.toString(email.hashCode());
+        newUserMap.put(key, newUser);
+        users.updateChildren(newUserMap);
     }
 }

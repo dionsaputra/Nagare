@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.model.User;
@@ -33,23 +40,25 @@ import com.nagare.util.ViewUtil;
 public class LoginActivity extends AppCompatActivity {
     private final Context context = this;
 
-    /*** UI Component ***/
-    private ImageView       nagareLogo;
-    private LinearLayout    emailLayout, passwordLayout, loginForm, progressView;
-    private TextView        loginTextView, signUpTextView;
-    private Button          loginButton;
-    private EditText emailField, passwordField;
+    // UI Components
+    private ImageView nagareLogo;
+    private LinearLayout emailLayout;
+    private LinearLayout passwordLayout;
+    private LinearLayout loginForm;
+    private LinearLayout progressView;
+    private TextView loginTextView;
+    private TextView signUpTextView;
+    private Button loginButton;
+    private EditText emailField;
+    private EditText passwordField;
 
-    /*** Asyncronous task to login ***/
+    // Asyncronous task to login
     private UserLoginTask loginTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_login);
-
-        DataUtil.getInstance().initUserStub();
-
         initComponent();
         setSignUpAction();
 
@@ -98,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
         String email = emailField.getText().toString().trim().toLowerCase();
         String password = passwordField.getText().toString();
-
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference();
         boolean validLoginInput = isValidLoginInput(email, password);
 
         if (validLoginInput) {
@@ -156,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
         progressView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    /*** Represents an asynchronous login/registration task used to authenticate the user ***/
+    // Represents an asynchronous login/registration task used to authenticate the user
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String email;
@@ -170,13 +179,21 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            String key = Integer.toString(email.hashCode());
+            DatabaseReference userData = FirebaseDatabase.getInstance().getReference("users/"+key);
+            userData.addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User user = dataSnapshot.getValue(User.class);
+                        }
 
-//            try {
-//                // Simulate network access.
-//                Thread.sleep(500);
-//            } catch (InterruptedException e) {
-//                return false;
-//            }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    }
+            );
 
             return isSuccessLogin(email, password);
         }
