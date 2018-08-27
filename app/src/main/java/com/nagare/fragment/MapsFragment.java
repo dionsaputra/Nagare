@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,12 +23,14 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.nagare.DetailFasilitasActivity;
 import com.nagare.R;
 import com.nagare.util.ViewUtil;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback{
 
     private View view;
+    private ImageView selectedFasilitasImage;
 
     /*** Google Maps Component ***/
     private GoogleMap kelilingMap;
@@ -50,13 +53,35 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initComponent();
+        setupComponent();
+    }
 
+    private void initComponent() {
         mapView = view.findViewById(R.id.maps);
-        if (mapView != null) {
-            mapView.onCreate(null);
-            mapView.onResume();
-            mapView.getMapAsync(this);
-        }
+        selectedFasilitasImage = view.findViewById(R.id.iv_selected_fasilitas);
+        ViewUtil.loadImage(getContext(), selectedFasilitasImage, R.drawable.itb);
+    }
+
+    private void setupComponent() {
+        setupMapView();
+        setupSelectedFasilitasImage();
+    }
+
+    private void setupMapView() {
+        if (mapView == null) return;
+        mapView.onCreate(null);
+        mapView.onResume();
+        mapView.getMapAsync(this);
+    }
+
+    private void setupSelectedFasilitasImage() {
+        selectedFasilitasImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewUtil.startNewActivity(getContext(), DetailFasilitasActivity.class, selectedFasilitasImage, R.string.tn_selected_fasilitas);
+            }
+        });
     }
 
     @Override
@@ -68,33 +93,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         LatLng sydney = new LatLng(-34, 151);
         kelilingMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         kelilingMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_maps, menu);
-
-        MenuItem item =  menu.findItem(R.id.maps_spinner);
-        android.widget.Spinner mapsSpinner = (android.widget.Spinner) android.support.v4.view.MenuItemCompat.getActionView(item);
-
-        ArrayAdapter mapsSpinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.maps_options, android.R.layout.simple_spinner_item);
-        mapsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-
-        mapsSpinner.setAdapter(mapsSpinnerAdapter);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(mapsSpinner);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowCustomEnabled(true);
-        super.onCreateOptionsMenu(menu, inflater);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.keliling_action) {
-            showKeliling();
-        } else {
-            showLapor();
-        }
-        return true;
     }
 
     private void showKeliling() {

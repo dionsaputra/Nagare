@@ -39,16 +39,16 @@ public class CalendarFragment extends Fragment {
     }
 
     private void initComponent() {
-        mainCalendar = rootView.findViewById(R.id.cv_main_calendar);
-        mainCalendar.setDate(System.currentTimeMillis(),false,true);
-
-        mainCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String date = dayOfMonth + " " + month + " " + year;
-                Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        mainCalendar = rootView.findViewById(R.id.cv_main_calendar);
+//        mainCalendar.setDate(System.currentTimeMillis(),false,true);
+//
+//        mainCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+//            @Override
+//            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+//                String date = dayOfMonth + " " + month + " " + year;
+//                Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 //
 //    @Override

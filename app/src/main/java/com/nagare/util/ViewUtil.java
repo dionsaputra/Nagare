@@ -33,10 +33,10 @@ public class ViewUtil {
      * @param context               current activity
      * @param targetActivity        next activity
      * @param sharedElement         element to share
-     * @param sharedElementResId    sharedElement resource in string.xml
+     * @param transitionNameResId    sharedElement resource in string.xml
      */
-    public static void startNewActivity(Context context, Class targetActivity, View sharedElement, int sharedElementResId) {
-        startNewActivity(context, targetActivity, Pair.create(sharedElement, context.getString(sharedElementResId)));
+    public static void startNewActivity(Context context, Class targetActivity, View sharedElement, int transitionNameResId) {
+        startNewActivity(context, targetActivity, Pair.create(sharedElement, context.getString(transitionNameResId)));
     }
 
     /**
