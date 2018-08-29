@@ -1,24 +1,32 @@
 package com.nagare.auth;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.fragment.Firebase;
 import com.nagare.util.ViewUtil;
 import com.nagare.model.User;
-/**
- * FIREBASE
- */
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DatabaseReference;
+
+// Firebase
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,9 +42,14 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText emailEt;
     private EditText passwordEt;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+
         setContentView(R.layout.auth_signup);
         initComponent();
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -48,9 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
         setLoginAction();
     }
 
-    /**
-     * Define all component, load image if exist.
-     */
+    // Define components
     private void initComponent() {
         fullnameEt = findViewById(R.id.et_full_name);
         emailEt = findViewById(R.id.et_email);
@@ -63,9 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
         ViewUtil.loadImage(context, nagareLogo, R.drawable.nagare_logo);
     }
 
-    /**
-     * Define action to do when login text clicked.
-     */
+    // Define action to do when login text clicked.
     private void setLoginAction() {
         loginTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,11 +92,26 @@ public class SignUpActivity extends AppCompatActivity {
         String email = emailEt.getText().toString();
         String password = passwordEt.getText().toString();
 
-        DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("users");
-        User newUser = new User(fullname, email, password);
-        Map<String, Object> newUserMap = new HashMap<>();
-        String key = Integer.toString(email.hashCode());
-        newUserMap.put(key, newUser);
-        users.updateChildren(newUserMap);
+        final User user = new User(fullname, email, password);
+        final DatabaseReference dbUsers = FirebaseDatabase.getInstance().getReference("/users");
+        final Map<String, Object> mUser = new HashMap<>();
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SignUpActivity.this, "Success",
+                                    Toast.LENGTH_SHORT).show();
+                            String UID = mAuth.getCurrentUser().getUid();
+                            mUser.put(UID, user);
+                            dbUsers.updateChildren(mUser);
+                            ViewUtil.startNewActivity(SignUpActivity.this, LoginActivity.class);
+                        } else {
+                            Toast.makeText(SignUpActivity.this, "Failed",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

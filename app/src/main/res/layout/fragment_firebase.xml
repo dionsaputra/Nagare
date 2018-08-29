@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.AcaraFragment">
+    tools:context=".fragment.Firebase">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/firebase"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="FIREBASE" />
+
+    <Button
+        android:id="@+id/signOutBtn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Out" />
 
 </FrameLayout>
