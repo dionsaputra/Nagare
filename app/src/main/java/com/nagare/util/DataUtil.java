@@ -40,6 +40,8 @@ public class DataUtil {
         addUser(new User("ilham@email.com", "ilham123"));
         addUser(new User("mol@email.com", "mol123"));
     }
+
+    /*** load update galang dana ***/
 /**
     public boolean isExistUser(User user) {
         boolean found = false;
