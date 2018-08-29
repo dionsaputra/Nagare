@@ -4,17 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,12 +23,12 @@ import com.nagare.util.ViewUtil;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback{
 
-    private View view;
+    private View rootView;
+    private MapView mapView;
     private ImageView selectedFasilitasImage;
 
     /*** Google Maps Component ***/
     private GoogleMap kelilingMap;
-    private MapView mapView;
 
     public MapsFragment() {}
 
@@ -46,8 +40,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_maps, container, false);
-        return view;
+        rootView = inflater.inflate(R.layout.fragment_maps, container, false);
+        return rootView;
     }
 
     @Override
@@ -58,8 +52,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     }
 
     private void initComponent() {
-        mapView = view.findViewById(R.id.maps);
-        selectedFasilitasImage = view.findViewById(R.id.iv_selected_fasilitas);
+        mapView = rootView.findViewById(R.id.maps);
+        selectedFasilitasImage = rootView.findViewById(R.id.iv_selected_fasilitas);
         ViewUtil.loadImage(getContext(), selectedFasilitasImage, R.drawable.itb);
     }
 
