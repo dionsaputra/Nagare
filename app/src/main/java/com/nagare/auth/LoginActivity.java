@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_login);
 
-        DataUtil.getInstance().initUserStub();
+//        DataUtil.getInstance().initUserStub();
 
         initComponent();
         setSignUpAction();
@@ -200,4 +200,3 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
-

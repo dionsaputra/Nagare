@@ -13,7 +13,6 @@ import com.nagare.util.DataUtil;
 
 public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaAdapter.GalangDanaViewHolder> {
 
-    
     @NonNull
     @Override
     public GalangDanaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -28,7 +27,7 @@ public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaAdapter.Ga
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 10;
     }
 
     public class GalangDanaViewHolder extends RecyclerView.ViewHolder{
