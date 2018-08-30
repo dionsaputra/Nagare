@@ -1,29 +1,18 @@
 package com.nagare.fragment;
 
-import android.app.ActionBar;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.nagare.DetailAcaraActivity;
-import com.nagare.DetailFasilitasActivity;
 import com.nagare.R;
+import com.nagare.base.BaseMainFragment;
 import com.nagare.util.ViewUtil;
 
-public class CalendarFragment extends MainBaseFragment {
+public class CalendarFragment extends BaseMainFragment {
 
     private CalendarView mainCalendar;
     private ImageView selectedAcaraImage;

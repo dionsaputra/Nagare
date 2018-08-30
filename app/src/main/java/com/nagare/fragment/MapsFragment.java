@@ -1,13 +1,7 @@
 package com.nagare.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,9 +13,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.nagare.DetailFasilitasActivity;
 import com.nagare.R;
+import com.nagare.base.BaseMainFragment;
 import com.nagare.util.ViewUtil;
 
-public class MapsFragment extends MainBaseFragment implements OnMapReadyCallback{
+public class MapsFragment extends BaseMainFragment implements OnMapReadyCallback{
 
     private MapView mapView;
     private ImageView selectedFasilitasImage;

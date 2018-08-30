@@ -1,4 +1,4 @@
-package com.nagare.fragment;
+package com.nagare.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.nagare.R;
 
-public abstract class MainBaseFragment extends Fragment {
+public abstract class BaseMainFragment extends Fragment {
     protected View rootView;
     protected int layoutResId;
 
