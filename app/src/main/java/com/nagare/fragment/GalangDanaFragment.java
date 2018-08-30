@@ -13,32 +13,29 @@ import android.view.ViewGroup;
 import com.nagare.R;
 import com.nagare.adapter.GalangDanaAdapter;
 
-public class GalangDanaFragment extends Fragment {
+public class GalangDanaFragment extends MainBaseFragment {
 
-    private View rootView;
     private RecyclerView galangDanaRecyclerView;
     private GalangDanaAdapter galangDanaAdapter;
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_galang_dana, container, false);
-        return rootView;
+    public GalangDanaFragment() {
+        super();
+        layoutResId = R.layout.fragment_galang_dana;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initComponent();
-    }
-
-    private void initComponent() {
+    protected void initComponent() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         galangDanaRecyclerView = rootView.findViewById(R.id.rv_galang_dana);
         galangDanaRecyclerView.setLayoutManager(layoutManager);
         galangDanaRecyclerView.setHasFixedSize(true);
         galangDanaAdapter = new GalangDanaAdapter();
         galangDanaRecyclerView.setAdapter(galangDanaAdapter);
+    }
+
+    @Override
+    protected void setupComponent() {
+
     }
 
 }

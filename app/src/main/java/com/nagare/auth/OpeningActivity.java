@@ -58,7 +58,7 @@ public class OpeningActivity extends AppCompatActivity {
     private boolean hasLogin() {
 
         // TODO use preference to check login state of user
-        return false;
+        return true;
     }
 
 }

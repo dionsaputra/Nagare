@@ -23,57 +23,25 @@ import com.nagare.DetailFasilitasActivity;
 import com.nagare.R;
 import com.nagare.util.ViewUtil;
 
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends MainBaseFragment {
 
-    private View rootView;
     private CalendarView mainCalendar;
     private ImageView selectedAcaraImage;
 
-    public CalendarFragment() {}
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
-        return rootView;
+    public CalendarFragment() {
+        super();
+        layoutResId = R.layout.fragment_calendar;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initComponent();
-        setupComponent();
-    }
-
-    private void initComponent() {
+    protected void initComponent() {
         mainCalendar = rootView.findViewById(R.id.cv_main_calendar);
         selectedAcaraImage = rootView.findViewById(R.id.iv_selected_acara);
         ViewUtil.loadImage(getContext(), selectedAcaraImage, R.drawable.itb);
     }
-//
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        menu.clear();
-//        inflater.inflate(R.menu.calendar_menu, menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.acara_action) {
-//            showAcara();
-//        } else {
-//            showTemuLurah();
-//        }
-//        return true;
-//    }
 
-    private void setupComponent() {
+    @Override
+    protected void setupComponent() {
         setupMainCalendar();
         setupSelectedAcaraImage();
     }

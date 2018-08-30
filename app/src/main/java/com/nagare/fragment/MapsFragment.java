@@ -21,43 +21,28 @@ import com.nagare.DetailFasilitasActivity;
 import com.nagare.R;
 import com.nagare.util.ViewUtil;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback{
+public class MapsFragment extends MainBaseFragment implements OnMapReadyCallback{
 
-    private View rootView;
     private MapView mapView;
     private ImageView selectedFasilitasImage;
 
     /*** Google Maps Component ***/
     private GoogleMap kelilingMap;
 
-    public MapsFragment() {}
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_maps, container, false);
-        return rootView;
+    public MapsFragment() {
+        super();
+        layoutResId = R.layout.fragment_maps;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initComponent();
-        setupComponent();
-    }
-
-    private void initComponent() {
+    protected void initComponent() {
         mapView = rootView.findViewById(R.id.maps);
         selectedFasilitasImage = rootView.findViewById(R.id.iv_selected_fasilitas);
         ViewUtil.loadImage(getContext(), selectedFasilitasImage, R.drawable.itb);
     }
 
-    private void setupComponent() {
+    @Override
+    protected void setupComponent() {
         setupMapView();
         setupSelectedFasilitasImage();
     }
