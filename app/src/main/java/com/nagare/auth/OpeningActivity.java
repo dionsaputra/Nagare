@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -55,7 +56,9 @@ public class OpeningActivity extends AppCompatActivity {
      * @return true if user has login, else false.
      */
     private boolean hasLogin() {
+
         // TODO use preference to check login state of user
-        return true;
+        return false;
     }
+
 }

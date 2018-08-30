@@ -1,9 +1,10 @@
 package com.nagare.auth;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,16 +15,21 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.nagare.MainActivity;
 import com.nagare.R;
-import com.nagare.model.User;
+import com.nagare.fragment.Firebase;
 import com.nagare.util.ViewUtil;
+import com.nagare.model.User;
+
+// Firebase
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 import java.util.Map;
-
-// Firebase
 
 public class SignUpActivity extends AppCompatActivity {
     private Context context = SignUpActivity.this;
@@ -36,13 +42,13 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText emailEt;
     private EditText passwordEt;
 
-//    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         setContentView(R.layout.auth_signup);
         initComponent();
@@ -90,22 +96,22 @@ public class SignUpActivity extends AppCompatActivity {
         final DatabaseReference dbUsers = FirebaseDatabase.getInstance().getReference("/users");
         final Map<String, Object> mUser = new HashMap<>();
 
-//        mAuth.createUserWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(SignUpActivity.this, "Success",
-//                                    Toast.LENGTH_SHORT).show();
-//                            String UID = mAuth.getCurrentUser().getUid();
-//                            mUser.put(UID, user);
-//                            dbUsers.updateChildren(mUser);
-//                            ViewUtil.startNewActivity(SignUpActivity.this, LoginActivity.class);
-//                        } else {
-//                            Toast.makeText(SignUpActivity.this, "Failed",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SignUpActivity.this, "Success",
+                                    Toast.LENGTH_SHORT).show();
+                            String UID = mAuth.getCurrentUser().getUid();
+                            mUser.put(UID, user);
+                            dbUsers.updateChildren(mUser);
+                            ViewUtil.startNewActivity(SignUpActivity.this, LoginActivity.class);
+                        } else {
+                            Toast.makeText(SignUpActivity.this, "Failed",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
