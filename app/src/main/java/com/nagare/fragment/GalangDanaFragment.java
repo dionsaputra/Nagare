@@ -33,5 +33,4 @@ public class GalangDanaFragment extends Fragment {
         galangDanaRecyclerView = rootView.findViewById(R.id.rv_galang_dana);
     }
 
-
 }
