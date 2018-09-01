@@ -49,4 +49,5 @@
     <string name="kalender">Kalender</string>
     <string name="tn_selected_fasilitas">tn_selected_fasilitas</string>
     <string name="tn_selected_acara">tn_selected_acara</string>
+    <string name="tn_selected_galang_dana">tn_created_galan_dana</string>
 </resources>

@@ -40,6 +40,17 @@ public class ViewUtil {
     }
 
     /**
+     * Start new activity by single sharedElement transition.
+     * @param context               current activity
+     * @param targetActivity        next activity
+     * @param sharedElement         element to share
+     * @param transitionName        sharedElement transition name
+     */
+    public static void startNewActivity(Context context, Class targetActivity, View sharedElement, String transitionName) {
+        startNewActivity(context, targetActivity, Pair.create(sharedElement, transitionName));
+    }
+
+    /**
      * Load image with glide to minimize memory use.
      * @param context           current activity
      * @param imageView         ImageView defined object
