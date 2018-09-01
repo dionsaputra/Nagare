@@ -1,9 +1,11 @@
 package com.nagare.fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.nagare.DetailGalangDanaActivity;
 import com.nagare.R;
 import com.nagare.adapter.GalangDanaAdapter;
 import com.nagare.base.BaseMainFragment;
@@ -35,6 +37,6 @@ public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAd
 
     @Override
     public void onClick(int pos) {
-        Toast.makeText(getContext(), "" + pos, Toast.LENGTH_SHORT).show();
+
     }
 }

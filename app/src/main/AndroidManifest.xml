@@ -34,7 +34,8 @@
             android:name=".MainActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".DetailFasilitasActivity" />
-        <activity android:name=".DetailAcaraActivity"></activity>
+        <activity android:name=".DetailAcaraActivity" />
+        <activity android:name=".DetailGalangDanaActivity"></activity>
     </application>
 
 </manifest>
