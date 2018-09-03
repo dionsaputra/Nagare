@@ -3,16 +3,22 @@ package com.nagare;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nagare.adapter.SimpleFragmentPagerAdapter;
 import com.nagare.fragment.CalendarFragment;
@@ -32,6 +38,8 @@ public class MainActivity extends AppCompatActivity{
     private ImageView nagareLogo;
     private BottomNavigationView bottomNavbar;
     private ViewPager viewPager;
+    private DrawerLayout mDrawerLayout;
+    private Toast toast;
 
     private MenuItem activeMenuItem;
     private int activeFragment;
@@ -44,6 +52,25 @@ public class MainActivity extends AppCompatActivity{
         setupComponent();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private void initComponent() {
         nagareLogo = findViewById(R.id.iv_nagare_logo);
         ViewUtil.loadImage(context, nagareLogo, R.drawable.nagare_logo);
@@ -52,9 +79,65 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void setupComponent() {
+        setupSideNavbar();
         setupViewPager();
         setupBottomNavbar();
+        setupActionBar(R.array.maps_options);
     }
+
+    private void setupSideNavbar(){
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        mDrawerLayout.closeDrawers();
+
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_side_fasilitas:
+                                showAToast("Fasilitas Ku");
+                                return true;
+                            case R.id.nav_side_galang_dana:
+                                showAToast("Galang Dana Ku");
+                                return true;
+                            case R.id.nav_side_acara:
+                                showAToast("Acara Ku");
+                                return true;
+                            case R.id.nav_side_lapor:
+                                showAToast("Laporan Ku");
+                                return true;
+                            case R.id.nav_side_temu_lurah:
+                                showAToast("Jadwal Ku");
+                                return true;
+
+                        }
+
+                        return true;
+                    }
+                });
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+
+
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        toggle.syncState();
+
+    }
+
 
     private void setupViewPager() {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -90,15 +173,14 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void setupActionBar(int optionsResId) {
-        if (getSupportActionBar() == null) return;
-
-        getSupportActionBar().setCustomView(R.layout.custom_action_bar);
-
-        Spinner actionBarSpinner = getSupportActionBar().getCustomView().findViewById(R.id.custom_action_bar_spinner);
-        TextView actionBarTitle = getSupportActionBar().getCustomView().findViewById(R.id.custom_action_bar_title);
+//        if (getSupportActionBar() == null) return;
+//
+        Spinner actionBarSpinner = findViewById(R.id.custom_action_bar_spinner);
+        TextView actionBarTitle = findViewById(R.id.custom_action_bar_title);
 
         if (optionsResId == R.array.calendar_options || optionsResId == R.array.maps_options) {
             actionBarTitle.setVisibility(View.GONE);
+            actionBarSpinner.setVisibility(View.VISIBLE);
             ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource(context, optionsResId, R.layout.title_spinner);
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             actionBarSpinner.setAdapter(spinnerAdapter);
@@ -106,8 +188,8 @@ public class MainActivity extends AppCompatActivity{
             actionBarSpinner.setVisibility(View.GONE);
             actionBarTitle.setVisibility(View.VISIBLE);
         }
-
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+//
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
     }
 
     private void addAllFragments(SimpleFragmentPagerAdapter adapter) {
@@ -131,6 +213,13 @@ public class MainActivity extends AppCompatActivity{
             }
         });
         bottomNavbar.setSelectedItemId(R.id.nav_maps);
-        setupActionBar(R.array.maps_options);
+    }
+
+    public void showAToast (String message){
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
