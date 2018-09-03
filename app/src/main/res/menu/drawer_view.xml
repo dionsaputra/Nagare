@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_side_fasilitas"
+            android:icon="@drawable/keliling"
+            android:title="Fasilitas Ku" />
+
+        <item
+            android:id="@+id/nav_side_galang_dana"
+            android:icon="@drawable/galang_dana"
+            android:title="Galang Dana Ku" />
+
+        <item
+            android:id="@+id/nav_side_acara"
+            android:icon="@drawable/acara"
+            android:title="Acara Ku" />
+
+        <item
+            android:id="@+id/nav_side_lapor"
+            android:icon="@drawable/lapor"
+            android:title="Laporan Ku" />
+
+        <item
+            android:id="@+id/nav_side_temu_lurah"
+            android:icon="@drawable/temu_lurah"
+            android:title="Jadwal Ku" />
+    </group>
+</menu>

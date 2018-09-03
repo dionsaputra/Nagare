@@ -43,6 +43,14 @@
     <string name="full_name">Full Name:</string>
     <string name="loading">Loading...</string>
 
+
+    <!-- Strings related to Navigation Header-->
+    <string name="nav_header_title">NamaSementara</string>
+    <string name="nav_header_subtitle">NamaSementara@IFest.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="peta">Peta</string>
