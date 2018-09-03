@@ -16,6 +16,7 @@ public class CalendarFragment extends BaseMainFragment {
 
     private CalendarView mainCalendar;
     private ImageView selectedAcaraImage;
+    private Toast toast;
 
     public CalendarFragment() {
         super();
@@ -42,7 +43,7 @@ public class CalendarFragment extends BaseMainFragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 String date = dayOfMonth + " " + month + " " + year;
-                Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
+                showAToast(date);
             }
         });
     }
@@ -62,6 +63,14 @@ public class CalendarFragment extends BaseMainFragment {
 
     private void showAcara() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.acara));
+    }
+
+    public void showAToast (String message){
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }
