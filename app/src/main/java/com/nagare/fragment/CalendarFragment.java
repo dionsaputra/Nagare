@@ -1,5 +1,6 @@
 package com.nagare.fragment;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,13 +9,21 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.nagare.DetailAcaraActivity;
+import com.nagare.EventDecorator;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
 import com.nagare.util.ViewUtil;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+
+import java.util.ArrayList;
+
 public class CalendarFragment extends BaseMainFragment {
 
-    private CalendarView mainCalendar;
+    private MaterialCalendarView mainCalendar;
     private ImageView selectedAcaraImage;
 
     public CalendarFragment() {
@@ -36,15 +45,19 @@ public class CalendarFragment extends BaseMainFragment {
     }
 
     private void setupMainCalendar() {
-        mainCalendar.setDate(System.currentTimeMillis(),false,true);
+        ArrayList<CalendarDay> events = new ArrayList<>();
+        events.add(mainCalendar.getCurrentDate());
+        mainCalendar.addDecorator(new EventDecorator(Color.GREEN, events));
 
-        mainCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String date = dayOfMonth + " " + month + " " + year;
-                Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        mainCalendar.setDate(System.currentTimeMillis(),false,true);
+//
+//        mainCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+//            @Override
+//            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+//                String date = dayOfMonth + " " + month + " " + year;
+//                Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private void setupSelectedAcaraImage() {
@@ -63,5 +76,6 @@ public class CalendarFragment extends BaseMainFragment {
     private void showAcara() {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.acara));
     }
+
 
 }
