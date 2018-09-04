@@ -92,26 +92,26 @@ public class SignUpActivity extends AppCompatActivity {
         String email = emailEt.getText().toString();
         String password = passwordEt.getText().toString();
 
-        final User user = new User(fullname, email, password);
-        final DatabaseReference dbUsers = FirebaseDatabase.getInstance().getReference("/users");
-        final Map<String, Object> mUser = new HashMap<>();
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(SignUpActivity.this, "Success",
-                                    Toast.LENGTH_SHORT).show();
-                            String UID = mAuth.getCurrentUser().getUid();
-                            mUser.put(UID, user);
-                            dbUsers.updateChildren(mUser);
-                            ViewUtil.startNewActivity(SignUpActivity.this, LoginActivity.class);
-                        } else {
-                            Toast.makeText(SignUpActivity.this, "Failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+//        final User user = new User(fullname, email, password);
+//        final DatabaseReference dbUsers = FirebaseDatabase.getInstance().getReference("/users");
+//        final Map<String, Object> mUser = new HashMap<>();
+//
+//        mAuth.createUserWithEmailAndPassword(email, password)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            Toast.makeText(SignUpActivity.this, "Success",
+//                                    Toast.LENGTH_SHORT).show();
+//                            String UID = mAuth.getCurrentUser().getUid();
+//                            mUser.put(UID, user);
+//                            dbUsers.updateChildren(mUser);
+//                            ViewUtil.startNewActivity(SignUpActivity.this, LoginActivity.class);
+//                        } else {
+//                            Toast.makeText(SignUpActivity.this, "Failed",
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
     }
 }

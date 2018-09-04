@@ -12,6 +12,8 @@ import com.nagare.DetailAcaraActivity;
 import com.nagare.EventDecorator;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
+import com.nagare.model.Acara;
+import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -29,6 +31,7 @@ public class CalendarFragment extends BaseMainFragment {
     public CalendarFragment() {
         super();
         layoutResId = R.layout.fragment_calendar;
+        DataUtil.getInstance().generateDummyAcaras();
     }
 
     @Override
@@ -46,7 +49,10 @@ public class CalendarFragment extends BaseMainFragment {
 
     private void setupMainCalendar() {
         ArrayList<CalendarDay> events = new ArrayList<>();
-        events.add(mainCalendar.getCurrentDate());
+        for (Acara acara : DataUtil.getInstance().acaras) {
+            events.add(acara.getDate());
+        }
+
         mainCalendar.addDecorator(new EventDecorator(Color.GREEN, events));
 
 //        mainCalendar.setDate(System.currentTimeMillis(),false,true);

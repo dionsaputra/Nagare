@@ -1,19 +1,8 @@
 package com.nagare.model;
 
 public class User {
-    public String fullname;
-    public String email;
-    public String password;
+    private String fullname, email, password, contact;
 
     public User() {
-        this.fullname = "";
-        this.email = "";
-        this.password = "";
-    }
-
-    public User(String fullname, String email, String password) {
-        this.fullname = fullname;
-        this.email = email;
-        this.password = password;
     }
 }

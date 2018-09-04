@@ -1,8 +1,11 @@
 package com.nagare.util;
 
+import com.nagare.model.Acara;
 import com.nagare.model.User;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DataUtil {
     private ArrayList<User> users;
@@ -11,6 +14,7 @@ public class DataUtil {
     private static DataUtil instance = null;
     private DataUtil() {
         users = new ArrayList<>();
+        acaras = new ArrayList<>();
     }
     public static DataUtil getInstance() {
         if (instance == null) instance = new DataUtil();
@@ -34,6 +38,7 @@ public class DataUtil {
         users.set(idx, user);
     }
 
+
     /*** STUB section ***/
     /**
     public void initUserStub() {
@@ -52,4 +57,13 @@ public class DataUtil {
         }
         return found;
     }*/
+
+    public ArrayList<Acara> acaras;
+    public void generateDummyAcaras() {
+        acaras.add(new Acara(new CalendarDay(2018,9,4), "acara 1", "desc acara 1"));
+        acaras.add(new Acara(new CalendarDay(2018,9,5), "acara 2", "desc acara 2"));
+        acaras.add(new Acara(new CalendarDay(2018,9,6), "acara 3", "desc acara 3"));
+        acaras.add(new Acara(new CalendarDay(2018,9,7), "acara 4", "desc acara 4"));
+        acaras.add(new Acara(new CalendarDay(2018,9,8), "acara 5", "desc acara 5"));
+    }
 }
