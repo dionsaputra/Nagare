@@ -1,6 +1,7 @@
 package com.nagare;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -102,6 +103,8 @@ public class MainActivity extends AppCompatActivity{
                         switch (menuItem.getItemId()) {
                             case R.id.nav_side_fasilitas:
                                 showAToast("Fasilitas Ku");
+                                Intent i = new Intent(MainActivity.this, FasilitasKuActivity.class);
+                                startActivity(i);
                                 return true;
                             case R.id.nav_side_galang_dana:
                                 showAToast("Galang Dana Ku");
