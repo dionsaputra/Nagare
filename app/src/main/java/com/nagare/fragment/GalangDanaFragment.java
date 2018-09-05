@@ -1,14 +1,19 @@
 package com.nagare.fragment;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.nagare.DetailGalangDanaActivity;
 import com.nagare.R;
 import com.nagare.adapter.GalangDanaAdapter;
 import com.nagare.base.BaseMainFragment;
+import com.nagare.util.DataUtil;
 
 public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAdapter.GalangDanaClickHandler{
 
@@ -32,7 +37,6 @@ public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAd
     protected void setupComponent() {
         galangDanaRecyclerView.setLayoutManager(layoutManager);
         galangDanaRecyclerView.setHasFixedSize(true);
-        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
     @Override
