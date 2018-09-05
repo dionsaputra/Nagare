@@ -7,10 +7,15 @@
     android:orientation="vertical"
     tools:context=".fragment.CalendarFragment">
 
-    <CalendarView
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cv_main_calendar"
-        style="@style/custom_card_fill_space">
-    </CalendarView>
+        style="@style/custom_card_fill_space"
+        android:padding="4dp"
+        app:mcv_showOtherDates="all"
+        app:mcv_selectionColor="@color/colorPrimary"
+        app:mcv_arrowColor="@color/colorPrimary">
+    </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 
     <LinearLayout style="@style/custom_card_96dp">
 
