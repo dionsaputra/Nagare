@@ -4,6 +4,9 @@ public class GalangDana {
     public String title, description, owner;
     public Long targetDana, currentDana, limitWaktu;
 
+    public GalangDana() {
+    }
+
     public GalangDana(String title, String description, String owner, Long targetDana, Long currentDana, Long limitWaktu) {
         this.title = title;
         this.description = description;

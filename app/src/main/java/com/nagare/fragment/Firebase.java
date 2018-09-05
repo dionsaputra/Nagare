@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.auth.LoginActivity;
+import com.nagare.model.GalangDana;
 import com.nagare.util.ViewUtil;
 
 import java.util.HashMap;
@@ -45,6 +46,10 @@ public class Firebase extends Fragment {
                 mAuth.signOut();
             }
         });
+        GalangDana a =new GalangDana("ITB", "Bacot", "Kadar", 1000000L, 0L, 10L);
+        Map<String, Object> map = new HashMap<>();
+        map.put("contoh", a);
+        FirebaseDatabase.getInstance().getReference("/galang-danas").updateChildren(map);
     }
 
 }
