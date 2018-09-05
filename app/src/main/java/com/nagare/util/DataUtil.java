@@ -39,7 +39,7 @@ public class DataUtil {
         return galangDanas;
     }
 
-    private String randomStr(int targetStringLength) {
+    public String randomStr(int targetStringLength) {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
         Random random = new Random();

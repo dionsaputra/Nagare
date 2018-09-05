@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_fasilitas_name"
+            android:id="@+id/tv_galang_dana_title"
             android:text="Institut Teknologi Bandung"
             android:textColor="#000000"
             android:textSize="16sp"
@@ -29,14 +29,14 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/tv_fasilitas_owner"
+            android:id="@+id/tv_galang_dana_owner"
             android:text="Prof. Kadarsah Suryadi"
             android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/tv_fasilitas_address"
+            android:id="@+id/tv_galang_dana_address"
             android:text="Jalan Ganesha no 10, Bandung, Jawa Barat"
             android:textSize="12sp"
             android:layout_width="wrap_content"

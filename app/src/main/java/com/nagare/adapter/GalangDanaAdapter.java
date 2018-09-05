@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nagare.DetailGalangDanaActivity;
@@ -40,30 +41,35 @@ public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaAdapter.Ga
 
     public GalangDanaAdapter(GalangDanaClickHandler clickHandler) {
         this.clickHandler = clickHandler;
-        galangDanas = new ArrayList<>();
     }
 
     public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private ImageView galangDanaDescImage;
+        private ImageView descImage;
+        private TextView title, owner, address;
 
         public GalangDanaViewHolder(View view) {
             super(view);
-            galangDanaDescImage = view.findViewById(R.id.iv_selected_galang_dana);
-//            ViewUtil.loadImage(view.getContext(), galangDanaDescImage, R.drawable.itb);
+            initComponent(view);
             view.setOnClickListener(this);
+        }
+
+        private void initComponent(View view) {
+            descImage   = view.findViewById(R.id.iv_selected_galang_dana);
+            title       = view.findViewById(R.id.tv_galang_dana_title);
+            owner       = view.findViewById(R.id.tv_galang_dana_owner);
+            address     = view.findViewById(R.id.tv_galang_dana_address);
         }
 
         @Override
         public void onClick(View v) {
-            ViewUtil.startNewActivity(v.getContext(), DetailGalangDanaActivity.class, galangDanaDescImage, R.string.tn_selected_galang_dana);
+            ViewUtil.startNewActivity(v.getContext(), DetailGalangDanaActivity.class, descImage, R.string.tn_selected_galang_dana);
         }
 
-        public ImageView getGalangDanaDescImage() {
-            return galangDanaDescImage;
-        }
-
-        public void setGalangDanaDescImage(ImageView galangDanaDescImage) {
-            this.galangDanaDescImage = galangDanaDescImage;
+        public void bind(int position) {
+            descImage.setImageResource(R.drawable.itb);
+            title.setText(galangDanas.get(position).title);
+            owner.setText(galangDanas.get(position).owner);
+            address.setText(DataUtil.getInstance().randomStr(10));
         }
     }
 
@@ -77,8 +83,7 @@ public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaAdapter.Ga
 
     @Override
     public void onBindViewHolder(@NonNull GalangDanaViewHolder holder, int position) {
-
-//        holder.getGalangDanaDescImage().setTransitionName("tn_galang_dana_" + position);
+        holder.bind(position);
     }
 
     @Override

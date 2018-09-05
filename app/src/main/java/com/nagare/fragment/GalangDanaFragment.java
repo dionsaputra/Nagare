@@ -3,12 +3,16 @@ package com.nagare.fragment;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.nagare.DetailGalangDanaActivity;
 import com.nagare.R;
 import com.nagare.adapter.GalangDanaAdapter;
 import com.nagare.base.BaseMainFragment;
+import com.nagare.util.DataUtil;
+
+import java.util.ArrayList;
 
 public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAdapter.GalangDanaClickHandler{
 
