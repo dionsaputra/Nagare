@@ -1,18 +1,13 @@
 package com.nagare.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nagare.DetailGalangDanaActivity;
 import com.nagare.R;
@@ -20,15 +15,6 @@ import com.nagare.model.GalangDana;
 import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaAdapter.GalangDanaViewHolder> {
@@ -45,7 +31,8 @@ public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaAdapter.Ga
 
     public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ImageView descImage;
-        private TextView title, owner, address;
+        private TextView title, owner, amount;
+        private ProgressBar progress;
 
         public GalangDanaViewHolder(View view) {
             super(view);
@@ -57,7 +44,8 @@ public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaAdapter.Ga
             descImage   = view.findViewById(R.id.iv_selected_galang_dana);
             title       = view.findViewById(R.id.tv_galang_dana_title);
             owner       = view.findViewById(R.id.tv_galang_dana_owner);
-            address     = view.findViewById(R.id.tv_galang_dana_address);
+            amount      = view.findViewById(R.id.tv_galang_dana_amount);
+            progress    = view.findViewById(R.id.pb_galang_dana_progress);
         }
 
         @Override
@@ -69,7 +57,8 @@ public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaAdapter.Ga
             descImage.setImageResource(R.drawable.itb);
             title.setText(galangDanas.get(position).title);
             owner.setText(galangDanas.get(position).owner);
-            address.setText(DataUtil.getInstance().randomStr(10));
+            amount.setText(galangDanas.get(position).currentDana + "/" + galangDanas.get(position).targetDana);
+            progress.setProgress((int) (galangDanas.get(position).currentDana * 100 / galangDanas.get(position).targetDana));
         }
     }
 
