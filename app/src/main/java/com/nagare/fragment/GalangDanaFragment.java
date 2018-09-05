@@ -40,17 +40,12 @@ public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAd
         galangDanaRecyclerView = rootView.findViewById(R.id.rv_galang_dana);
         galangDanaAdapter = new GalangDanaAdapter(this);
 
-        final ArrayList<GalangDana> newGalangDana = new ArrayList<>();
         DataUtil.getInstance().dbGalangDana.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    GalangDana gdItem = item.getValue(GalangDana.class);
-                    newGalangDana.add(gdItem);
-                    Log.d("ITEM", gdItem.title);
+                    galangDanaAdapter.galangDanas.add(item.getValue(GalangDana.class));
                 }
-                DataUtil.getInstance().setGalangDanas(newGalangDana);
-                galangDanaAdapter.galangDanas = newGalangDana;
                 galangDanaAdapter.notifyDataSetChanged();
             }
 
