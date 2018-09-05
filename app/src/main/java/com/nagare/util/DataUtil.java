@@ -1,5 +1,7 @@
 package com.nagare.util;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.nagare.model.Acara;
 import com.nagare.model.GalangDana;
 import com.nagare.model.User;
@@ -10,12 +12,17 @@ import java.util.Date;
 import java.util.Random;
 
 public class DataUtil {
+    public DatabaseReference dbRoot = FirebaseDatabase.getInstance().getReference();
+    public DatabaseReference dbGalangDana = dbRoot.child("galang-danas");
+
     public ArrayList<User> users;
+    public ArrayList<GalangDana> galangDanas;
 
     /*** Singleton definition ***/
     private static DataUtil instance = null;
     private DataUtil() {
        users = new ArrayList<>();
+       galangDanas = new ArrayList<>();
     }
 
     public static DataUtil getInstance() {
@@ -52,5 +59,9 @@ public class DataUtil {
         String generatedString = buffer.toString();
 
         return generatedString;
+    }
+
+    public void setGalangDanas(ArrayList<GalangDana> newGalangDanas) {
+        this.galangDanas = newGalangDanas;
     }
 }

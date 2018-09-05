@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaAdapter.GalangDanaViewHolder> {
     private final GalangDanaClickHandler clickHandler;
-    private ArrayList<GalangDana> galangDanas = DataUtil.getInstance().generateGalangDana();
+    public ArrayList<GalangDana> galangDanas = DataUtil.getInstance().galangDanas;
 
     public interface GalangDanaClickHandler {
         void onClick(int pos);
