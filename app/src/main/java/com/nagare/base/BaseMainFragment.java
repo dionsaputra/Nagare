@@ -23,15 +23,16 @@ public abstract class BaseMainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(layoutResId, container, false);
+        initComponent();
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initComponent();
         setupComponent();
     }
+
 
     protected abstract void initComponent();
     protected abstract void setupComponent();

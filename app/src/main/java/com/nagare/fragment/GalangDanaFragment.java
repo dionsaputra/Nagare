@@ -68,4 +68,5 @@ public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAd
     public void onClick(int pos) {
 
     }
+
 }

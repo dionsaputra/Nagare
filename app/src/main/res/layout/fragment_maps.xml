@@ -7,9 +7,13 @@
     android:orientation="vertical"
     tools:context=".fragment.MapsFragment">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/maps"
-        style="@style/custom_card_fill_space"/>
+    <FrameLayout style="@style/custom_card_fill_space">
+        <fragment
+            android:id="@+id/map"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            class="com.google.android.gms.maps.SupportMapFragment" />
+    </FrameLayout>
 
     <LinearLayout
         style="@style/custom_card_96dp">

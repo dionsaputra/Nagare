@@ -2,12 +2,15 @@ package com.nagare.fragment;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.nagare.DetailAcaraActivity;
 import com.nagare.EventDecorator;
 import com.nagare.R;
@@ -23,7 +26,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
 
-public class CalendarFragment extends BaseMainFragment {
+public class CalendarFragment extends BaseMainFragment{
 
     private MaterialCalendarView mainCalendar;
     private ImageView selectedAcaraImage;
