@@ -100,23 +100,33 @@ public class MainActivity extends AppCompatActivity{
 
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
+                        Intent editIntent;
                         switch (menuItem.getItemId()) {
                             case R.id.nav_side_fasilitas:
-                                showAToast("Fasilitas Ku");
-                                Intent i = new Intent(MainActivity.this, FasilitasKuActivity.class);
-                                startActivity(i);
+
+                                editIntent = new Intent(MainActivity.this, EditKuActivity.class);
+                                editIntent.putExtra("type","1");
+                                startActivity(editIntent);
                                 return true;
                             case R.id.nav_side_galang_dana:
-                                showAToast("Galang Dana Ku");
+                                editIntent = new Intent(MainActivity.this, EditKuActivity.class);
+                                editIntent.putExtra("type","2");
+                                startActivity(editIntent);
                                 return true;
                             case R.id.nav_side_acara:
-                                showAToast("Acara Ku");
+                                editIntent = new Intent(MainActivity.this, EditKuActivity.class);
+                                editIntent.putExtra("type","3");
+                                startActivity(editIntent);
                                 return true;
                             case R.id.nav_side_lapor:
-                                showAToast("Laporan Ku");
+                                editIntent = new Intent(MainActivity.this, EditKuActivity.class);
+                                editIntent.putExtra("type","4");
+                                startActivity(editIntent);
                                 return true;
                             case R.id.nav_side_temu_lurah:
-                                showAToast("Jadwal Ku");
+                                editIntent = new Intent(MainActivity.this, EditKuActivity.class);
+                                editIntent.putExtra("type","5");
+                                startActivity(editIntent);
                                 return true;
 
                         }

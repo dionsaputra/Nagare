@@ -50,7 +50,7 @@
             android:name=".DetailGalangDanaActivity"
             android:theme="@style/AppThemeWithActionBar"/>
         <activity
-            android:name=".FasilitasKuActivity"
+            android:name=".EditKuActivity"
             android:theme="@style/AppThemeWithActionBar"/>
 
     </application>
