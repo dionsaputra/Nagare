@@ -12,9 +12,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import com.nagare.DetailFasilitasActivity;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
@@ -22,13 +26,11 @@ import com.nagare.util.PermissionUtil;
 import com.nagare.util.ViewUtil;
 
 public class MapsFragment extends BaseMainFragment  implements
-        GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener,
-        OnMapReadyCallback,
-        ActivityCompat.OnRequestPermissionsResultCallback {
+        GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener,
+        OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int LOC_PERMISSION_REQUEST = 1;
-    private boolean permissionDenied = false;
+    private boolean permissionDenied = false, cameraMoveCanceled = false;
 
     private ImageView selectedFasilitasImage;
 
@@ -86,13 +88,13 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(getContext(), "Location Button clicked", Toast.LENGTH_SHORT).show();
-        return false;
+        LatLng latLng = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
+        changeCamera(latLng, 14,0,90,5000);
+        return true;
     }
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(getContext(), "Location: " + location, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -108,5 +110,18 @@ public class MapsFragment extends BaseMainFragment  implements
         PermissionUtil.PermissionDeniedDialog.newInstance(true).show(getActivity().getSupportFragmentManager(),"dialog");
     }
 
-
+    private void changeCamera(LatLng latLng, float zoomValue, float bearingValue, float tiltValue, int duration) {
+        CameraPosition position = new CameraPosition.Builder()
+                .target(latLng)
+                .zoom(zoomValue)
+                .bearing(bearingValue)
+                .tilt(tiltValue)
+                .build();
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(position), Math.max(duration, 1), new GoogleMap.CancelableCallback() {
+            @Override
+            public void onFinish() { }
+            @Override
+            public void onCancel() { }
+        });
+    }
 }
