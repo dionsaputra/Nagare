@@ -46,7 +46,7 @@ public class Firebase extends Fragment {
                 mAuth.signOut();
             }
         });
-        GalangDana a =new GalangDana("ITB", "Bacot", "Kadar", 1000000L, 0L, 10L);
+        GalangDana a =new GalangDana("ITB", "Bacot", "Kadar", 1000000L, 500000L, 10L);
         Map<String, Object> map = new HashMap<>();
         map.put("contoh", a);
         FirebaseDatabase.getInstance().getReference("/galang-danas").updateChildren(map);
