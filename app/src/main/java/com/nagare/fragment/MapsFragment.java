@@ -19,22 +19,28 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.nagare.DetailFasilitasActivity;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
+import com.nagare.util.MapsUtil;
 import com.nagare.util.PermissionUtil;
 import com.nagare.util.ViewUtil;
 
 public class MapsFragment extends BaseMainFragment  implements
-        GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener,
-        OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
+        GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener,
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnMarkerDragListener,
+        GoogleMap.OnMapLongClickListener,
+        OnMapReadyCallback,
+        ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int LOC_PERMISSION_REQUEST = 1;
-    private boolean permissionDenied = false, cameraMoveCanceled = false;
+    private boolean permissionDenied = false;
 
     private ImageView selectedFasilitasImage;
-
-    /*** Google Maps Component ***/
     private GoogleMap map;
 
     public MapsFragment() {
@@ -55,10 +61,6 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     protected void setupComponent() {
-        setupSelectedFasilitasImage();
-    }
-
-    private void setupSelectedFasilitasImage() {
         selectedFasilitasImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,10 +75,8 @@ public class MapsFragment extends BaseMainFragment  implements
         map.setBuildingsEnabled(true);
         map.setOnMyLocationButtonClickListener(this);
         map.setOnMyLocationClickListener(this);
-        enableMyLocation();
-    }
+        map.setOnMapLongClickListener(this);
 
-    private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             PermissionUtil.requestPermission((AppCompatActivity) getActivity(), LOC_PERMISSION_REQUEST,
@@ -89,7 +89,8 @@ public class MapsFragment extends BaseMainFragment  implements
     @Override
     public boolean onMyLocationButtonClick() {
         LatLng latLng = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
-        changeCamera(latLng, 14,0,90,5000);
+        CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(14).bearing(0).tilt(90).build();
+        MapsUtil.changeCamera(map, position,5000);
         return true;
     }
 
@@ -101,27 +102,33 @@ public class MapsFragment extends BaseMainFragment  implements
     public void onResume() {
         super.onResume();
         if (permissionDenied) {
-            showMissingRequirePermissionError();
+            PermissionUtil.PermissionDeniedDialog.newInstance(true).show(getActivity().getSupportFragmentManager(),"dialog");
             permissionDenied = false;
         }
     }
 
-    private void showMissingRequirePermissionError() {
-        PermissionUtil.PermissionDeniedDialog.newInstance(true).show(getActivity().getSupportFragmentManager(),"dialog");
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
     }
 
-    private void changeCamera(LatLng latLng, float zoomValue, float bearingValue, float tiltValue, int duration) {
-        CameraPosition position = new CameraPosition.Builder()
-                .target(latLng)
-                .zoom(zoomValue)
-                .bearing(bearingValue)
-                .tilt(tiltValue)
-                .build();
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(position), Math.max(duration, 1), new GoogleMap.CancelableCallback() {
-            @Override
-            public void onFinish() { }
-            @Override
-            public void onCancel() { }
-        });
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+        map.addMarker(new MarkerOptions().position(latLng));
     }
 }
