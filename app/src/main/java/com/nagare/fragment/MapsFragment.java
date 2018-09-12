@@ -1,15 +1,19 @@
 package com.nagare.fragment;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -22,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.nagare.DetailFasilitasActivity;
+import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
 import com.nagare.util.MapsUtil;
@@ -64,7 +69,8 @@ public class MapsFragment extends BaseMainFragment  implements
         selectedFasilitasImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.startNewActivity(getContext(), DetailFasilitasActivity.class, selectedFasilitasImage, R.string.tn_selected_fasilitas);
+                ViewUtil.startNewActivity(getContext(), DetailFasilitasActivity.class,
+                        selectedFasilitasImage, R.string.tn_selected_fasilitas);
             }
         });
     }
@@ -128,7 +134,23 @@ public class MapsFragment extends BaseMainFragment  implements
     }
 
     @Override
-    public void onMapLongClick(LatLng latLng) {
-        map.addMarker(new MarkerOptions().position(latLng));
+    public void onMapLongClick(final LatLng latLng) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        final View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_fasilitas, null);
+        final EditText name = inflator.findViewById(R.id.et_nama_fasilitas);
+        EditText desc = getActivity().findViewById(R.id.et_deskripsi_fasilitas);
+        alertDialogBuilder.setTitle(R.string.fasilitas)
+                .setView(inflator)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        map.addMarker(new MarkerOptions().position(latLng).title(name.getText().toString()));
+                    }
+                })
+                .setNegativeButton("Cancel", null);
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
