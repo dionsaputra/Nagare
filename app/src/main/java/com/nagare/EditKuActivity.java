@@ -18,6 +18,8 @@ import com.nagare.adapter.GalangDanaAdapter;
 import com.nagare.model.GalangDana;
 import com.nagare.util.DataUtil;
 
+import java.util.ArrayList;
+
 public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapter.GalangDanaClickHandler{
     private String type;
     private String title;
@@ -65,24 +67,23 @@ public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapt
         if (type.equals("1")){
 
         } else if (type.equals("2")){
-            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-            galangDanaRecyclerView = findViewById(R.id.rv_edit);
-            galangDanaAdapter = new GalangDanaAdapter(this);
-
-            DataUtil.getInstance().dbGalangDana.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot item : dataSnapshot.getChildren()) {
-                        galangDanaAdapter.galangDanas.add(item.getValue(GalangDana.class));
-                    }
-                    galangDanaAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+//            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+//            galangDanaRecyclerView = findViewById(R.id.rv_edit);
+//
+//            DataUtil.getInstance().dbGalangDana.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+//                        galangDanaAdapter.galangDanas.add(item.getValue(GalangDana.class));
+//                    }
+//                    galangDanaAdapter.notifyDataSetChanged();
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
         } else if (type.equals("3")){
 
         } else if (type.equals("4")){
@@ -107,9 +108,9 @@ public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapt
     }
 
     protected void setupComponent() {
-        galangDanaRecyclerView.setLayoutManager(layoutManager);
-        galangDanaRecyclerView.setHasFixedSize(true);
-        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
+//        galangDanaRecyclerView.setLayoutManager(layoutManager);
+//        galangDanaRecyclerView.setHasFixedSize(true);
+//        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
     @Override
