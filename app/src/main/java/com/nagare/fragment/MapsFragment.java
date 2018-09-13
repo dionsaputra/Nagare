@@ -83,10 +83,8 @@ public class MapsFragment extends BaseMainFragment  implements
         map.setOnMyLocationClickListener(this);
         map.setOnMapLongClickListener(this);
 
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            PermissionUtil.requestPermission((AppCompatActivity) getActivity(), LOC_PERMISSION_REQUEST,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            PermissionUtil.requestPermission((AppCompatActivity) getActivity(), LOC_PERMISSION_REQUEST, Manifest.permission.ACCESS_FINE_LOCATION, true);
         } else if (map != null) {
             map.setMyLocationEnabled(true);
         }
