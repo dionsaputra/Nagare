@@ -10,15 +10,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -26,13 +21,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.nagare.DetailFasilitasActivity;
-import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
 import com.nagare.model.Fasilitas;
@@ -191,7 +182,7 @@ public class MapsFragment extends BaseMainFragment  implements
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                choosePhotoFromGallary();
+                                choosePhotoFromGallery();
                                 break;
                             case 1:
                                 takePhotoFromCamera();
@@ -202,7 +193,7 @@ public class MapsFragment extends BaseMainFragment  implements
         pictureDialog.show();
     }
 
-    public void choosePhotoFromGallary() {
+    public void choosePhotoFromGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
@@ -213,7 +204,7 @@ public class MapsFragment extends BaseMainFragment  implements
 
     private void takePhotoFromCamera() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(intent, CAMERA);
+        startActivityForResult(intent, CAMERA);
     }
 
 }
