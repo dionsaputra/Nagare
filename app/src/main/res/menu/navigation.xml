@@ -12,8 +12,4 @@
         android:id="@+id/nav_galang_dana"
         android:icon="@drawable/galang_dana"
         android:title="@string/galang_dana"/>
-    <item
-        android:id="@+id/nav_firebase"
-        android:icon="@drawable/lapor"
-        android:title="Firebase"/>
 </menu>

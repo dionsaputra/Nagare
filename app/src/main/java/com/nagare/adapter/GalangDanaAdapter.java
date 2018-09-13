@@ -19,14 +19,15 @@ import java.util.ArrayList;
 
 public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaAdapter.GalangDanaViewHolder> {
     private final GalangDanaClickHandler clickHandler;
-    public ArrayList<GalangDana> galangDanas = DataUtil.getInstance().galangDanas;
+    public ArrayList<GalangDana> galangDanas;
 
     public interface GalangDanaClickHandler {
         void onClick(int pos);
     }
 
-    public GalangDanaAdapter(GalangDanaClickHandler clickHandler) {
+    public GalangDanaAdapter(GalangDanaClickHandler clickHandler, ArrayList<GalangDana> galangDanas) {
         this.clickHandler = clickHandler;
+        this.galangDanas = galangDanas;
     }
 
     public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

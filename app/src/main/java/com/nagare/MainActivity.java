@@ -141,12 +141,10 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-
     private void setupViewPager() {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -166,7 +164,6 @@ public class MainActivity extends AppCompatActivity{
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
@@ -176,8 +173,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void setupActionBar(int optionsResId) {
-//        if (getSupportActionBar() == null) return;
-//
         Spinner actionBarSpinner = findViewById(R.id.custom_action_bar_spinner);
         TextView actionBarTitle = findViewById(R.id.custom_action_bar_title);
 
@@ -191,15 +186,12 @@ public class MainActivity extends AppCompatActivity{
             actionBarSpinner.setVisibility(View.GONE);
             actionBarTitle.setVisibility(View.VISIBLE);
         }
-//
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
     }
 
     private void addAllFragments(SimpleFragmentPagerAdapter adapter) {
         adapter.addFragment(new MapsFragment());
         adapter.addFragment(new CalendarFragment());
         adapter.addFragment(new GalangDanaFragment());
-        adapter.addFragment(new Firebase());
     }
 
     private void setupBottomNavbar() {
@@ -210,7 +202,6 @@ public class MainActivity extends AppCompatActivity{
                     case R.id.nav_maps          : viewPager.setCurrentItem(0); break;
                     case R.id.nav_calendar      : viewPager.setCurrentItem(1); break;
                     case R.id.nav_galang_dana   : viewPager.setCurrentItem(2); break;
-                    case R.id.nav_firebase      : viewPager.setCurrentItem(3); break;
                 }
                 return true;
             }
