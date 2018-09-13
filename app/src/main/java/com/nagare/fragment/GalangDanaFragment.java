@@ -72,12 +72,7 @@ public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAd
         dbGalangDana.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                allGalangDana = new ArrayList<>();
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    allGalangDana.add(ds.getValue(GalangDana.class));
-                }
-                galangDanaAdapter = new GalangDanaAdapter(clickHandler,allGalangDana);
-                galangDanaRecyclerView.setAdapter(galangDanaAdapter);
+                getAllGalangDana(dataSnapshot);
             }
 
             @Override
@@ -100,8 +95,11 @@ public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAd
     }
 
     private void getAllGalangDana(DataSnapshot dataSnapshot) {
-
-        galangDanaAdapter = new GalangDanaAdapter(this,allGalangDana);
+        allGalangDana = new ArrayList<>();
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            allGalangDana.add(ds.getValue(GalangDana.class));
+        }
+        galangDanaAdapter = new GalangDanaAdapter(clickHandler,allGalangDana);
         galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
