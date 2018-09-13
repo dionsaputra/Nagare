@@ -2,6 +2,7 @@ package com.nagare.fragment;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -25,10 +26,16 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nagare.DetailFasilitasActivity;
 import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
+import com.nagare.model.Fasilitas;
 import com.nagare.util.MapsUtil;
 import com.nagare.util.PermissionUtil;
 import com.nagare.util.ViewUtil;
@@ -135,20 +142,76 @@ public class MapsFragment extends BaseMainFragment  implements
     public void onMapLongClick(final LatLng latLng) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         final View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_fasilitas, null);
+
         final EditText name = inflator.findViewById(R.id.et_nama_fasilitas);
-        EditText desc = getActivity().findViewById(R.id.et_deskripsi_fasilitas);
+        final EditText desc = inflator.findViewById(R.id.et_deskripsi_fasilitas);
+
         alertDialogBuilder.setTitle(R.string.fasilitas)
                 .setView(inflator)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        map.addMarker(new MarkerOptions().position(latLng).title(name.getText().toString()));
+                        Fasilitas fasilitas = new Fasilitas(
+                                name.getText().toString(),
+                                desc.getText().toString(),
+                                "Dion",
+                                latLng);
+                        addFasilitas(fasilitas);
                     }
                 })
-                .setNegativeButton("Cancel", null);
-
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showPictureDialog();
+                    }
+                });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
+    private void addFasilitas(Fasilitas fasilitas) {
+        DatabaseReference dbFasilitas = FirebaseDatabase.getInstance().getReference("fasilitas");
+        String key = dbFasilitas.push().getKey();
+        dbFasilitas.child(key).setValue(fasilitas);
+        map.addMarker(new MarkerOptions().position(fasilitas.getPosition()).title(fasilitas.getTitle()));
+    }
+
+    private void showPictureDialog(){
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getContext());
+        pictureDialog.setTitle("Select Action");
+        String[] pictureDialogItems = {
+                "Select photo from gallery",
+                "Capture photo from camera" };
+        pictureDialog.setItems(pictureDialogItems,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                choosePhotoFromGallary();
+                                break;
+                            case 1:
+                                takePhotoFromCamera();
+                                break;
+                        }
+                    }
+                });
+        pictureDialog.show();
+    }
+
+    public void choosePhotoFromGallary() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(galleryIntent, GALLERY);
+    }
+
+    private int GALLERY = 1, CAMERA = 2;
+
+    private void takePhotoFromCamera() {
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        startActivityForResult(intent, CAMERA);
+    }
+
 }
