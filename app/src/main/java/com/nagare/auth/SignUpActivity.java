@@ -2,70 +2,47 @@ package com.nagare.auth;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.nagare.MainActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.nagare.R;
-import com.nagare.fragment.Firebase;
-import com.nagare.util.ViewUtil;
 import com.nagare.model.User;
-
-// Firebase
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.nagare.util.DataUtil;
+import com.nagare.util.ViewUtil;
 
 public class SignUpActivity extends AppCompatActivity {
+
     private Context context = SignUpActivity.this;
     private ImageView nagareLogo;
-    private LinearLayout emailLayout;
-    private LinearLayout passwordLayout;
+    private LinearLayout emailLayout, passwordLayout;
     private TextView loginTextView;
     private Button signUpButton;
-    private EditText fullnameEt;
-    private EditText emailEt;
-    private EditText passwordEt;
-
-    private FirebaseAuth mAuth;
+    private EditText nameEt, emailEt, passwordEt, confirmEt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mAuth = FirebaseAuth.getInstance();
-
         setContentView(R.layout.auth_signup);
         initComponent();
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signUp();
-            }
-        });
+
         setLoginAction();
     }
 
-    // Define components
     private void initComponent() {
-        fullnameEt = findViewById(R.id.et_full_name);
+        nameEt = findViewById(R.id.et_full_name);
         emailEt = findViewById(R.id.et_email);
         passwordEt = findViewById(R.id.et_password);
+        confirmEt = findViewById(R.id.et_password_confirm);
         nagareLogo = findViewById(R.id.iv_nagare_logo);
         emailLayout = findViewById(R.id.ll_email_field);
         passwordLayout = findViewById(R.id.ll_password_field);
@@ -74,7 +51,6 @@ public class SignUpActivity extends AppCompatActivity {
         ViewUtil.loadImage(context, nagareLogo, R.drawable.nagare_logo);
     }
 
-    // Define action to do when login text clicked.
     private void setLoginAction() {
         loginTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,34 +60,38 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void signUp() {
-        /**
-         * TODO : Input validation
-         */
-        String fullname = fullnameEt.getText().toString();
-        String email = emailEt.getText().toString();
+    public void onSignUpButtonClick(View view) {
+        String name = nameEt.getText().toString();
+        final String email = emailEt.getText().toString();
         String password = passwordEt.getText().toString();
+        String confirm = confirmEt.getText().toString();
 
-//        final User user = new User(fullname, email, password);
-//        final DatabaseReference dbUsers = FirebaseDatabase.getInstance().getReference("/users");
-//        final Map<String, Object> mUser = new HashMap<>();
-//
-//        mAuth.createUserWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(SignUpActivity.this, "Success",
-//                                    Toast.LENGTH_SHORT).show();
-//                            String UID = mAuth.getCurrentUser().getUid();
-//                            mUser.put(UID, user);
-//                            dbUsers.updateChildren(mUser);
-//                            ViewUtil.startNewActivity(SignUpActivity.this, LoginActivity.class);
-//                        } else {
-//                            Toast.makeText(SignUpActivity.this, "Failed",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
+        if (password.equals(confirm)) {
+            final boolean[] emailUnique = new boolean[] {true};
+            DataUtil.dbUser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        User user = ds.getValue(User.class);
+                        if (user.getEmail().equalsIgnoreCase(email)) {
+                            emailUnique[0] = false;
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) { }
+            });
+
+            if (emailUnique[0]) {
+                String key = DataUtil.dbUser.push().getKey();
+                User user = new User(name,email,password);
+                user.setKey(key);
+                DataUtil.dbUser.child(key).setValue(user);
+            } else {
+                Snackbar.make(view, "Email has been used", Snackbar.LENGTH_SHORT);
+            }
+        } else {
+            Snackbar.make(view, "Password not match", Snackbar.LENGTH_SHORT);
+        }
     }
 }
