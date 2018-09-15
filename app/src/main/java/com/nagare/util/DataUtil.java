@@ -21,7 +21,7 @@ public class DataUtil {
             laporTable = "lapors",
             galangDanaTable = "galangdanas";
 
-    public static final String USER_KEY = "user_key";
+    public static String USER_KEY;
 
     private static DatabaseReference dbRoot = FirebaseDatabase.getInstance().getReference();
     public static DatabaseReference dbKelurahan = dbRoot.child(kelurahanTable),

@@ -3,24 +3,40 @@ package com.nagare.model;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Fasilitas {
-    private String title, description, owner;
-    private LatLng position;
+    private String userKey, key, name, description;
+    private double latitude, longitude;
 
     public Fasilitas() {}
 
-    public Fasilitas(String title, String description, String owner, LatLng position) {
-        this.title = title;
+    public Fasilitas (String name, String description, LatLng position) {
+        this.name = name;
         this.description = description;
-        this.owner = owner;
-        this.position = position;
+        this.latitude = position.latitude;
+        this.longitude = position.longitude;
     }
 
-    public String getTitle() {
-        return title;
+    public String getUserKey() {
+        return userKey;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -31,19 +47,19 @@ public class Fasilitas {
         this.description = description;
     }
 
-    public String getOwner() {
-        return owner;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public LatLng getPosition() {
-        return position;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setPosition(LatLng position) {
-        this.position = position;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

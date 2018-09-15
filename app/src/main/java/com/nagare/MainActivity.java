@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity{
 
     private Context context = this;
 
-    private ImageView nagareLogo;
     private BottomNavigationView bottomNavbar;
     private ViewPager viewPager;
     private DrawerLayout mDrawerLayout;
@@ -74,8 +73,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void initComponent() {
-        nagareLogo = findViewById(R.id.iv_nagare_logo);
-        ViewUtil.loadImage(context, nagareLogo, R.drawable.nagare_logo);
         viewPager = findViewById(R.id.view_pager);
         bottomNavbar = findViewById(R.id.bottom_navbar);
     }
@@ -94,17 +91,10 @@ public class MainActivity extends AppCompatActivity{
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
-//                        menuItem.setChecked(false);
-                        // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
                         Intent editIntent;
                         switch (menuItem.getItemId()) {
                             case R.id.nav_side_fasilitas:
-
                                 editIntent = new Intent(MainActivity.this, EditKuActivity.class);
                                 editIntent.putExtra("type","1");
                                 startActivity(editIntent);
@@ -143,7 +133,6 @@ public class MainActivity extends AppCompatActivity{
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
-
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);

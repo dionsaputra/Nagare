@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.SystemClock;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,15 +24,24 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.nagare.DetailFasilitasActivity;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
 import com.nagare.model.Fasilitas;
+import com.nagare.model.User;
+import com.nagare.util.DataUtil;
 import com.nagare.util.MapsUtil;
 import com.nagare.util.PermissionUtil;
 import com.nagare.util.ViewUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapsFragment extends BaseMainFragment  implements
         GoogleMap.OnMyLocationButtonClickListener,
@@ -44,7 +56,11 @@ public class MapsFragment extends BaseMainFragment  implements
     private boolean permissionDenied = false;
 
     private ImageView selectedFasilitasImage;
+    private TextView fasilitasName, fasilitasOwner;
+
     private GoogleMap map;
+
+    private Map<Marker,Fasilitas> markerMap = new HashMap<>();
 
     public MapsFragment() {
         super();
@@ -59,6 +75,9 @@ public class MapsFragment extends BaseMainFragment  implements
         mapFragment.getMapAsync(this);
 
         selectedFasilitasImage = rootView.findViewById(R.id.iv_selected_fasilitas);
+        fasilitasName = rootView.findViewById(R.id.tv_fasilitas_name);
+        fasilitasOwner = rootView.findViewById(R.id.tv_fasilitas_owner);
+
         ViewUtil.loadImage(getContext(), selectedFasilitasImage, R.drawable.itb);
     }
 
@@ -80,6 +99,7 @@ public class MapsFragment extends BaseMainFragment  implements
         map.setOnMyLocationButtonClickListener(this);
         map.setOnMyLocationClickListener(this);
         map.setOnMapLongClickListener(this);
+        map.setOnMarkerClickListener(this);
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -88,6 +108,24 @@ public class MapsFragment extends BaseMainFragment  implements
         } else if (map != null) {
             map.setMyLocationEnabled(true);
         }
+
+        DataUtil.dbFasilitas.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Fasilitas fasilitas = ds.getValue(Fasilitas.class);
+                    LatLng position = new LatLng(fasilitas.getLatitude(),fasilitas.getLongitude());
+                    Marker marker = map.addMarker(new MarkerOptions()
+                            .position(position)
+                            .title(fasilitas.getName()));
+
+                    markerMap.put(marker, fasilitas);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     @Override
@@ -113,7 +151,21 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        return false;
+        marker.showInfoWindow();
+        final Fasilitas fasilitas = markerMap.get(marker);
+        fasilitasName.setText(fasilitas.getName());
+
+        Query query = DataUtil.dbUser.child(fasilitas.getUserKey());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                fasilitasOwner.setText(dataSnapshot.getValue(User.class).getName());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+        return true;
     }
 
     @Override
@@ -139,16 +191,11 @@ public class MapsFragment extends BaseMainFragment  implements
         final EditText name = inflator.findViewById(R.id.et_nama_fasilitas);
         final EditText desc = inflator.findViewById(R.id.et_deskripsi_fasilitas);
 
-        alertDialogBuilder.setTitle(R.string.fasilitas)
-                .setView(inflator)
+        alertDialogBuilder.setView(inflator)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Fasilitas fasilitas = new Fasilitas(
-                                name.getText().toString(),
-                                desc.getText().toString(),
-                                "Dion",
-                                latLng);
+                        Fasilitas fasilitas = new Fasilitas(name.getText().toString(), desc.getText().toString(), latLng);
                         addFasilitas(fasilitas);
                     }
                 })
@@ -164,10 +211,10 @@ public class MapsFragment extends BaseMainFragment  implements
     }
 
     private void addFasilitas(Fasilitas fasilitas) {
-        DatabaseReference dbFasilitas = FirebaseDatabase.getInstance().getReference("fasilitas");
-        String key = dbFasilitas.push().getKey();
-        dbFasilitas.child(key).setValue(fasilitas);
-        map.addMarker(new MarkerOptions().position(fasilitas.getPosition()).title(fasilitas.getTitle()));
+        String key = DataUtil.dbFasilitas.push().getKey();
+        fasilitas.setKey(key);
+        fasilitas.setUserKey(DataUtil.USER_KEY);
+        DataUtil.dbFasilitas.child(key).setValue(fasilitas);
     }
 
     private void showPictureDialog(){

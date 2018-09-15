@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginButtonClick(final View view) {
         final String email = emailField.getText().toString(), password = passwordField.getText().toString();
         final boolean[] authenticate = new boolean[] {false};
-        final String[] userKey = new String[1];
 
         progressView.setVisibility(View.VISIBLE);
         loginForm.setVisibility(View.GONE);
@@ -76,14 +75,12 @@ public class LoginActivity extends AppCompatActivity {
                     User user = ds.getValue(User.class);
                     if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equals(password)) {
                         authenticate[0] = true;
-                        userKey[0] = user.getKey();
+                        DataUtil.USER_KEY = user.getKey();
                         break;
                     }
                 }
                 if (authenticate[0]) {
-                    Intent intent = new Intent(context,MainActivity.class);
-                    intent.putExtra(DataUtil.USER_KEY, userKey[0]);
-                    startActivity(intent);
+                    startActivity(new Intent(context, MainActivity.class));
                 } else {
                     Snackbar.make(view,"Login failed", Snackbar.LENGTH_SHORT).show();
                 }

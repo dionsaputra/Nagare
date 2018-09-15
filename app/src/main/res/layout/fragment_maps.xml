@@ -34,7 +34,6 @@
 
             <TextView
                 android:id="@+id/tv_fasilitas_name"
-                android:text="Institut Teknologi Bandung"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -43,14 +42,12 @@
 
             <TextView
                 android:id="@+id/tv_fasilitas_owner"
-                android:text="Prof. Kadarsah Suryadi"
                 android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tv_fasilitas_address"
-                android:text="Jalan Ganesha no 10, Bandung, Jawa Barat"
                 android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
