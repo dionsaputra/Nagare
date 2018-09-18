@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,13 +25,12 @@ import com.nagare.util.DataUtil;
 
 import java.util.ArrayList;
 
-public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapter.GalangDanaClickHandler{
+public class EditKuActivity extends AppCompatActivity {
     private String type;
     private String title;
     private RecyclerView galangDanaRecyclerView;
     private GalangDanaAdapter galangDanaAdapter;
     private LinearLayoutManager layoutManager;
-    private GalangDanaAdapter.GalangDanaClickHandler clickHandler = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,21 @@ public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapt
 
     protected void initComponent() {
         if (type.equals("1")){
-
+//            DataUtil.dbFasilitas.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                        Fasilitas fasilitas = ds.getValue(Fasilitas.class);
+//                        if (fasilitas.getUserKey() == DataUtil.USER_KEY) {
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
         } else if (type.equals("2")){
 //            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 //            galangDanaRecyclerView = findViewById(R.id.rv_edit);
@@ -140,8 +154,4 @@ public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapt
 //        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
-    @Override
-    public void onClick(int pos) {
-
-    }
 }

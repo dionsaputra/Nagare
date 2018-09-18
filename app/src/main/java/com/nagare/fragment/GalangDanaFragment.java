@@ -25,15 +25,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAdapter.GalangDanaClickHandler{
+public class GalangDanaFragment extends BaseMainFragment{
 
     private RecyclerView galangDanaRecyclerView;
     private GalangDanaAdapter galangDanaAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<GalangDana> allGalangDana;
     DatabaseReference dbGalangDana;
-
-    private GalangDanaAdapter.GalangDanaClickHandler clickHandler = this;
 
     public GalangDanaFragment() {
         super();
@@ -90,7 +88,7 @@ public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAd
                 }
             }
         }
-        galangDanaAdapter = new GalangDanaAdapter(this,allGalangDana);
+        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
         galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
@@ -99,14 +97,8 @@ public class GalangDanaFragment extends BaseMainFragment implements GalangDanaAd
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             allGalangDana.add(ds.getValue(GalangDana.class));
         }
-        galangDanaAdapter = new GalangDanaAdapter(clickHandler,allGalangDana);
+        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
         galangDanaRecyclerView.setAdapter(galangDanaAdapter);
-    }
-
-
-    @Override
-    public void onClick(int pos) {
-
     }
 
 }
