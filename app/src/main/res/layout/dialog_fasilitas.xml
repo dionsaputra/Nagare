@@ -4,6 +4,23 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/activity_horizontal_margin">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/keliling"
+            android:layout_width="32dp"
+            android:layout_height="32dp"/>
+
+        <TextView
+            android:text="@string/fasilitas"
+            style="@style/custom_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
     <EditText
         android:id="@+id/et_nama_fasilitas"
         android:hint="Nama fasilitas"
