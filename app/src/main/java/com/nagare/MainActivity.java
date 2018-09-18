@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity{
 
     private MenuItem activeMenuItem;
     private int activeFragment;
+
+    SimpleFragmentPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,13 +170,13 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(context, getSupportFragmentManager());
+        adapter = new SimpleFragmentPagerAdapter(context, getSupportFragmentManager());
         addAllFragments(adapter);
         viewPager.setAdapter(adapter);
 
     }
 
-    public void setupActionBar(int optionsResId) {
+    public void setupActionBar(final int optionsResId) {
         Spinner actionBarSpinner = findViewById(R.id.custom_action_bar_spinner);
         TextView actionBarTitle = findViewById(R.id.custom_action_bar_title);
 

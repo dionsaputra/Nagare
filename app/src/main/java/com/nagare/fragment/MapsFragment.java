@@ -58,6 +58,8 @@ public class MapsFragment extends BaseMainFragment  implements
     private ImageView selectedFasilitasImage;
     private TextView fasilitasName, fasilitasOwner;
 
+    private boolean isKeliling = true;
+
     private GoogleMap map;
 
     private Map<Marker,Fasilitas> markerMap = new HashMap<>();
@@ -65,6 +67,14 @@ public class MapsFragment extends BaseMainFragment  implements
     public MapsFragment() {
         super();
         layoutResId = R.layout.fragment_maps;
+    }
+
+    public boolean isKeliling() {
+        return isKeliling;
+    }
+
+    public void setKeliling(boolean keliling) {
+        isKeliling = keliling;
     }
 
     @Override
@@ -95,37 +105,9 @@ public class MapsFragment extends BaseMainFragment  implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        map.setBuildingsEnabled(true);
-        map.setOnMyLocationButtonClickListener(this);
-        map.setOnMyLocationClickListener(this);
-        map.setOnMapLongClickListener(this);
-        map.setOnMarkerClickListener(this);
-
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            PermissionUtil.requestPermission((AppCompatActivity) getActivity(), LOC_PERMISSION_REQUEST,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
-        } else if (map != null) {
-            map.setMyLocationEnabled(true);
-        }
-
-        DataUtil.dbFasilitas.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Fasilitas fasilitas = ds.getValue(Fasilitas.class);
-                    LatLng position = new LatLng(fasilitas.getLatitude(),fasilitas.getLongitude());
-                    Marker marker = map.addMarker(new MarkerOptions()
-                            .position(position)
-                            .title(fasilitas.getName()));
-
-                    markerMap.put(marker, fasilitas);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+        setMapListener();
+        checkLocationPermission();
+        loadFasilitas();
     }
 
     @Override
@@ -210,6 +192,44 @@ public class MapsFragment extends BaseMainFragment  implements
         alertDialog.show();
     }
 
+    private void setMapListener() {
+        map.setBuildingsEnabled(true);
+        map.setOnMyLocationButtonClickListener(this);
+        map.setOnMyLocationClickListener(this);
+        map.setOnMapLongClickListener(this);
+        map.setOnMarkerClickListener(this);
+    }
+
+    private void checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            PermissionUtil.requestPermission((AppCompatActivity) getActivity(), LOC_PERMISSION_REQUEST,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } else if (map != null) {
+            map.setMyLocationEnabled(true);
+        }
+    }
+
+    private void loadFasilitas() {
+        DataUtil.dbFasilitas.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Fasilitas fasilitas = ds.getValue(Fasilitas.class);
+                    LatLng position = new LatLng(fasilitas.getLatitude(),fasilitas.getLongitude());
+                    Marker marker = map.addMarker(new MarkerOptions()
+                            .position(position)
+                            .title(fasilitas.getName()));
+
+                    markerMap.put(marker, fasilitas);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
     private void addFasilitas(Fasilitas fasilitas) {
         String key = DataUtil.dbFasilitas.push().getKey();
         fasilitas.setKey(key);
@@ -254,4 +274,7 @@ public class MapsFragment extends BaseMainFragment  implements
         startActivityForResult(intent, CAMERA);
     }
 
+    private void kelilingListener() {
+
+    }
 }
