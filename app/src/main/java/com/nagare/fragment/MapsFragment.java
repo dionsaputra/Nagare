@@ -1,12 +1,14 @@
 package com.nagare.fragment;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.SystemClock;
-import android.provider.ContactsContract;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,8 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -26,14 +30,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.nagare.DetailFasilitasActivity;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
-import com.nagare.model.Fasilitas;
+import com.nagare.model.Lokasi;
 import com.nagare.model.User;
 import com.nagare.util.DataUtil;
 import com.nagare.util.MapsUtil;
@@ -54,27 +56,22 @@ public class MapsFragment extends BaseMainFragment  implements
 
     private static final int LOC_PERMISSION_REQUEST = 1;
     private boolean permissionDenied = false;
-
-    private ImageView selectedFasilitasImage;
-    private TextView fasilitasName, fasilitasOwner;
-
     private boolean isKeliling = true;
 
-    private GoogleMap map;
 
-    private Map<Marker,Fasilitas> markerMap = new HashMap<>();
+    private ImageView selectedLokasiImage;
+    private TextView lokasiName, lokasiOwner;
+
+    private GoogleMap map;
+    private GoogleApiClient googleApiClient;
+    private LocationManager locationManager;
+
+    private Map<Marker,Lokasi> markerMap = new HashMap<>();
+    private int REQUEST_LOCATION = 199;
 
     public MapsFragment() {
         super();
         layoutResId = R.layout.fragment_maps;
-    }
-
-    public boolean isKeliling() {
-        return isKeliling;
-    }
-
-    public void setKeliling(boolean keliling) {
-        isKeliling = keliling;
     }
 
     @Override
@@ -84,20 +81,19 @@ public class MapsFragment extends BaseMainFragment  implements
 
         mapFragment.getMapAsync(this);
 
-        selectedFasilitasImage = rootView.findViewById(R.id.iv_selected_fasilitas);
-        fasilitasName = rootView.findViewById(R.id.tv_fasilitas_name);
-        fasilitasOwner = rootView.findViewById(R.id.tv_fasilitas_owner);
+        selectedLokasiImage = rootView.findViewById(R.id.iv_selected_lokasi);
+        lokasiName = rootView.findViewById(R.id.tv_lokasi_name);
+        lokasiOwner = rootView.findViewById(R.id.tv_lokasi_owner);
 
-        ViewUtil.loadImage(getContext(), selectedFasilitasImage, R.drawable.itb);
+        ViewUtil.loadImage(getContext(), selectedLokasiImage, R.drawable.itb);
     }
 
     @Override
     protected void setupComponent() {
-        selectedFasilitasImage.setOnClickListener(new View.OnClickListener() {
+        selectedLokasiImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.startNewActivity(getContext(), DetailFasilitasActivity.class,
-                        selectedFasilitasImage, R.string.tn_selected_fasilitas);
+                ViewUtil.startNewActivity(getContext(), DetailFasilitasActivity.class, selectedLokasiImage, R.string.tn_selected_lokasi);
             }
         });
     }
@@ -107,19 +103,33 @@ public class MapsFragment extends BaseMainFragment  implements
         map = googleMap;
         setMapListener();
         checkLocationPermission();
-        loadFasilitas();
+
+        loadLokasi();
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        LatLng latLng = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
-        CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(14).bearing(0).tilt(90).build();
-        MapsUtil.changeCamera(map, position,5000);
-        return true;
+        LocationManager lm = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        if (gps_enabled) {
+            if (map.getMyLocation() != null) {
+                LatLng latLng = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
+                CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(14).bearing(0).tilt(90).build();
+                MapsUtil.changeCamera(map, position, 5000);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
+
     }
 
     @Override
@@ -133,15 +143,22 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        marker.showInfoWindow();
-        final Fasilitas fasilitas = markerMap.get(marker);
-        fasilitasName.setText(fasilitas.getName());
+        ImageView selectedImage = rootView.findViewById(R.id.iv_selected_lokasi);
+        LinearLayout selectedLayout = rootView.findViewById(R.id.ll_selected_lokasi);
+        TextView emptyView = rootView.findViewById(R.id.empty_selected_lokasi);
+        selectedImage.setVisibility(View.VISIBLE);
+        selectedLayout.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
 
-        Query query = DataUtil.dbUser.child(fasilitas.getUserKey());
+        marker.showInfoWindow();
+        final Lokasi lokasi = markerMap.get(marker);
+        lokasiName.setText(lokasi.getName());
+
+        Query query = DataUtil.dbUser.child(lokasi.getUserKey());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                fasilitasOwner.setText(dataSnapshot.getValue(User.class).getName());
+                lokasiOwner.setText(dataSnapshot.getValue(User.class).getName());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -177,8 +194,8 @@ public class MapsFragment extends BaseMainFragment  implements
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Fasilitas fasilitas = new Fasilitas(name.getText().toString(), desc.getText().toString(), latLng);
-                        addFasilitas(fasilitas);
+                        Lokasi lokasi = new Lokasi(name.getText().toString(), desc.getText().toString(), latLng);
+                        addLokasi(lokasi);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -210,31 +227,17 @@ public class MapsFragment extends BaseMainFragment  implements
         }
     }
 
-    private void loadFasilitas() {
-        DataUtil.dbFasilitas.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Fasilitas fasilitas = ds.getValue(Fasilitas.class);
-                    LatLng position = new LatLng(fasilitas.getLatitude(),fasilitas.getLongitude());
-                    Marker marker = map.addMarker(new MarkerOptions()
-                            .position(position)
-                            .title(fasilitas.getName()));
 
-                    markerMap.put(marker, fasilitas);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
+    private void addLokasi(Lokasi lokasi) {
+        String key = isKeliling ? DataUtil.dbFasilitas.push().getKey() : DataUtil.dbLapor.push().getKey();
+        lokasi.setKey(key);
+        lokasi.setUserKey(DataUtil.USER_KEY);
 
-    private void addFasilitas(Fasilitas fasilitas) {
-        String key = DataUtil.dbFasilitas.push().getKey();
-        fasilitas.setKey(key);
-        fasilitas.setUserKey(DataUtil.USER_KEY);
-        DataUtil.dbFasilitas.child(key).setValue(fasilitas);
+        if (isKeliling) {
+            DataUtil.dbFasilitas.child(key).setValue(lokasi);
+        } else {
+            DataUtil.dbLapor.child(key).setValue(lokasi);
+        }
     }
 
     private void showPictureDialog(){
@@ -274,7 +277,41 @@ public class MapsFragment extends BaseMainFragment  implements
         startActivityForResult(intent, CAMERA);
     }
 
-    private void kelilingListener() {
+    public void loadLokasi() {
+        map.clear();
+        markerMap.clear();
 
+        ValueEventListener lokasiListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Lokasi lokasi = ds.getValue(Lokasi.class);
+                    LatLng position = new LatLng(lokasi.getLatitude(), lokasi.getLongitude());
+                    Marker marker = map.addMarker(new MarkerOptions()
+                            .position(position)
+                            .title(lokasi.getName()));
+
+                    markerMap.put(marker, lokasi);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        if (isKeliling) {
+            DataUtil.dbFasilitas.addValueEventListener(lokasiListener);
+        } else {
+            DataUtil.dbLapor.addValueEventListener(lokasiListener);
+        }
+    }
+
+    public boolean isKeliling() {
+        return isKeliling;
+    }
+
+    public void setKeliling(boolean keliling) {
+        this.isKeliling = keliling;
     }
 }

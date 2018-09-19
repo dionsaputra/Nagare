@@ -15,7 +15,7 @@
             android:layout_height="32dp"/>
 
         <TextView
-            android:text="@string/fasilitas"
+            android:text="@string/lokasi"
             style="@style/custom_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -23,14 +23,14 @@
 
     <EditText
         android:id="@+id/et_nama_fasilitas"
-        android:hint="Nama fasilitas"
+        android:hint="Nama lokasi"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/et_deskripsi_fasilitas"
-        android:hint="Deskripsi fasilitas"
+        android:hint="Deskripsi lokasi"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

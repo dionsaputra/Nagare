@@ -1,6 +1,5 @@
 package com.nagare;
 
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,9 +16,9 @@ public class DetailFasilitasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_fasilitas);
 
-        selectedFasilitasImage = findViewById(R.id.iv_selected_fasilitas);
+        selectedFasilitasImage = findViewById(R.id.iv_selected_lokasi);
         ViewUtil.loadImage(this, selectedFasilitasImage, R.drawable.itb);
-        getSupportActionBar().setTitle("Fasilitas");
+        getSupportActionBar().setTitle("Lokasi");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

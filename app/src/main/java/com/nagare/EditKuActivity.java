@@ -3,9 +3,7 @@ package com.nagare;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,15 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.nagare.adapter.GalangDanaAdapter;
-import com.nagare.model.Fasilitas;
-import com.nagare.model.GalangDana;
-import com.nagare.util.DataUtil;
-
-import java.util.ArrayList;
 
 public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapter.GalangDanaClickHandler{
     private String type;
@@ -39,7 +29,7 @@ public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapt
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
         if (type.equals("1")){
-            title = "Fasilitas Ku";
+            title = "Lokasi Ku";
         } else if (type.equals("2")){
             title = "Galang Dana Ku";
         } else if (type.equals("3")){
