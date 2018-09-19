@@ -239,4 +239,12 @@ public class MainActivity extends AppCompatActivity{
         bottomNavbar.setSelectedItemId(R.id.nav_maps);
     }
 
+    public MapsFragment getMapsFragment() {
+        return mapsFragment;
+    }
+
+    public void setMapsFragment(MapsFragment mapsFragment) {
+        this.mapsFragment = mapsFragment;
+    }
+
 }

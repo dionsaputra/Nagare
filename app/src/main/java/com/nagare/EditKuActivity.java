@@ -15,15 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.nagare.adapter.GalangDanaAdapter;
-import com.nagare.model.Fasilitas;
-import com.nagare.model.GalangDana;
-import com.nagare.util.DataUtil;
-
-import java.util.ArrayList;
 
 public class EditKuActivity extends AppCompatActivity {
     private String type;

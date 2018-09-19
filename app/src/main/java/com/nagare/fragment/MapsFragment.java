@@ -67,7 +67,6 @@ public class MapsFragment extends BaseMainFragment  implements
     private LocationManager locationManager;
 
     private Map<Marker,Lokasi> markerMap = new HashMap<>();
-    private int REQUEST_LOCATION = 199;
 
     public MapsFragment() {
         super();
@@ -93,7 +92,8 @@ public class MapsFragment extends BaseMainFragment  implements
         selectedLokasiImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.startNewActivity(getContext(), DetailFasilitasActivity.class, selectedLokasiImage, R.string.tn_selected_lokasi);
+                ViewUtil.startNewActivity(getContext(), DetailFasilitasActivity.class,
+                        "TEST",new String[]{"aku"}, selectedLokasiImage, R.string.tn_selected_lokasi);
             }
         });
     }
