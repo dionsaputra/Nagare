@@ -14,15 +14,28 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.nagare.adapter.FasilitasKuAdapter;
 import com.nagare.adapter.GalangDanaAdapter;
+import com.nagare.model.Lokasi;
+import com.nagare.model.GalangDana;
+import com.nagare.util.DataUtil;
+
+import java.util.ArrayList;
 
 public class EditKuActivity extends AppCompatActivity {
     private String type;
     private String title;
-    private RecyclerView galangDanaRecyclerView;
+    private RecyclerView editKuRecyclerView;
     private GalangDanaAdapter galangDanaAdapter;
+    private FasilitasKuAdapter fasilitasKuAdapter;
     private LinearLayoutManager layoutManager;
+    private ArrayList<Lokasi> allFasilitasKu;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,28 +90,43 @@ public class EditKuActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+        if(type.equals("1") || type.equals("4")){
+            fab.setVisibility(View.INVISIBLE);
+        }
 
         initComponent();
         setupComponent();
+        showAToast("Tekan item untuk edit/delete.");
     }
 
     protected void initComponent() {
         if (type.equals("1")){
-//            DataUtil.dbFasilitas.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                        Fasilitas fasilitas = ds.getValue(Fasilitas.class);
-//                        if (fasilitas.getUserKey() == DataUtil.USER_KEY) {
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
+            editKuRecyclerView = findViewById(R.id.rv_edit);
+            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+            editKuRecyclerView.setLayoutManager(layoutManager);
+            editKuRecyclerView.setHasFixedSize(true);
+
+            DataUtil.dbFasilitas.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    allFasilitasKu = new ArrayList<>();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        Lokasi fasilitas = ds.getValue(Lokasi.class);
+                        if (fasilitas.getUserKey().equals(DataUtil.USER_KEY)) {
+                            allFasilitasKu.add(fasilitas);
+                        }
+                    }
+                    fasilitasKuAdapter = new FasilitasKuAdapter(allFasilitasKu);
+                    editKuRecyclerView.setAdapter(fasilitasKuAdapter);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         } else if (type.equals("2")){
 //            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 //            galangDanaRecyclerView = findViewById(R.id.rv_edit);
@@ -141,9 +169,14 @@ public class EditKuActivity extends AppCompatActivity {
     }
 
     protected void setupComponent() {
-//        galangDanaRecyclerView.setLayoutManager(layoutManager);
-//        galangDanaRecyclerView.setHasFixedSize(true);
-//        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
+    }
+
+    public void showAToast (String message){
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }

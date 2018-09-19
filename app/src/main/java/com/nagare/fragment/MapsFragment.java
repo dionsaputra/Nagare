@@ -61,7 +61,7 @@ public class MapsFragment extends BaseMainFragment  implements
 
     private ImageView selectedLokasiImage;
     private TextView lokasiName, lokasiOwner;
-
+    public static boolean mapReady = false;
     private GoogleMap map;
     private GoogleApiClient googleApiClient;
     private LocationManager locationManager;
@@ -103,7 +103,7 @@ public class MapsFragment extends BaseMainFragment  implements
         map = googleMap;
         setMapListener();
         checkLocationPermission();
-
+        mapReady = true;
         loadLokasi();
     }
 
@@ -119,8 +119,8 @@ public class MapsFragment extends BaseMainFragment  implements
         if (gps_enabled) {
             if (map.getMyLocation() != null) {
                 LatLng latLng = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
-                CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(14).bearing(0).tilt(90).build();
-                MapsUtil.changeCamera(map, position, 5000);
+                CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(14).bearing(0).tilt(0).build();
+                MapsUtil.changeCamera(map, position, 1000);
                 return true;
             }
         }
@@ -314,4 +314,6 @@ public class MapsFragment extends BaseMainFragment  implements
     public void setKeliling(boolean keliling) {
         this.isKeliling = keliling;
     }
+
+
 }

@@ -1,21 +1,32 @@
 package com.nagare.fragment;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.nagare.DetailAcaraActivity;
 import com.nagare.EventDecorator;
+import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
 import com.nagare.model.Acara;
+import com.nagare.model.Lokasi;
 import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
 
@@ -25,9 +36,9 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CalendarFragment extends BaseMainFragment{
-
     private MaterialCalendarView mainCalendar;
     private ImageView selectedAcaraImage;
 
@@ -51,28 +62,77 @@ public class CalendarFragment extends BaseMainFragment{
     }
 
     private void setupMainCalendar() {
-        ArrayList<CalendarDay> events = new ArrayList<>();
-//        for (Acara acara : DataUtil.getInstance().acaras) {
-//            events.add(acara.getDate());
-//        }
 
         mainCalendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull final CalendarDay date, boolean selected) {
+                final View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_acara, null);
+                final EditText name = inflator.findViewById(R.id.et_nama_fasilitas);
+                final EditText desc = inflator.findViewById(R.id.et_deskripsi_fasilitas);
+
+                DataUtil.dbAcara.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        boolean eventExist = false;
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            long dbDate = item.getValue(Acara.class).date;
+                            long eventDate = date.getDate().getTime();
+                            if(dbDate == eventDate) {
+                                eventExist = true;
+
+
+
+                                break;
+                            }
+                        }
+                        if(!eventExist) {
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                            alertDialogBuilder.setView(inflator)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String key = DataUtil.dbAcara.push().getKey();
+                                            Acara acara = new Acara(name.getText().toString(), desc.getText().toString(), DataUtil.USER_KEY, key, date.getDate().getTime());
+                                            DataUtil.dbAcara.child(key).setValue(acara);
+                                        }
+                                    })
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    });
+
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+
+        DataUtil.dbAcara.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mainCalendar.removeDecorators();
+                ArrayList<CalendarDay> events = new ArrayList<>();
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Acara acara = item.getValue(Acara.class);
+                    events.add(new CalendarDay(new Date(acara.date)));
+                }
+                mainCalendar.addDecorator(new EventDecorator(Color.GREEN, events));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
 
-        mainCalendar.addDecorator(new EventDecorator(Color.GREEN, events));
-//        mainCalendar.setDate(System.currentTimeMillis(),false,true);
-//
-//        mainCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-//            @Override
-//            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-//                String date = dayOfMonth + " " + month + " " + year;
-//                Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     private void setupSelectedAcaraImage() {

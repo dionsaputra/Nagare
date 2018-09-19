@@ -239,6 +239,14 @@ public class MainActivity extends AppCompatActivity{
         bottomNavbar.setSelectedItemId(R.id.nav_maps);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(MapsFragment.mapReady){
+            mapsFragment.loadLokasi();
+        }
+    }
+
     public MapsFragment getMapsFragment() {
         return mapsFragment;
     }
@@ -246,5 +254,4 @@ public class MainActivity extends AppCompatActivity{
     public void setMapsFragment(MapsFragment mapsFragment) {
         this.mapsFragment = mapsFragment;
     }
-
 }

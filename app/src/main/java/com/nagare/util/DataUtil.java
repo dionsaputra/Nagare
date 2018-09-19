@@ -23,13 +23,13 @@ public class DataUtil {
 
     public static String USER_KEY;
 
-    private static DatabaseReference dbRoot = FirebaseDatabase.getInstance().getReference();
-    public static DatabaseReference dbKelurahan = dbRoot.child(kelurahanTable),
-            dbUser = dbRoot.child(userTable),
-            dbAcara = dbRoot.child(acaraTable),
-            dbFasilitas = dbRoot.child(fasilitasTable),
-            dbTemuLurah = dbRoot.child(temuLurahTable),
-            dbLapor = dbRoot.child(laporTable),
-            dbGalangDana = dbRoot.child(galangDanaTable);
+    public static DatabaseReference dbRoot = FirebaseDatabase.getInstance().getReference();
+    public static DatabaseReference dbKelurahan = dbRoot.child(kelurahanTable);
+    public static DatabaseReference dbUser = dbRoot.child(userTable);
+    public static DatabaseReference dbAcara = dbRoot.child(acaraTable);
+    public static DatabaseReference dbFasilitas = dbRoot.child(fasilitasTable);
+    public static DatabaseReference dbTemuLurah = dbRoot.child(temuLurahTable);
+    public static DatabaseReference dbLapor = dbRoot.child(laporTable);
+    public static DatabaseReference dbGalangDana = dbRoot.child(galangDanaTable);
 
 }
