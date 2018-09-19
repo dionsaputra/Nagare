@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_fasilitas_ku_name"
+            android:id="@+id/tv_lokasi_ku_name"
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/tv_fasilitas_ku_description"
+            android:id="@+id/tv_lokasi_ku_description"
             android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
