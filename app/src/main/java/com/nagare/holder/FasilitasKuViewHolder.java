@@ -16,14 +16,14 @@ import android.widget.Toast;
 
 import com.nagare.DetailFasilitasActivity;
 import com.nagare.R;
-import com.nagare.model.Fasilitas;
+import com.nagare.model.Lokasi;
 import com.nagare.model.GalangDana;
 import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
 
 public class FasilitasKuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     private TextView name, description;
-    private Fasilitas fasilitas;
+    private Lokasi fasilitas;
     private Toast toast;
 
     public FasilitasKuViewHolder(View view) {
@@ -71,7 +71,7 @@ public class FasilitasKuViewHolder extends RecyclerView.ViewHolder implements Vi
         builder.create().show();
     }
 
-    public void bind(Fasilitas fasilitas) {
+    public void bind(Lokasi fasilitas) {
         this.fasilitas = fasilitas;
         name.setText(fasilitas.getName());
         description.setText(fasilitas.getDescription());

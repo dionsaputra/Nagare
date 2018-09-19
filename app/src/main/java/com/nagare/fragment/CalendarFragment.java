@@ -56,8 +56,14 @@ public class CalendarFragment extends BaseMainFragment{
 //            events.add(acara.getDate());
 //        }
 
-        mainCalendar.addDecorator(new EventDecorator(Color.GREEN, events));
+        mainCalendar.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
 
+            }
+        });
+
+        mainCalendar.addDecorator(new EventDecorator(Color.GREEN, events));
 //        mainCalendar.setDate(System.currentTimeMillis(),false,true);
 //
 //        mainCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.nagare.adapter.FasilitasKuAdapter;
 import com.nagare.adapter.GalangDanaAdapter;
-import com.nagare.model.Fasilitas;
+import com.nagare.model.Lokasi;
 import com.nagare.model.GalangDana;
 import com.nagare.util.DataUtil;
 
@@ -34,7 +34,7 @@ public class EditKuActivity extends AppCompatActivity {
     private GalangDanaAdapter galangDanaAdapter;
     private FasilitasKuAdapter fasilitasKuAdapter;
     private LinearLayoutManager layoutManager;
-    private ArrayList<Fasilitas> allFasilitasKu;
+    private ArrayList<Lokasi> allFasilitasKu;
     private Toast toast;
 
     @Override
@@ -111,7 +111,7 @@ public class EditKuActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     allFasilitasKu = new ArrayList<>();
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Fasilitas fasilitas = ds.getValue(Fasilitas.class);
+                        Lokasi fasilitas = ds.getValue(Lokasi.class);
                         if (fasilitas.getUserKey().equals(DataUtil.USER_KEY)) {
                             allFasilitasKu.add(fasilitas);
                         }

@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 
 import com.nagare.R;
 import com.nagare.holder.FasilitasKuViewHolder;
-import com.nagare.model.Fasilitas;
+import com.nagare.model.Lokasi;
 
 import java.util.ArrayList;
 
 public class FasilitasKuAdapter extends RecyclerView.Adapter<FasilitasKuViewHolder> {
-    public ArrayList<Fasilitas> fasilitasKus;
+    public ArrayList<Lokasi> fasilitasKus;
 
-    public FasilitasKuAdapter(ArrayList<Fasilitas> fasilitasKus) {
+    public FasilitasKuAdapter(ArrayList<Lokasi> fasilitasKus) {
         this.fasilitasKus = fasilitasKus;
     }
 

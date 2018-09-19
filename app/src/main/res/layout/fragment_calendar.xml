@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_fasilitas_name"
+                android:id="@+id/tv_lokasi_name"
                 android:text="Institut Teknologi Bandung"
                 android:textColor="#000000"
                 android:textSize="16sp"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/tv_fasilitas_owner"
+                android:id="@+id/tv_lokasi_owner"
                 android:text="Prof. Kadarsah Suryadi"
                 android:textSize="12sp"
                 android:layout_width="wrap_content"
