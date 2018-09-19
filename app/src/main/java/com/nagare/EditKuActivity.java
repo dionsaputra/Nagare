@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.nagare.adapter.FasilitasKuAdapter;
 import com.nagare.adapter.GalangDanaAdapter;
+import com.nagare.adapter.LaporanKuAdapter;
 import com.nagare.model.Lokasi;
 import com.nagare.model.GalangDana;
 import com.nagare.util.DataUtil;
@@ -33,8 +34,10 @@ public class EditKuActivity extends AppCompatActivity {
     private RecyclerView editKuRecyclerView;
     private GalangDanaAdapter galangDanaAdapter;
     private FasilitasKuAdapter fasilitasKuAdapter;
+    private LaporanKuAdapter laporanKuAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<Lokasi> allFasilitasKu;
+    private ArrayList<Lokasi> allLaporanKu;
     private Toast toast;
 
     @Override
@@ -148,7 +151,31 @@ public class EditKuActivity extends AppCompatActivity {
         } else if (type.equals("3")){
 
         } else if (type.equals("4")){
+            editKuRecyclerView = findViewById(R.id.rv_edit);
+            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+            editKuRecyclerView.setLayoutManager(layoutManager);
+            editKuRecyclerView.setHasFixedSize(true);
 
+            DataUtil.dbLapor.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    allLaporanKu = new ArrayList<>();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        Lokasi laporan = ds.getValue(Lokasi.class);
+                        if (laporan.getUserKey().equals(DataUtil.USER_KEY)) {
+                            allLaporanKu.add(laporan);
+                        }
+                    }
+                    laporanKuAdapter = new LaporanKuAdapter(allLaporanKu);
+                    editKuRecyclerView.setAdapter(laporanKuAdapter);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         } else if (type.equals("5")){
 
         } else {

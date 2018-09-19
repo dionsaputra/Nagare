@@ -6,15 +6,15 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:hint="Fasilitas name..."
-        android:id="@+id/fasilitas_name_et"
+        android:hint="Lokasi name..."
+        android:id="@+id/lokasi_name_et"
         android:layout_margin="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <EditText
-        android:hint="Fasilitas description..."
-        android:id="@+id/fasilitas_description_et"
+        android:hint="Lokasi description..."
+        android:id="@+id/lokasi_description_et"
         android:layout_margin="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
