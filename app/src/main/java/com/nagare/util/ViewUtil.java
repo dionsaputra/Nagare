@@ -22,10 +22,32 @@ public class ViewUtil {
      * @param targetActivity        next activity
      * @param sharedElements        all elements to share
      */
-    public static void startNewActivity(Context context, Class targetActivity, Pair<View,String>... sharedElements) {
+    public static void startNewActivity(Context context, Class targetActivity, String paramKey, String[] params, Pair<View,String>... sharedElements) {
         Intent intent = new Intent(context, targetActivity);
+        intent.putExtra(paramKey, params);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, sharedElements);
         context.startActivity(intent, options.toBundle());
+    }
+
+    /**
+     * Start new activity by multiple sharedElements transition.
+     * @param context               current activity
+     * @param targetActivity        next activity
+     * @param sharedElements        all elements to share
+     */
+    public static void startNewActivity(Context context, Class targetActivity, Pair<View,String>... sharedElements) {
+        startNewActivity(context,targetActivity,null,null,sharedElements);
+    }
+
+    /**
+     * Start new activity by single sharedElement transition.
+     * @param context               current activity
+     * @param targetActivity        next activity
+     * @param sharedElement         element to share
+     * @param transitionNameResId    sharedElement resource in string.xml
+     */
+    public static void startNewActivity(Context context, Class targetActivity, String paramKey, String[] params, View sharedElement, int transitionNameResId) {
+        startNewActivity(context, targetActivity, paramKey, params, Pair.create(sharedElement, context.getString(transitionNameResId)));
     }
 
     /**
@@ -37,17 +59,6 @@ public class ViewUtil {
      */
     public static void startNewActivity(Context context, Class targetActivity, View sharedElement, int transitionNameResId) {
         startNewActivity(context, targetActivity, Pair.create(sharedElement, context.getString(transitionNameResId)));
-    }
-
-    /**
-     * Start new activity by single sharedElement transition.
-     * @param context               current activity
-     * @param targetActivity        next activity
-     * @param sharedElement         element to share
-     * @param transitionName        sharedElement transition name
-     */
-    public static void startNewActivity(Context context, Class targetActivity, View sharedElement, String transitionName) {
-        startNewActivity(context, targetActivity, Pair.create(sharedElement, transitionName));
     }
 
     /**

@@ -18,7 +18,10 @@ public class DetailFasilitasActivity extends AppCompatActivity {
 
         selectedFasilitasImage = findViewById(R.id.iv_selected_lokasi);
         ViewUtil.loadImage(this, selectedFasilitasImage, R.drawable.itb);
-        getSupportActionBar().setTitle("Lokasi");
+
+        String[] s = getIntent().getStringArrayExtra("TEST");
+
+        getSupportActionBar().setTitle(s[0]);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

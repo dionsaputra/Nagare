@@ -118,6 +118,7 @@ public class EditKuActivity extends AppCompatActivity {
                     }
                     fasilitasKuAdapter = new FasilitasKuAdapter(allFasilitasKu);
                     editKuRecyclerView.setAdapter(fasilitasKuAdapter);
+
                 }
 
                 @Override

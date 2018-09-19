@@ -61,13 +61,12 @@ public class MapsFragment extends BaseMainFragment  implements
 
     private ImageView selectedLokasiImage;
     private TextView lokasiName, lokasiOwner;
-
+    public static boolean mapReady = false;
     private GoogleMap map;
     private GoogleApiClient googleApiClient;
     private LocationManager locationManager;
 
     private Map<Marker,Lokasi> markerMap = new HashMap<>();
-    private int REQUEST_LOCATION = 199;
 
     public MapsFragment() {
         super();
@@ -93,7 +92,8 @@ public class MapsFragment extends BaseMainFragment  implements
         selectedLokasiImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.startNewActivity(getContext(), DetailFasilitasActivity.class, selectedLokasiImage, R.string.tn_selected_lokasi);
+                ViewUtil.startNewActivity(getContext(), DetailFasilitasActivity.class,
+                        "TEST",new String[]{"aku"}, selectedLokasiImage, R.string.tn_selected_lokasi);
             }
         });
     }
@@ -103,7 +103,7 @@ public class MapsFragment extends BaseMainFragment  implements
         map = googleMap;
         setMapListener();
         checkLocationPermission();
-
+        mapReady = true;
         loadLokasi();
     }
 
@@ -314,4 +314,6 @@ public class MapsFragment extends BaseMainFragment  implements
     public void setKeliling(boolean keliling) {
         this.isKeliling = keliling;
     }
+
+
 }
