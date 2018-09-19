@@ -49,6 +49,8 @@ public class CalendarFragment extends BaseMainFragment{
     private TextView acaraName;
     private TextView acaraOwner;
 
+    private Acara currentSelectedAcara;
+
     public CalendarFragment() {
         super();
         layoutResId = R.layout.fragment_calendar;
@@ -86,12 +88,14 @@ public class CalendarFragment extends BaseMainFragment{
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         boolean eventExist = false;
                         for (DataSnapshot item : dataSnapshot.getChildren()) {
-                            long dbDate = item.getValue(Acara.class).date;
+                            Acara acara = item.getValue(Acara.class);
+                            long dbDate = acara.date;
                             long eventDate = date.getDate().getTime();
                             if(dbDate == eventDate) {
+                                currentSelectedAcara = acara;
                                 eventExist = true;
-                                acaraName.setText(item.getValue(Acara.class).title);
-                                acaraOwner.setText(item.getValue(Acara.class).userKey);
+                                acaraName.setText(acara.title);
+                                acaraOwner.setText(acara.userKey);
                                 break;
                             }
                         }
@@ -151,7 +155,8 @@ public class CalendarFragment extends BaseMainFragment{
         selectedAcaraImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.startNewActivity(getContext(), DetailAcaraActivity.class, selectedAcaraImage, R.string.tn_selected_acara);
+                ViewUtil.startNewActivity(getContext(), DetailAcaraActivity.class,
+                        "TEST",new String[]{currentSelectedAcara.description, currentSelectedAcara.title}, selectedAcaraImage, R.string.tn_selected_acara);
             }
         });
     }
