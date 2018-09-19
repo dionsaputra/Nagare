@@ -29,7 +29,6 @@ public class GalangDanaAdapter extends RecyclerView.Adapter<GalangDanaViewHolder
     @Override
     public GalangDanaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_galang_dana, parent, false);
-
         return new GalangDanaViewHolder(view);
     }
 
