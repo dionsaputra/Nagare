@@ -3,7 +3,10 @@ package com.nagare;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,15 +15,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.nagare.adapter.GalangDanaAdapter;
+import com.nagare.model.Fasilitas;
+import com.nagare.model.GalangDana;
+import com.nagare.util.DataUtil;
 
-public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapter.GalangDanaClickHandler{
+import java.util.ArrayList;
+
+public class EditKuActivity extends AppCompatActivity {
     private String type;
     private String title;
     private RecyclerView galangDanaRecyclerView;
     private GalangDanaAdapter galangDanaAdapter;
     private LinearLayoutManager layoutManager;
-    private GalangDanaAdapter.GalangDanaClickHandler clickHandler = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +39,7 @@ public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapt
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
         if (type.equals("1")){
-            title = "Lokasi Ku";
+            title = "Fasilitas Ku";
         } else if (type.equals("2")){
             title = "Galang Dana Ku";
         } else if (type.equals("3")){
@@ -82,7 +92,21 @@ public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapt
 
     protected void initComponent() {
         if (type.equals("1")){
-
+//            DataUtil.dbFasilitas.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                        Fasilitas fasilitas = ds.getValue(Fasilitas.class);
+//                        if (fasilitas.getUserKey() == DataUtil.USER_KEY) {
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
         } else if (type.equals("2")){
 //            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 //            galangDanaRecyclerView = findViewById(R.id.rv_edit);
@@ -130,8 +154,4 @@ public class EditKuActivity extends AppCompatActivity implements GalangDanaAdapt
 //        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
-    @Override
-    public void onClick(int pos) {
-
-    }
 }
