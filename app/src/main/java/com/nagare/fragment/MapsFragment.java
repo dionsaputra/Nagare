@@ -61,7 +61,7 @@ public class MapsFragment extends BaseMainFragment  implements
 
     private ImageView selectedLokasiImage;
     private TextView lokasiName, lokasiOwner;
-
+    public static boolean mapReady = false;
     private GoogleMap map;
     private GoogleApiClient googleApiClient;
     private LocationManager locationManager;
@@ -103,7 +103,7 @@ public class MapsFragment extends BaseMainFragment  implements
         map = googleMap;
         setMapListener();
         checkLocationPermission();
-
+        mapReady = true;
         loadLokasi();
     }
 
@@ -314,4 +314,6 @@ public class MapsFragment extends BaseMainFragment  implements
     public void setKeliling(boolean keliling) {
         this.isKeliling = keliling;
     }
+
+
 }

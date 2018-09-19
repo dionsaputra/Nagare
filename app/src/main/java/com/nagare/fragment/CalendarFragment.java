@@ -26,7 +26,7 @@ import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
 import com.nagare.model.Acara;
-import com.nagare.model.Fasilitas;
+import com.nagare.model.Lokasi;
 import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
 
