@@ -2,13 +2,13 @@ package com.nagare.model;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class Fasilitas {
+public class Lokasi {
     private String userKey, key, name, description;
     private double latitude, longitude;
 
-    public Fasilitas() {}
+    public Lokasi() {}
 
-    public Fasilitas (String name, String description, LatLng position) {
+    public Lokasi(String name, String description, LatLng position) {
         this.name = name;
         this.description = description;
         this.latitude = position.latitude;

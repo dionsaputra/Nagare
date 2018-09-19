@@ -19,21 +19,24 @@
         style="@style/custom_card_96dp">
 
         <ImageView
+            android:visibility="gone"
             android:layout_margin="8dp"
-            android:id="@+id/iv_selected_fasilitas"
-            android:transitionName="@string/tn_selected_fasilitas"
+            android:id="@+id/iv_selected_lokasi"
+            android:transitionName="@string/tn_selected_lokasi"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
 
         <LinearLayout
+            android:id="@+id/ll_selected_lokasi"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_fasilitas_name"
+                android:id="@+id/tv_lokasi_name"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -41,7 +44,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/tv_fasilitas_owner"
+                android:id="@+id/tv_lokasi_owner"
                 android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -53,6 +56,14 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/empty_selected_lokasi"
+            android:visibility="visible"
+            android:text="Pilih satu marker untuk melihat detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </LinearLayout>

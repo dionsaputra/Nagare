@@ -30,4 +30,8 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     public void addFragment(Fragment fragment) {
         fragments.add(fragment);
     }
+
+    public void removeFragment(int position) {
+        fragments.remove(position);
+    }
 }

@@ -13,15 +13,15 @@
         android:layout_weight="1">
 
         <ImageView
-            android:id="@+id/iv_selected_fasilitas"
-            android:transitionName="@string/tn_selected_fasilitas"
+            android:id="@+id/iv_selected_lokasi"
+            android:transitionName="@string/tn_selected_lokasi"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:background="@drawable/scrim"/>
 
         <TextView
-            android:id="@+id/tv_fasilitas_name"
+            android:id="@+id/tv_lokasi_name"
             android:text="Institut Teknologi Bandung"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -44,7 +44,7 @@
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/tv_fasilitas_owner"
+            android:id="@+id/tv_lokasi_owner"
             android:text="Prof. Kadarsah Suryadi"
             android:textSize="12sp"
             android:layout_width="wrap_content"
