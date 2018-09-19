@@ -66,29 +66,52 @@ public class CalendarFragment extends BaseMainFragment{
         mainCalendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull final CalendarDay date, boolean selected) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 final View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_acara, null);
-
                 final EditText name = inflator.findViewById(R.id.et_nama_fasilitas);
                 final EditText desc = inflator.findViewById(R.id.et_deskripsi_fasilitas);
 
-                alertDialogBuilder.setView(inflator)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String key = DataUtil.dbAcara.push().getKey();
-                                Acara acara = new Acara(name.getText().toString(), desc.getText().toString(), DataUtil.USER_KEY, key, date.getDate().getTime());
-                                DataUtil.dbAcara.child(key).setValue(acara);
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        });
+                DataUtil.dbAcara.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        boolean eventExist = false;
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            long dbDate = item.getValue(Acara.class).date;
+                            long eventDate = date.getDate().getTime();
+                            if(dbDate == eventDate) {
+                                eventExist = true;
 
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+
+
+                                break;
+                            }
+                        }
+                        if(!eventExist) {
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                            alertDialogBuilder.setView(inflator)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String key = DataUtil.dbAcara.push().getKey();
+                                            Acara acara = new Acara(name.getText().toString(), desc.getText().toString(), DataUtil.USER_KEY, key, date.getDate().getTime());
+                                            DataUtil.dbAcara.child(key).setValue(acara);
+                                        }
+                                    })
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    });
+
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
