@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +27,7 @@ import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
 import com.nagare.model.Acara;
-import com.nagare.model.Fasilitas;
+import com.nagare.model.Lokasi;
 import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
 
@@ -35,12 +36,18 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 public class CalendarFragment extends BaseMainFragment{
+
     private MaterialCalendarView mainCalendar;
+
     private ImageView selectedAcaraImage;
+    private TextView acaraName;
+    private TextView acaraOwner;
 
     public CalendarFragment() {
         super();
@@ -51,7 +58,11 @@ public class CalendarFragment extends BaseMainFragment{
     @Override
     protected void initComponent() {
         mainCalendar = rootView.findViewById(R.id.cv_main_calendar);
+
         selectedAcaraImage = rootView.findViewById(R.id.iv_selected_acara);
+        acaraName = rootView.findViewById(R.id.tv_acara_title);
+        acaraOwner = rootView.findViewById(R.id.tv_acara_pengelola);
+
         ViewUtil.loadImage(getContext(), selectedAcaraImage, R.drawable.itb);
     }
 
@@ -79,9 +90,8 @@ public class CalendarFragment extends BaseMainFragment{
                             long eventDate = date.getDate().getTime();
                             if(dbDate == eventDate) {
                                 eventExist = true;
-
-
-
+                                acaraName.setText(item.getValue(Acara.class).title);
+                                acaraOwner.setText(item.getValue(Acara.class).userKey);
                                 break;
                             }
                         }
@@ -104,6 +114,8 @@ public class CalendarFragment extends BaseMainFragment{
 
                             AlertDialog alertDialog = alertDialogBuilder.create();
                             alertDialog.show();
+                        } else {
+
                         }
                     }
 
