@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity{
                 return true;
             }
         });
-        bottomNavbar.setSelectedItemId(R.id.nav_maps);
+        bottomNavbar.setSelectedItemId(R.id.nav_calendar);
     }
 
     @Override

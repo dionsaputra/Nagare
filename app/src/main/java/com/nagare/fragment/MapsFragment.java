@@ -8,6 +8,7 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
@@ -119,10 +121,16 @@ public class MapsFragment extends BaseMainFragment  implements
         if (gps_enabled) {
             if (map.getMyLocation() != null) {
                 LatLng latLng = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
-                CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(14).bearing(0).tilt(0).build();
+                CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(17).bearing(0).tilt(0).build();
                 MapsUtil.changeCamera(map, position, 1000);
                 return true;
+            } else {
+//                Toast.makeText(getContext(), "Failed Location Null", Toast.LENGTH_SHORT).show();
             }
+
+        } else {
+            Toast.makeText(getContext(), "Failed GPS_NOT_ENABLED", Toast.LENGTH_SHORT).show();
+
         }
         return false;
     }
@@ -305,6 +313,7 @@ public class MapsFragment extends BaseMainFragment  implements
         } else {
             DataUtil.dbLapor.addValueEventListener(lokasiListener);
         }
+        onMyLocationButtonClick();
     }
 
     public boolean isKeliling() {
@@ -314,6 +323,5 @@ public class MapsFragment extends BaseMainFragment  implements
     public void setKeliling(boolean keliling) {
         this.isKeliling = keliling;
     }
-
 
 }
