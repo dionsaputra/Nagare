@@ -131,8 +131,10 @@ public class EditKuActivity extends AppCompatActivity {
             });
 
         } else if (type.equals("2")){
-//            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-//            galangDanaRecyclerView = findViewById(R.id.rv_edit);
+            editKuRecyclerView = findViewById(R.id.rv_edit);
+            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+            editKuRecyclerView.setLayoutManager(layoutManager);
+            editKuRecyclerView.setHasFixedSize(true);
 //
 //            DataUtil.getInstance().dbGalangDana.addValueEventListener(new ValueEventListener() {
 //                @Override
