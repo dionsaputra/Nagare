@@ -308,5 +308,4 @@ public class MapsFragment extends BaseMainFragment  implements
 
         builder.create().show();
     }
-
 }
