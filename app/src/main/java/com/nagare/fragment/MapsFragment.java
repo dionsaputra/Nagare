@@ -14,10 +14,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -51,6 +55,7 @@ public class MapsFragment extends BaseMainFragment  implements
         GoogleMap.OnMarkerClickListener,
         GoogleMap.OnMarkerDragListener,
         GoogleMap.OnMapLongClickListener,
+        GoogleMap.OnInfoWindowClickListener,
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -58,9 +63,6 @@ public class MapsFragment extends BaseMainFragment  implements
     private boolean permissionDenied = false;
     private boolean isKeliling = true;
 
-
-    private ImageView selectedLokasiImage;
-    private TextView lokasiName, lokasiOwner;
     public static boolean mapReady = false;
     private GoogleMap map;
     private GoogleApiClient googleApiClient;
@@ -79,23 +81,11 @@ public class MapsFragment extends BaseMainFragment  implements
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
-
-        selectedLokasiImage = rootView.findViewById(R.id.iv_selected_lokasi);
-        lokasiName = rootView.findViewById(R.id.tv_lokasi_name);
-        lokasiOwner = rootView.findViewById(R.id.tv_lokasi_owner);
-
-        ViewUtil.loadImage(getContext(), selectedLokasiImage, R.drawable.itb);
     }
 
     @Override
     protected void setupComponent() {
-        selectedLokasiImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ViewUtil.startNewActivity(getContext(), DetailFasilitasActivity.class,
-                        "TEST",new String[]{"aku"}, selectedLokasiImage, R.string.tn_selected_lokasi);
-            }
-        });
+
     }
 
     @Override
@@ -143,27 +133,7 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        ImageView selectedImage = rootView.findViewById(R.id.iv_selected_lokasi);
-        LinearLayout selectedLayout = rootView.findViewById(R.id.ll_selected_lokasi);
-        TextView emptyView = rootView.findViewById(R.id.empty_selected_lokasi);
-        selectedImage.setVisibility(View.VISIBLE);
-        selectedLayout.setVisibility(View.VISIBLE);
-        emptyView.setVisibility(View.GONE);
-
         marker.showInfoWindow();
-        final Lokasi lokasi = markerMap.get(marker);
-        lokasiName.setText(lokasi.getName());
-
-        Query query = DataUtil.dbUser.child(lokasi.getUserKey());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                lokasiOwner.setText(dataSnapshot.getValue(User.class).getName());
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
-
         return true;
     }
 
@@ -215,6 +185,7 @@ public class MapsFragment extends BaseMainFragment  implements
         map.setOnMyLocationClickListener(this);
         map.setOnMapLongClickListener(this);
         map.setOnMarkerClickListener(this);
+        map.setOnInfoWindowClickListener(this);
     }
 
     private void checkLocationPermission() {
@@ -315,5 +286,17 @@ public class MapsFragment extends BaseMainFragment  implements
         this.isKeliling = keliling;
     }
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        LayoutInflater inflater = ((AppCompatActivity)getContext()).getLayoutInflater();
+        View view = inflater.inflate(R.layout.detail_dialog,null);
+        ImageView imageView = view.findViewById(R.id.iv_selected_lokasi);
+        ViewUtil.loadImage(getContext(),imageView,R.drawable.itb);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogTheme);
+        builder.setView(view)
+                .setPositiveButton("OK",null);
+
+        builder.create().show();
+    }
 }
