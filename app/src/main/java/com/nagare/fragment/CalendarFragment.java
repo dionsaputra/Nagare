@@ -41,6 +41,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import org.w3c.dom.Text;
 
+import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -138,13 +139,19 @@ public class CalendarFragment extends BaseMainFragment{
                             public void onClick(DialogInterface dialog, int which) {
                                 String mName = etName.getText().toString();
                                 String mDesc = etDesc.getText().toString();
+                                String mKey = DataUtil.dbAcara.push().getKey();
+                                String mUserKey = DataUtil.USER_KEY;
+
                                 SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
                                 String tDate = etTanggal.getText().toString();
                                 long mDate = 0;
                                 try {
                                     mDate = mSimpleDateFormat.parse(tDate).getTime();
                                 } catch (ParseException e) {}
-                                Log.d("date", mDate + "");
+
+                                Acara mAcara = new Acara(mName, mDesc, mUserKey, mKey, mDate);
+
+                                DataUtil.dbAcara.child(mKey).setValue(mAcara);
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
