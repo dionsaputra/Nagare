@@ -2,15 +2,6 @@ package com.nagare.util;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.nagare.fragment.Firebase;
-import com.nagare.model.Acara;
-import com.nagare.model.GalangDana;
-import com.nagare.model.User;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
 
 public class DataUtil {
     private static final String kelurahanTable = "kelurahans",
