@@ -1,16 +1,19 @@
 package com.nagare.fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,40 +41,32 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CalendarFragment extends BaseMainFragment{
 
     private MaterialCalendarView mainCalendar;
-
-    private ImageView selectedAcaraImage;
-    private TextView acaraName;
-    private TextView acaraOwner;
-
-    private Acara currentSelectedAcara;
+    private FloatingActionButton fab;
 
     public CalendarFragment() {
         super();
         layoutResId = R.layout.fragment_calendar;
-//        DataUtil.getInstance().generateDummyAcaras();
     }
 
     @Override
     protected void initComponent() {
         mainCalendar = rootView.findViewById(R.id.cv_main_calendar);
-
-        selectedAcaraImage = rootView.findViewById(R.id.iv_selected_acara);
-        acaraName = rootView.findViewById(R.id.tv_acara_title);
-        acaraOwner = rootView.findViewById(R.id.tv_acara_pengelola);
-
-        ViewUtil.loadImage(getContext(), selectedAcaraImage, R.drawable.itb);
+        fab = rootView.findViewById(R.id.fab);
     }
 
     @Override
+
     protected void setupComponent() {
         setupMainCalendar();
-        setupSelectedAcaraImage();
     }
 
     private void setupMainCalendar() {
@@ -79,9 +74,6 @@ public class CalendarFragment extends BaseMainFragment{
         mainCalendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull final CalendarDay date, boolean selected) {
-                final View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_acara, null);
-                final EditText name = inflator.findViewById(R.id.et_nama_fasilitas);
-                final EditText desc = inflator.findViewById(R.id.et_deskripsi_fasilitas);
 
                 DataUtil.dbAcara.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -92,32 +84,12 @@ public class CalendarFragment extends BaseMainFragment{
                             long dbDate = acara.date;
                             long eventDate = date.getDate().getTime();
                             if(dbDate == eventDate) {
-                                currentSelectedAcara = acara;
                                 eventExist = true;
-                                acaraName.setText(acara.title);
-                                acaraOwner.setText(acara.userKey);
                                 break;
                             }
                         }
                         if(!eventExist) {
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                            alertDialogBuilder.setView(inflator)
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            String key = DataUtil.dbAcara.push().getKey();
-                                            Acara acara = new Acara(name.getText().toString(), desc.getText().toString(), DataUtil.USER_KEY, key, date.getDate().getTime());
-                                            DataUtil.dbAcara.child(key).setValue(acara);
-                                        }
-                                    })
-                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                        }
-                                    });
 
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
                         } else {
 
                         }
@@ -128,6 +100,55 @@ public class CalendarFragment extends BaseMainFragment{
 
                     }
                 });
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_acara, null);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                final EditText etName = inflator.findViewById(R.id.et_nama_fasilitas);
+                final EditText etDesc = inflator.findViewById(R.id.et_deskripsi_fasilitas);
+                final EditText etTanggal = inflator.findViewById(R.id.et_date_picker);
+
+                etTanggal.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final Calendar c = Calendar.getInstance();
+                        // Random initial selected date
+                        int mYear = 2010, mMonth = 1, mDay = 2;
+                        DatePickerDialog dpd = new DatePickerDialog(getContext(),
+                                new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year,
+                                                          int monthOfYear, int dayOfMonth) {
+                                        etTanggal.setText(year+"-"+monthOfYear+"-"+dayOfMonth);
+                                    }
+                                }, mYear, mMonth, mDay);
+                        dpd.getDatePicker().setMinDate(System.currentTimeMillis());
+                        dpd.show();
+                    }
+
+                });
+
+                alertDialogBuilder.setView(inflator)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String mName = etName.getText().toString();
+                                String mDesc = etDesc.getText().toString();
+                                SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
+                                String tDate = etTanggal.getText().toString();
+                                long mDate = 0;
+                                try {
+                                    mDate = mSimpleDateFormat.parse(tDate).getTime();
+                                } catch (ParseException e) {}
+                                Log.d("date", mDate + "");
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
 
@@ -149,16 +170,6 @@ public class CalendarFragment extends BaseMainFragment{
             }
         });
 
-    }
-
-    private void setupSelectedAcaraImage() {
-        selectedAcaraImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ViewUtil.startNewActivity(getContext(), DetailAcaraActivity.class,
-                        "TEST",new String[]{currentSelectedAcara.description, currentSelectedAcara.title}, selectedAcaraImage, R.string.tn_selected_acara);
-            }
-        });
     }
 
     public void showTemuLurah() {

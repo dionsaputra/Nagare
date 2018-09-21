@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,40 +14,16 @@
         android:padding="4dp"
         app:mcv_showOtherDates="all"
         app:mcv_selectionColor="@color/colorPrimary"
-        app:mcv_arrowColor="@color/colorPrimary">
+        app:mcv_arrowColor="@color/colorPrimary"
+        android:layout_height="match_parent">
     </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 
-    <LinearLayout style="@style/custom_card_96dp">
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add_black_48dp"/>
 
-        <ImageView
-            android:layout_margin="8dp"
-            android:id="@+id/iv_selected_acara"
-            android:transitionName="@string/tn_selected_acara"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_acara_title"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tv_acara_pengelola"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>
