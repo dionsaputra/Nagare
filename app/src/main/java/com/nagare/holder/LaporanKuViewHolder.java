@@ -14,12 +14,12 @@ import com.nagare.R;
 import com.nagare.model.Lokasi;
 import com.nagare.util.DataUtil;
 
-public class FasilitasKuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class LaporanKuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     private TextView name, description;
-    private Lokasi fasilitas;
+    private Lokasi laporan;
     private Toast toast;
 
-    public FasilitasKuViewHolder(View view) {
+    public LaporanKuViewHolder(View view) {
         super(view);
         initComponent(view);
         view.setOnClickListener(this);
@@ -64,24 +64,24 @@ public class FasilitasKuViewHolder extends RecyclerView.ViewHolder implements Vi
         builder.create().show();
     }
 
-    public void bind(Lokasi fasilitas) {
-        this.fasilitas = fasilitas;
-        name.setText(fasilitas.getName());
-        description.setText(fasilitas.getDescription());
+    public void bind(Lokasi laporan) {
+        this.laporan = laporan;
+        name.setText(laporan.getName());
+        description.setText(laporan.getDescription());
     }
 
     public void removeEntityFromFirebase() {
-        DataUtil.dbFasilitas.child(fasilitas.getKey()).removeValue();
+        DataUtil.dbLapor.child(laporan.getKey()).removeValue();
     }
 
     public void editHolderEntity(View v) {
         LayoutInflater inflater = ((Activity) v.getContext()).getLayoutInflater();
         View editView = inflater.inflate(R.layout.crud_lokasi,null);
-        final EditText fasilitasName = editView.findViewById(R.id.lokasi_name_et);
-        fasilitasName.setText(fasilitas.getName());
+        final EditText laporanName = editView.findViewById(R.id.lokasi_name_et);
+        laporanName.setText(laporan.getName());
 
-        final EditText fasilitasDescription = editView.findViewById(R.id.lokasi_description_et);
-        fasilitasDescription.setText(fasilitas.getDescription());
+        final EditText laporanDescription = editView.findViewById(R.id.lokasi_description_et);
+        laporanDescription.setText(laporan.getDescription());
 
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(v.getContext());
         builder.setTitle("Edit")
@@ -89,8 +89,8 @@ public class FasilitasKuViewHolder extends RecyclerView.ViewHolder implements Vi
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        fasilitas.setName(fasilitasName.getText().toString());
-                        fasilitas.setDescription(fasilitasDescription.getText().toString());
+                        laporan.setName(laporanName.getText().toString());
+                        laporan.setDescription(laporanDescription.getText().toString());
                         editEntityInFirebase();
 
                     }
@@ -100,7 +100,7 @@ public class FasilitasKuViewHolder extends RecyclerView.ViewHolder implements Vi
     }
 
     private void editEntityInFirebase() {
-        DataUtil.dbFasilitas.child(fasilitas.getKey()).setValue(fasilitas);
+        DataUtil.dbLapor.child(laporan.getKey()).setValue(laporan);
     }
 
     public void showAToast (View v,String message){

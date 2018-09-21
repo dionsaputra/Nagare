@@ -22,7 +22,7 @@ public class FasilitasKuAdapter extends RecyclerView.Adapter<FasilitasKuViewHold
     @NonNull
     @Override
     public FasilitasKuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_fasilitas_ku, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_lokasi_ku, parent, false);
         return new FasilitasKuViewHolder(view);
     }
 
