@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -35,12 +36,20 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 public class CalendarFragment extends BaseMainFragment{
+
     private MaterialCalendarView mainCalendar;
+
     private ImageView selectedAcaraImage;
+    private TextView acaraName;
+    private TextView acaraOwner;
+
+    private Acara currentSelectedAcara;
 
     public CalendarFragment() {
         super();
@@ -51,7 +60,11 @@ public class CalendarFragment extends BaseMainFragment{
     @Override
     protected void initComponent() {
         mainCalendar = rootView.findViewById(R.id.cv_main_calendar);
+
         selectedAcaraImage = rootView.findViewById(R.id.iv_selected_acara);
+        acaraName = rootView.findViewById(R.id.tv_acara_title);
+        acaraOwner = rootView.findViewById(R.id.tv_acara_pengelola);
+
         ViewUtil.loadImage(getContext(), selectedAcaraImage, R.drawable.itb);
     }
 
@@ -75,13 +88,14 @@ public class CalendarFragment extends BaseMainFragment{
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         boolean eventExist = false;
                         for (DataSnapshot item : dataSnapshot.getChildren()) {
-                            long dbDate = item.getValue(Acara.class).date;
+                            Acara acara = item.getValue(Acara.class);
+                            long dbDate = acara.date;
                             long eventDate = date.getDate().getTime();
                             if(dbDate == eventDate) {
+                                currentSelectedAcara = acara;
                                 eventExist = true;
-
-
-
+                                acaraName.setText(acara.title);
+                                acaraOwner.setText(acara.userKey);
                                 break;
                             }
                         }
@@ -104,6 +118,8 @@ public class CalendarFragment extends BaseMainFragment{
 
                             AlertDialog alertDialog = alertDialogBuilder.create();
                             alertDialog.show();
+                        } else {
+
                         }
                     }
 
@@ -139,7 +155,8 @@ public class CalendarFragment extends BaseMainFragment{
         selectedAcaraImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.startNewActivity(getContext(), DetailAcaraActivity.class, selectedAcaraImage, R.string.tn_selected_acara);
+                ViewUtil.startNewActivity(getContext(), DetailAcaraActivity.class,
+                        "TEST",new String[]{currentSelectedAcara.description, currentSelectedAcara.title}, selectedAcaraImage, R.string.tn_selected_acara);
             }
         });
     }
