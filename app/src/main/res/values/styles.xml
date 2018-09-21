@@ -49,9 +49,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
         <item name="android:elevation">4dp</item>
         <item name="android:clipToPadding">false</item>
         <item name="android:background">@color/white</item>
@@ -63,6 +62,11 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/black</item>
+    </style>
+
+    <style name="MyAlertDialogTheme" parent="Base.Theme.AppCompat.Light.Dialog.Alert">
+        <item name="windowFixedWidthMajor">90%</item>
+        <item name="windowFixedWidthMinor">80%</item>
     </style>
 
 </resources>
