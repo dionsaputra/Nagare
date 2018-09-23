@@ -1,6 +1,8 @@
 package com.nagare.auth;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.model.User;
 import com.nagare.util.DataUtil;
@@ -62,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void onSignUpButtonClick(View view) {
         String name = nameEt.getText().toString();
-        final String email = emailEt.getText().toString();
+        final String email = emailEt.getText().toString().trim();
         String password = passwordEt.getText().toString();
         String confirm = confirmEt.getText().toString();
 
@@ -87,6 +90,15 @@ public class SignUpActivity extends AppCompatActivity {
                 User user = new User(name,email,password);
                 user.setKey(key);
                 DataUtil.dbUser.child(key).setValue(user);
+                DataUtil.USER_KEY = key;
+
+                SharedPreferences spLogin;
+                spLogin = getSharedPreferences("login",MODE_PRIVATE);
+                spLogin.edit().putBoolean("logged",true).apply();
+                spLogin.edit().putString("userKey",DataUtil.USER_KEY ).apply();
+
+                startActivity(new Intent(context, MainActivity.class));
+
             } else {
                 Snackbar.make(view, "Email has been used", Snackbar.LENGTH_SHORT);
             }

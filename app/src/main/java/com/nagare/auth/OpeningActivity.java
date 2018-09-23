@@ -1,6 +1,7 @@
 package com.nagare.auth;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 
 import com.nagare.MainActivity;
 import com.nagare.R;
+import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
 
 public class OpeningActivity extends AppCompatActivity {
@@ -21,8 +23,12 @@ public class OpeningActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.auth_opening);
 
+        if(hasLogin()){
+            ViewUtil.startNewActivity(context, MainActivity.class, nagareLogo, R.string.tn_nagare_logo);
+        }
+
+        setContentView(R.layout.auth_opening);
         initComponent();
         setOpeningLayoutAction();
     }
@@ -56,9 +62,14 @@ public class OpeningActivity extends AppCompatActivity {
      * @return true if user has login, else false.
      */
     private boolean hasLogin() {
-
-        // TODO use preference to check login state of user
-        return false;
+        SharedPreferences spLogin;
+        spLogin = getSharedPreferences("login",MODE_PRIVATE);
+        if(spLogin.getBoolean("logged",false)){
+            DataUtil.USER_KEY = spLogin.getString("userKey","");
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

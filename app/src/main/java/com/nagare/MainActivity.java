@@ -2,6 +2,7 @@ package com.nagare;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -22,9 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nagare.adapter.SimpleFragmentPagerAdapter;
+import com.nagare.auth.LoginActivity;
 import com.nagare.fragment.CalendarFragment;
 import com.nagare.fragment.GalangDanaFragment;
 import com.nagare.fragment.MapsFragment;
+import com.nagare.util.DataUtil;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            this.moveTaskToBack(true);
         }
     }
 
@@ -121,6 +124,17 @@ public class MainActivity extends AppCompatActivity{
                             case R.id.nav_side_temu_lurah:
                                 editIntent = new Intent(MainActivity.this, EditKuActivity.class);
                                 editIntent.putExtra("type","5");
+                                startActivity(editIntent);
+                                return true;
+                            case R.id.nav_side_logout:
+                                editIntent = new Intent(MainActivity.this, LoginActivity.class);
+                                SharedPreferences spLogin;
+                                spLogin = getSharedPreferences("login",MODE_PRIVATE);
+                                spLogin.edit().putBoolean("logged",false).apply();
+                                spLogin.edit().putString("userKey","").apply();
+                                DataUtil.USER_KEY = "";
+                                MapsFragment.mapReady = false;
+                                finish();
                                 startActivity(editIntent);
                                 return true;
 

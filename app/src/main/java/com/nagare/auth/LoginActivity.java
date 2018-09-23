@@ -2,6 +2,7 @@ package com.nagare.auth;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.util.Pair;
@@ -80,9 +81,15 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
                 if (authenticate[0]) {
+                    SharedPreferences spLogin;
+                    spLogin = getSharedPreferences("login",MODE_PRIVATE);
+                    spLogin.edit().putBoolean("logged",true).apply();
+                    spLogin.edit().putString("userKey",DataUtil.USER_KEY).apply();
+                    finish();
                     startActivity(new Intent(context, MainActivity.class));
                 } else {
                     Snackbar.make(view,"Login failed", Snackbar.LENGTH_SHORT).show();
+                    loginForm.setVisibility(View.VISIBLE);
                 }
                 progressView.setVisibility(View.GONE);
             }

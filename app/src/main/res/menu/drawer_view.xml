@@ -26,5 +26,10 @@
             android:id="@+id/nav_side_temu_lurah"
             android:icon="@drawable/temu_lurah"
             android:title="Jadwal Ku" />
+
+        <item
+            android:id="@+id/nav_side_logout"
+            android:icon="@drawable/ic_arrow_back_black_24dp"
+            android:title="Logout" />
     </group>
 </menu>
