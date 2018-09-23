@@ -51,7 +51,7 @@ public class EditKuActivity extends AppCompatActivity {
         } else if (type.equals("2")){
             title = "Galang Dana Ku";
         } else if (type.equals("3")){
-            title = "Acara Ku";
+            title = "Calendar Ku";
         } else if (type.equals("4")){
             title = "Laporan Ku";
         } else if (type.equals("5")){

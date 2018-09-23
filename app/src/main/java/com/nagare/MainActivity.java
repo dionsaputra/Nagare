@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity{
         setupSideNavbar();
         setupViewPager();
         setupBottomNavbar();
-        setupActionBar(R.array.maps_options);
+        setupActionBar(R.array.calendar_options);
     }
 
     private void setupSideNavbar(){
@@ -211,6 +211,13 @@ public class MainActivity extends AppCompatActivity{
                             mapsFragment.setKeliling(false);
                         }
                         mapsFragment.loadLokasi();
+                    } else if (optionsResId == R.array.calendar_options){
+                        if (position == 0) {
+                            calendarFragment.setAcara(true);
+                        } else {
+                            calendarFragment.setAcara(false);
+                        }
+                        calendarFragment.loadCalendar();
                     }
                 }
 

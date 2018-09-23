@@ -14,7 +14,7 @@
 
         <item
             android:id="@+id/nav_side_acara"
-            android:icon="@drawable/acara"
+            android:icon="@drawable/calendar"
             android:title="Acara Ku" />
 
         <item

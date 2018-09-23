@@ -79,8 +79,7 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     protected void initComponent() {
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment =(SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
     }

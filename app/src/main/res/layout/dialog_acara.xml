@@ -33,15 +33,15 @@
         android:inputType="datetime"/>
 
     <EditText
-        android:id="@+id/et_nama_fasilitas"
-        android:hint="Nama fasilitas"
+        android:id="@+id/et_nama_acara"
+        android:hint="Nama Acara"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/et_deskripsi_fasilitas"
-        android:hint="Deskripsi fasilitas"
+        android:id="@+id/et_deskripsi_acara"
+        android:hint="Deskripsi Acara"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

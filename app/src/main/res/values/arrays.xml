@@ -5,7 +5,7 @@
         <item>@string/lapor</item>
     </string-array>
     <string-array name="calendar_options">
-        <item>@string/acara</item>
+        <item>@string/calendar</item>
         <item>@string/temu_lurah</item>
     </string-array>
 </resources>

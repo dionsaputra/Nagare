@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/acara_action"
-        android:title="@string/acara"
+        android:title="@string/calendar"
         app:showAsAction="never"/>
 
     <item

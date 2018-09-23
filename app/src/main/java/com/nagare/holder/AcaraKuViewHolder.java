@@ -11,13 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nagare.R;
-import com.nagare.model.Acara;
-import com.nagare.model.Lokasi;
+import com.nagare.model.Calendar;
 import com.nagare.util.DataUtil;
 
 public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     private TextView title, description, date;
-    private Acara acara;
+    private Calendar calendar;
     private Toast toast;
 
     public AcaraKuViewHolder(View view) {
@@ -65,27 +64,26 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
         builder.create().show();
     }
 
-    public void bind(Acara acara) {
-        this.acara = acara;
-        title.setText(acara.getTitle());
-        description.setText(acara.getDescription());
+    public void bind(Calendar calendar) {
+        this.calendar = calendar;
+        title.setText(calendar.getTitle());
+        description.setText(calendar.getDescription());
     }
 
     public void removeEntityFromFirebase() {
-        DataUtil.dbAcara.child(acara.getKey()).removeValue();
+        DataUtil.dbAcara.child(calendar.getKey()).removeValue();
     }
 
     public void editHolderEntity(View v) {
-//        LayoutInflater inflater = ((Activity) v.getContext()).getLayoutInflater();
-//        View editView = inflater.inflate(R.layout.crud_calendar,null);
-//        final EditText acaraTitle = editView.findViewById(R.id.calendar_title_et);
-//        acaraTitle.setText(acara.getTitle());
-//
-//        final EditText acaraDescription = editView.findViewById(R.id.calendar_desc_et);
-//        acaraDescription.setText(acara.getDescription());
-//
-//        final EditText acaraDate = editView.findViewById(R.id.calendar_date_et);
-//        acaraDate.setD(acara.getDate());
+        LayoutInflater inflater = ((Activity) v.getContext()).getLayoutInflater();
+        View editView = inflater.inflate(R.layout.dialog_acara,null);
+        final EditText acaraTitle = editView.findViewById(R.id.et_nama_acara);
+        acaraTitle.setText(calendar.getTitle());
+
+        final EditText acaraDescription = editView.findViewById(R.id.et_deskripsi_acara);
+        acaraDescription.setText(calendar.getDescription());
+
+        final EditText acaraDate = editView.findViewById(R.id.et_date_picker);
 //
 //        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(v.getContext());
 //        builder.setTitle("Edit")
@@ -93,9 +91,9 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
 //                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 //                    @Override
 //                    public void onClick(DialogInterface dialog, int which) {
-//                        acara.setTitle(acaraTitle.getText().toString());
-//                        acara.setDescription(acaraDescription.getText().toString());
-//                        acara.setDate(Long.parseLong(acaraDate.getText().toString()));
+//                        calendar.setTitle(acaraTitle.getText().toString());
+//                        calendar.setDescription(acaraDescription.getText().toString());
+//                        calendar.setDate(Long.parseLong(acaraDate.getText().toString()));
 //                        editEntityInFirebase();
 //
 //                    }
@@ -105,7 +103,7 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
     }
 
     private void editEntityInFirebase() {
-        DataUtil.dbAcara.child(acara.getKey()).setValue(acara);
+        DataUtil.dbAcara.child(calendar.getKey()).setValue(calendar);
     }
 
     public void showAToast (View v,String message){
