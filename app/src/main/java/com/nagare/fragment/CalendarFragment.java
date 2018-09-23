@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,10 +50,11 @@ public class CalendarFragment extends BaseMainFragment{
     @Override
     protected void setupComponent() {
         setupMainCalendar();
+        setupFloatingButton();
+        loadCalendar();
     }
 
     private void setupMainCalendar() {
-
         mainCalendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull final CalendarDay date, boolean selected) {
@@ -70,9 +72,9 @@ public class CalendarFragment extends BaseMainFragment{
                             }
                         }
                         if(!eventExist) {
-
+                            Toast.makeText(getContext(), "doesn't event", Toast.LENGTH_SHORT).show();
                         } else {
-
+                            Toast.makeText(getContext(), "event", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -88,7 +90,9 @@ public class CalendarFragment extends BaseMainFragment{
                 }
             }
         });
+    }
 
+    private void setupFloatingButton() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,7 +119,6 @@ public class CalendarFragment extends BaseMainFragment{
                         dpd.getDatePicker().setMinDate(System.currentTimeMillis());
                         dpd.show();
                     }
-
                 });
 
                 alertDialogBuilder.setView(inflator)
@@ -152,8 +155,6 @@ public class CalendarFragment extends BaseMainFragment{
                 alertDialog.show();
             }
         });
-
-        loadCalendar();
     }
 
     public void loadCalendar() {
