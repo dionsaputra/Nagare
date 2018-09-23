@@ -19,7 +19,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.nagare.adapter.AcaraKuAdapter;
 import com.nagare.adapter.FasilitasKuAdapter;
+import com.nagare.adapter.GalangDanaAdapter;
 import com.nagare.adapter.LaporanKuAdapter;
+import com.nagare.model.GalangDana;
 import com.nagare.model.Kalender;
 import com.nagare.model.Lokasi;
 import com.nagare.util.DataUtil;
@@ -30,12 +32,13 @@ public class EditKuActivity extends AppCompatActivity {
     private String type;
     private String title;
     private RecyclerView editKuRecyclerView;
-//    private GalangDanaAdapter galangDanaAdapter;
+    private GalangDanaAdapter galangDanaAdapter;
     private FasilitasKuAdapter fasilitasKuAdapter;
     private LaporanKuAdapter laporanKuAdapter;
     private AcaraKuAdapter acaraKuAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<Kalender> allKalenderKu;
+    private ArrayList<GalangDana> allGalangDanaKu;
     private ArrayList<Lokasi> allLokasiKu;
     private Toast toast;
 
@@ -134,21 +137,27 @@ public class EditKuActivity extends AppCompatActivity {
             layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
             editKuRecyclerView.setLayoutManager(layoutManager);
             editKuRecyclerView.setHasFixedSize(true);
-//
-//            DataUtil.getInstance().dbGalangDana.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    for (DataSnapshot item : dataSnapshot.getChildren()) {
-//                        galangDanaAdapter.galangDanas.add(item.getValue(GalangDana.class));
-//                    }
-//                    galangDanaAdapter.notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
+
+            DataUtil.dbGalangDana.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    allGalangDanaKu = new ArrayList<>();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        GalangDana galangDana = ds.getValue(GalangDana.class);
+                        if (galangDana.getUserKey().equals(DataUtil.USER_KEY)) {
+                            allGalangDanaKu.add(galangDana);
+                        }
+                    }
+                    galangDanaAdapter = new GalangDanaAdapter(allGalangDanaKu);
+                    editKuRecyclerView.setAdapter(galangDanaAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         } else if (type.equals("3")){
             editKuRecyclerView = findViewById(R.id.rv_edit);
             layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);

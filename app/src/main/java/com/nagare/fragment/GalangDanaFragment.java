@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import com.nagare.R;
+import com.nagare.adapter.GalangDanaAdapter;
 import com.nagare.base.BaseMainFragment;
 import com.nagare.model.GalangDana;
 import com.nagare.util.DataUtil;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 public class GalangDanaFragment extends BaseMainFragment{
 
     private RecyclerView galangDanaRecyclerView;
-//    private GalangDanaAdapter galangDanaAdapter;
+    private GalangDanaAdapter galangDanaAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<GalangDana> allGalangDana;
     private FloatingActionButton fab;
@@ -140,8 +141,8 @@ public class GalangDanaFragment extends BaseMainFragment{
                 }
             }
         }
-//        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
-//        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
+        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
+        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
     private void getAllGalangDana(DataSnapshot dataSnapshot) {
@@ -149,8 +150,8 @@ public class GalangDanaFragment extends BaseMainFragment{
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             allGalangDana.add(ds.getValue(GalangDana.class));
         }
-//        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
-//        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
+        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
+        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
 }

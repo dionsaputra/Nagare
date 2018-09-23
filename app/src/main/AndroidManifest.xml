@@ -38,16 +38,7 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".DetailFasilitasActivity"
-            android:theme="@style/AppThemeWithActionBar"/>
-        <activity
-            android:name=".DetailAcaraActivity"
-            android:theme="@style/AppThemeWithActionBar"/>
 
-        <activity
-            android:name=".DetailGalangDanaActivity"
-            android:theme="@style/AppThemeWithActionBar"/>
         <activity
             android:name=".EditKuActivity"
             android:theme="@style/AppThemeWithActionBar"/>
