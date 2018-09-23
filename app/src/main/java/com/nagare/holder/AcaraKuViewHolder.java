@@ -2,17 +2,26 @@ package com.nagare.holder;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nagare.EditKuActivity;
 import com.nagare.R;
 import com.nagare.model.Calendar;
 import com.nagare.util.DataUtil;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     private TextView title, description, date;
@@ -26,8 +35,9 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
     }
 
     private void initComponent(View view) {
-        title        = view.findViewById(R.id.tv_lokasi_ku_name);
-        description = view.findViewById(R.id.tv_lokasi_ku_description);
+        title       = view.findViewById(R.id.tv_calendar_ku_title);
+        description = view.findViewById(R.id.tv_calendar_ku_description);
+        date        = view.findViewById(R.id.tv_calendar_ku_date);
     }
 
     @Override
@@ -68,6 +78,7 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
         this.calendar = calendar;
         title.setText(calendar.getTitle());
         description.setText(calendar.getDescription());
+        date.setText(DateFormat.format("MM/dd/yyyy", new Date(calendar.getDate())).toString());
     }
 
     public void removeEntityFromFirebase() {
@@ -75,31 +86,55 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
     }
 
     public void editHolderEntity(View v) {
+        final Context context = v.getContext();
         LayoutInflater inflater = ((Activity) v.getContext()).getLayoutInflater();
         View editView = inflater.inflate(R.layout.dialog_acara,null);
-        final EditText acaraTitle = editView.findViewById(R.id.et_nama_acara);
-        acaraTitle.setText(calendar.getTitle());
+        final EditText etName = editView.findViewById(R.id.et_nama_acara);
+        final EditText etDesc = editView.findViewById(R.id.et_deskripsi_acara);
+        final EditText etTanggal = editView.findViewById(R.id.et_date_picker);
+        etName.setText(calendar.getTitle());
+        etDesc.setText(calendar.getDescription());
+        etTanggal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final java.util.Calendar c = java.util.Calendar.getInstance();
+                // Random initial selected date
+                int mYear = 2010, mMonth = 1, mDay = 2;
+                DatePickerDialog dpd = new DatePickerDialog(context,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                etTanggal.setText(year+"-"+monthOfYear+"-"+dayOfMonth);
+                            }
+                        }, mYear, mMonth, mDay);
+                dpd.getDatePicker().setMinDate(System.currentTimeMillis());
+                dpd.show();
+            }
 
-        final EditText acaraDescription = editView.findViewById(R.id.et_deskripsi_acara);
-        acaraDescription.setText(calendar.getDescription());
+        });
 
-        final EditText acaraDate = editView.findViewById(R.id.et_date_picker);
-//
-//        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(v.getContext());
-//        builder.setTitle("Edit")
-//                .setView(editView)
-//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        calendar.setTitle(acaraTitle.getText().toString());
-//                        calendar.setDescription(acaraDescription.getText().toString());
-//                        calendar.setDate(Long.parseLong(acaraDate.getText().toString()));
-//                        editEntityInFirebase();
-//
-//                    }
-//                })
-//                .setNegativeButton("Cancel",null);
-//        builder.create().show();
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(v.getContext());
+        builder.setTitle("Edit")
+                .setView(editView)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        calendar.setTitle(etName.getText().toString());
+                        calendar.setDescription(etDesc.getText().toString());
+                        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
+                        String tDate = etTanggal.getText().toString();
+                        long mDate = 0;
+                        try {
+                            mDate = mSimpleDateFormat.parse(tDate).getTime();
+                        } catch (ParseException e) {}
+                        calendar.setDate(mDate);
+                        editEntityInFirebase();
+
+                    }
+                })
+                .setNegativeButton("Cancel",null);
+        builder.create().show();
     }
 
     private void editEntityInFirebase() {

@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,11 +17,12 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.nagare.adapter.AcaraKuAdapter;
 import com.nagare.adapter.FasilitasKuAdapter;
 import com.nagare.adapter.GalangDanaAdapter;
 import com.nagare.adapter.LaporanKuAdapter;
+import com.nagare.model.Calendar;
 import com.nagare.model.Lokasi;
-import com.nagare.model.GalangDana;
 import com.nagare.util.DataUtil;
 
 import java.util.ArrayList;
@@ -35,9 +34,10 @@ public class EditKuActivity extends AppCompatActivity {
     private GalangDanaAdapter galangDanaAdapter;
     private FasilitasKuAdapter fasilitasKuAdapter;
     private LaporanKuAdapter laporanKuAdapter;
+    private AcaraKuAdapter acaraKuAdapter;
     private LinearLayoutManager layoutManager;
-    private ArrayList<Lokasi> allFasilitasKu;
-    private ArrayList<Lokasi> allLaporanKu;
+    private ArrayList<Calendar> allCalendarKu;
+    private ArrayList<Lokasi> allLokasiKu;
     private Toast toast;
 
     @Override
@@ -51,7 +51,7 @@ public class EditKuActivity extends AppCompatActivity {
         } else if (type.equals("2")){
             title = "Galang Dana Ku";
         } else if (type.equals("3")){
-            title = "Calendar Ku";
+            title = "Acara Ku";
         } else if (type.equals("4")){
             title = "Laporan Ku";
         } else if (type.equals("5")){
@@ -93,7 +93,7 @@ public class EditKuActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-        if(type.equals("1") || type.equals("4")){
+        if(!type.equals("2")){
             fab.setVisibility(View.INVISIBLE);
         }
 
@@ -112,14 +112,14 @@ public class EditKuActivity extends AppCompatActivity {
             DataUtil.dbFasilitas.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    allFasilitasKu = new ArrayList<>();
+                    allLokasiKu = new ArrayList<>();
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Lokasi fasilitas = ds.getValue(Lokasi.class);
                         if (fasilitas.getUserKey().equals(DataUtil.USER_KEY)) {
-                            allFasilitasKu.add(fasilitas);
+                            allLokasiKu.add(fasilitas);
                         }
                     }
-                    fasilitasKuAdapter = new FasilitasKuAdapter(allFasilitasKu);
+                    fasilitasKuAdapter = new FasilitasKuAdapter(allLokasiKu);
                     editKuRecyclerView.setAdapter(fasilitasKuAdapter);
 
                 }
@@ -151,7 +151,31 @@ public class EditKuActivity extends AppCompatActivity {
 //                }
 //            });
         } else if (type.equals("3")){
+            editKuRecyclerView = findViewById(R.id.rv_edit);
+            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+            editKuRecyclerView.setLayoutManager(layoutManager);
+            editKuRecyclerView.setHasFixedSize(true);
 
+            DataUtil.dbAcara.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    allCalendarKu = new ArrayList<>();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        Calendar acara = ds.getValue(Calendar.class);
+                        if (acara.getUserKey().equals(DataUtil.USER_KEY)) {
+                            allCalendarKu.add(acara);
+                        }
+                    }
+                    acaraKuAdapter = new AcaraKuAdapter(allCalendarKu);
+                    editKuRecyclerView.setAdapter(acaraKuAdapter);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         } else if (type.equals("4")){
             editKuRecyclerView = findViewById(R.id.rv_edit);
             layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
@@ -161,14 +185,14 @@ public class EditKuActivity extends AppCompatActivity {
             DataUtil.dbLapor.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    allLaporanKu = new ArrayList<>();
+                    allLokasiKu = new ArrayList<>();
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Lokasi laporan = ds.getValue(Lokasi.class);
                         if (laporan.getUserKey().equals(DataUtil.USER_KEY)) {
-                            allLaporanKu.add(laporan);
+                            allLokasiKu.add(laporan);
                         }
                     }
-                    laporanKuAdapter = new LaporanKuAdapter(allLaporanKu);
+                    laporanKuAdapter = new LaporanKuAdapter(allLokasiKu);
                     editKuRecyclerView.setAdapter(laporanKuAdapter);
 
                 }
