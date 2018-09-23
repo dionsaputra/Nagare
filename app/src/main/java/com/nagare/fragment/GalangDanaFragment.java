@@ -1,37 +1,38 @@
 package com.nagare.fragment;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import com.nagare.R;
-import com.nagare.adapter.GalangDanaAdapter;
 import com.nagare.base.BaseMainFragment;
 import com.nagare.model.GalangDana;
 import com.nagare.util.DataUtil;
 
+import android.support.design.widget.FloatingActionButton;
+import android.widget.DatePicker;
+import android.widget.EditText;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GalangDanaFragment extends BaseMainFragment{
 
     private RecyclerView galangDanaRecyclerView;
-    private GalangDanaAdapter galangDanaAdapter;
+//    private GalangDanaAdapter galangDanaAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<GalangDana> allGalangDana;
-    DatabaseReference dbGalangDana;
+    private FloatingActionButton fab;
 
     public GalangDanaFragment() {
         super();
@@ -43,23 +44,74 @@ public class GalangDanaFragment extends BaseMainFragment{
         layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         galangDanaRecyclerView = rootView.findViewById(R.id.rv_galang_dana);
 
-        dbGalangDana = FirebaseDatabase.getInstance().getReference().child("galang-danas");
-
-        Button button = rootView.findViewById(R.id.dummy_galang_dana);
-        button.setOnClickListener(new View.OnClickListener() {
+        fab = rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String key = dbGalangDana.push().getKey();
-                GalangDana gd = new GalangDana("" +
-                        "Title",
-                        "Description",
-                        "Owner",
-                        1000L,
-                        100L,
-                        10L);
-                dbGalangDana.child(key).setValue(gd);
+                showAddGalangDanaDialog();
             }
         });
+
+    }
+
+    private void showAddGalangDanaDialog() {
+        View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_galang_dana, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        final EditText gdName = inflator.findViewById(R.id.et_nama_galang_dana);
+        final EditText gdDesc = inflator.findViewById(R.id.et_deskripsi_galang_dana);
+        final EditText gdNominal = inflator.findViewById(R.id.et_target_galang_dana);
+        final EditText gdDeadline = inflator.findViewById(R.id.et_deadline_galang_dana);
+
+        gdDeadline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker(gdDeadline);
+            }
+        });
+
+        builder.setView(inflator)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = gdName.getText().toString();
+                        String desc = gdDesc.getText().toString();
+                        Long nominal = Long.parseLong(gdNominal.getText().toString());
+                        String key = DataUtil.dbGalangDana.push().getKey();
+                        String userKey = DataUtil.USER_KEY;
+
+                        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
+                        String strDate = gdDeadline.getText().toString();
+
+                        long deadline = 0;
+                        try {
+                            deadline = mSimpleDateFormat.parse(strDate).getTime();
+                        } catch (ParseException e) {}
+
+                        GalangDana galangDana = new GalangDana(name, desc, nominal, deadline);
+                        galangDana.setKey(key);
+                        galangDana.setUserKey(userKey);
+
+                        DataUtil.dbGalangDana.child(key).setValue(galangDana);
+                    }
+                });
+        builder.create().show();
+    }
+
+    private void showDatePicker(final EditText deadline) {
+        final java.util.Calendar c = java.util.Calendar.getInstance();
+        // Random initial selected date
+        int mYear = 2010, mMonth = 1, mDay = 2;
+        DatePickerDialog dpd = new DatePickerDialog(getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        deadline.setText(year+"-"+monthOfYear+"-"+dayOfMonth);
+                    }
+                }, mYear, mMonth, mDay);
+        dpd.getDatePicker().setMinDate(System.currentTimeMillis());
+        dpd.show();
     }
 
     @Override
@@ -67,7 +119,7 @@ public class GalangDanaFragment extends BaseMainFragment{
         galangDanaRecyclerView.setLayoutManager(layoutManager);
         galangDanaRecyclerView.setHasFixedSize(true);
 
-        dbGalangDana.addValueEventListener(new ValueEventListener() {
+        DataUtil.dbGalangDana.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 getAllGalangDana(dataSnapshot);
@@ -88,8 +140,8 @@ public class GalangDanaFragment extends BaseMainFragment{
                 }
             }
         }
-        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
-        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
+//        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
+//        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
     private void getAllGalangDana(DataSnapshot dataSnapshot) {
@@ -97,8 +149,8 @@ public class GalangDanaFragment extends BaseMainFragment{
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             allGalangDana.add(ds.getValue(GalangDana.class));
         }
-        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
-        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
+//        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
+//        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
 }

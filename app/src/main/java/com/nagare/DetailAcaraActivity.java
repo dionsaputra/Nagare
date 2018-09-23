@@ -23,7 +23,7 @@ public class DetailAcaraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_acara);
         selectedAcaraImage = findViewById(R.id.iv_selected_acara);
         ViewUtil.loadImage(this, selectedAcaraImage, R.drawable.itb);
-        getSupportActionBar().setTitle("Calendar");
+        getSupportActionBar().setTitle("Kalender");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         title = findViewById(R.id.tv_acara_name);
         desc = findViewById(R.id.tv_acara_address);

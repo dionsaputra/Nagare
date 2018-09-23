@@ -8,16 +8,14 @@ import android.view.ViewGroup;
 
 import com.nagare.R;
 import com.nagare.holder.AcaraKuViewHolder;
-import com.nagare.holder.FasilitasKuViewHolder;
-import com.nagare.model.Calendar;
-import com.nagare.model.Lokasi;
+import com.nagare.model.Kalender;
 
 import java.util.ArrayList;
 
 public class AcaraKuAdapter extends RecyclerView.Adapter<AcaraKuViewHolder> {
-    public ArrayList<Calendar> acaraKus;
+    public ArrayList<Kalender> acaraKus;
 
-    public AcaraKuAdapter(ArrayList<Calendar> acaraKus) {
+    public AcaraKuAdapter(ArrayList<Kalender> acaraKus) {
         this.acaraKus = acaraKus;
     }
 

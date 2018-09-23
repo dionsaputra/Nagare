@@ -19,9 +19,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.nagare.adapter.AcaraKuAdapter;
 import com.nagare.adapter.FasilitasKuAdapter;
-import com.nagare.adapter.GalangDanaAdapter;
 import com.nagare.adapter.LaporanKuAdapter;
-import com.nagare.model.Calendar;
+import com.nagare.model.Kalender;
 import com.nagare.model.Lokasi;
 import com.nagare.util.DataUtil;
 
@@ -31,12 +30,12 @@ public class EditKuActivity extends AppCompatActivity {
     private String type;
     private String title;
     private RecyclerView editKuRecyclerView;
-    private GalangDanaAdapter galangDanaAdapter;
+//    private GalangDanaAdapter galangDanaAdapter;
     private FasilitasKuAdapter fasilitasKuAdapter;
     private LaporanKuAdapter laporanKuAdapter;
     private AcaraKuAdapter acaraKuAdapter;
     private LinearLayoutManager layoutManager;
-    private ArrayList<Calendar> allCalendarKu;
+    private ArrayList<Kalender> allKalenderKu;
     private ArrayList<Lokasi> allLokasiKu;
     private Toast toast;
 
@@ -159,14 +158,14 @@ public class EditKuActivity extends AppCompatActivity {
             DataUtil.dbAcara.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    allCalendarKu = new ArrayList<>();
+                    allKalenderKu = new ArrayList<>();
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Calendar acara = ds.getValue(Calendar.class);
+                        Kalender acara = ds.getValue(Kalender.class);
                         if (acara.getUserKey().equals(DataUtil.USER_KEY)) {
-                            allCalendarKu.add(acara);
+                            allKalenderKu.add(acara);
                         }
                     }
-                    acaraKuAdapter = new AcaraKuAdapter(allCalendarKu);
+                    acaraKuAdapter = new AcaraKuAdapter(allKalenderKu);
                     editKuRecyclerView.setAdapter(acaraKuAdapter);
 
                 }

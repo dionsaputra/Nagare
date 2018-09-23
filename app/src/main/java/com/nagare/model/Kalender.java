@@ -4,18 +4,18 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.Date;
 
-public class Calendar {
+public class Kalender {
     public String title;
     public String description;
     public String userKey;
     public String key;
     public long date;
 
-    public Calendar() {
+    public Kalender() {
 
     }
 
-    public Calendar(String title, String description, String userKey, String key, long date) {
+    public Kalender(String title, String description, String userKey, String key, long date) {
         this.title = title;
         this.description = description;
         this.userKey = userKey;

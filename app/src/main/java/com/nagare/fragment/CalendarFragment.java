@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.nagare.EventDecorator;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
-import com.nagare.model.Calendar;
+import com.nagare.model.Kalender;
 import com.nagare.util.DataUtil;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -61,8 +61,8 @@ public class CalendarFragment extends BaseMainFragment{
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         boolean eventExist = false;
                         for (DataSnapshot item : dataSnapshot.getChildren()) {
-                            Calendar calendar = item.getValue(Calendar.class);
-                            long dbDate = calendar.date;
+                            Kalender kalender = item.getValue(Kalender.class);
+                            long dbDate = kalender.date;
                             long eventDate = date.getDate().getTime();
                             if(dbDate == eventDate) {
                                 eventExist = true;
@@ -139,12 +139,12 @@ public class CalendarFragment extends BaseMainFragment{
                                     mDate = mSimpleDateFormat.parse(tDate).getTime();
                                 } catch (ParseException e) {}
 
-                                Calendar mCalendar = new Calendar(mName, mDesc, mUserKey, mKey, mDate);
+                                Kalender mKalender = new Kalender(mName, mDesc, mUserKey, mKey, mDate);
 
                                 if(isAcara){
-                                    DataUtil.dbAcara.child(mKey).setValue(mCalendar);
+                                    DataUtil.dbAcara.child(mKey).setValue(mKalender);
                                 } else {
-                                    DataUtil.dbTemuLurah.child(mKey).setValue(mCalendar);
+                                    DataUtil.dbTemuLurah.child(mKey).setValue(mKalender);
                                 }
                             }
                         });
@@ -165,8 +165,8 @@ public class CalendarFragment extends BaseMainFragment{
                 mainCalendar.removeDecorators();
                 ArrayList<CalendarDay> events = new ArrayList<>();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Calendar calendar = item.getValue(Calendar.class);
-                    events.add(new CalendarDay(new Date(calendar.date)));
+                    Kalender kalender = item.getValue(Kalender.class);
+                    events.add(new CalendarDay(new Date(kalender.date)));
                 }
                 mainCalendar.addDecorator(new EventDecorator(Color.GREEN, events));
             }

@@ -14,9 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nagare.EditKuActivity;
 import com.nagare.R;
-import com.nagare.model.Calendar;
+import com.nagare.model.Kalender;
 import com.nagare.util.DataUtil;
 
 import java.text.ParseException;
@@ -24,8 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
     private TextView title, description, date;
-    private Calendar calendar;
+    private Kalender kalender;
     private Toast toast;
 
     public AcaraKuViewHolder(View view) {
@@ -74,15 +74,15 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
         builder.create().show();
     }
 
-    public void bind(Calendar calendar) {
-        this.calendar = calendar;
-        title.setText(calendar.getTitle());
-        description.setText(calendar.getDescription());
-        date.setText(DateFormat.format("MM/dd/yyyy", new Date(calendar.getDate())).toString());
+    public void bind(Kalender kalender) {
+        this.kalender = kalender;
+        title.setText(kalender.getTitle());
+        description.setText(kalender.getDescription());
+        date.setText(DateFormat.format("MM/dd/yyyy", new Date(kalender.getDate())).toString());
     }
 
     public void removeEntityFromFirebase() {
-        DataUtil.dbAcara.child(calendar.getKey()).removeValue();
+        DataUtil.dbAcara.child(kalender.getKey()).removeValue();
     }
 
     public void editHolderEntity(View v) {
@@ -92,8 +92,8 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
         final EditText etName = editView.findViewById(R.id.et_nama_acara);
         final EditText etDesc = editView.findViewById(R.id.et_deskripsi_acara);
         final EditText etTanggal = editView.findViewById(R.id.et_date_picker);
-        etName.setText(calendar.getTitle());
-        etDesc.setText(calendar.getDescription());
+        etName.setText(kalender.getTitle());
+        etDesc.setText(kalender.getDescription());
         etTanggal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,15 +120,15 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        calendar.setTitle(etName.getText().toString());
-                        calendar.setDescription(etDesc.getText().toString());
+                        kalender.setTitle(etName.getText().toString());
+                        kalender.setDescription(etDesc.getText().toString());
                         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
                         String tDate = etTanggal.getText().toString();
                         long mDate = 0;
                         try {
                             mDate = mSimpleDateFormat.parse(tDate).getTime();
                         } catch (ParseException e) {}
-                        calendar.setDate(mDate);
+                        kalender.setDate(mDate);
                         editEntityInFirebase();
 
                     }
@@ -138,7 +138,7 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
     }
 
     private void editEntityInFirebase() {
-        DataUtil.dbAcara.child(calendar.getKey()).setValue(calendar);
+        DataUtil.dbAcara.child(kalender.getKey()).setValue(kalender);
     }
 
     public void showAToast (View v,String message){
