@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.nagare.R;
 
+import java.util.Random;
+
 public class ViewUtil {
 
     /**
@@ -77,5 +79,17 @@ public class ViewUtil {
         transaction.replace(fragmentResId, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public static int getRandomPlaceHolder() {
+        int[] placeHolderDrawables = new int[] {
+                R.drawable.placeholder1,
+                R.drawable.placeholder2,
+                R.drawable.placeholder3,
+                R.drawable.placeholder4,
+                R.drawable.placeholder5
+        };
+        Random random = new Random();
+        return placeHolderDrawables[random.nextInt(5)];
     }
 }

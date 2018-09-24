@@ -195,14 +195,14 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
         isAcara = acara;
     }
 
-    private void setDialogData(View view, Kalender acara, int size) {
+    private void setDialogData(View view, Kalender acara, int pos, int size) {
         final TextView title = view.findViewById(R.id.tv_acara_name);
         final TextView counter = view.findViewById(R.id.tv_counter);
         final TextView owner = view.findViewById(R.id.tv_acara_owner);
         final TextView description = view.findViewById(R.id.tv_acara_description);
 
         title.setText(acara.getTitle());
-        counter.setText(String.valueOf(1) + "/" + String.valueOf(size));
+        counter.setText(String.valueOf(pos) + "/" + String.valueOf(size));
 
         Query query = DataUtil.dbUser.child(acara.getUserKey());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -231,8 +231,9 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
         LayoutInflater inflater = ((AppCompatActivity)getContext()).getLayoutInflater();
         final View view = inflater.inflate(R.layout.detail_acara,null);
 
-        setDialogData(view, currentAcaras.get(0), currentAcaras.size());
+        setDialogData(view, currentAcaras.get(0), 1, currentAcaras.size());
 
+        final ImageView imageView = view.findViewById(R.id.iv_selected_acara);
         final ImageView leftArrow = view.findViewById(R.id.arrow_left);
         final ImageView rightArrow = view.findViewById(R.id.arrow_right);
 
@@ -244,9 +245,10 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
             leftArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    position[0]--;
-                    if (0 <= position[0] && position[0] < currentAcaras.size()) {
-                        setDialogData(view, currentAcaras.get(position[0]), currentAcaras.size());
+                    if (0 < position[0] && position[0] < currentAcaras.size()) {
+                        position[0]--;
+                        setDialogData(view, currentAcaras.get(position[0]), position[0]+1, currentAcaras.size());
+                        ViewUtil.loadImage(getContext(),imageView,ViewUtil.getRandomPlaceHolder());
                     }
                 }
             });
@@ -254,16 +256,16 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
             rightArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    position[0]++;
-                    if (0 <= position[0] && position[0] < currentAcaras.size()) {
-                        setDialogData(view, currentAcaras.get(position[0]), currentAcaras.size());
+                    if (0 <= position[0] && position[0] < currentAcaras.size()-1) {
+                        position[0]++;
+                        setDialogData(view, currentAcaras.get(position[0]), position[0]+1, currentAcaras.size());
+                        ViewUtil.loadImage(getContext(),imageView,ViewUtil.getRandomPlaceHolder());
                     }
                 }
             });
         }
 
-        ImageView imageView = view.findViewById(R.id.iv_selected_acara);
-        ViewUtil.loadImage(getContext(),imageView,R.drawable.itb);
+        ViewUtil.loadImage(getContext(),imageView,ViewUtil.getRandomPlaceHolder());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogTheme);
         builder.setView(view)
