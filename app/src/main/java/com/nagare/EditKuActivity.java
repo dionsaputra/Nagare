@@ -22,6 +22,7 @@ import com.nagare.adapter.FasilitasKuAdapter;
 import com.nagare.adapter.GalangDanaAdapter;
 import com.nagare.adapter.GalangDanaKuAdapter;
 import com.nagare.adapter.LaporanKuAdapter;
+import com.nagare.adapter.LurahKuAdapter;
 import com.nagare.model.GalangDana;
 import com.nagare.model.Kalender;
 import com.nagare.model.Lokasi;
@@ -36,6 +37,7 @@ public class EditKuActivity extends AppCompatActivity {
     private GalangDanaKuAdapter galangDanaKuAdapter;
     private FasilitasKuAdapter fasilitasKuAdapter;
     private LaporanKuAdapter laporanKuAdapter;
+    private LurahKuAdapter lurahKuAdapter;
     private AcaraKuAdapter acaraKuAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<Kalender> allKalenderKu;
@@ -64,41 +66,6 @@ public class EditKuActivity extends AppCompatActivity {
         }
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // Alert Dialog
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        final View inflator = getLayoutInflater().inflate(R.layout.dialog_fasilitas, null);
-
-        final EditText name = inflator.findViewById(R.id.et_nama_fasilitas);
-        final EditText desc = inflator.findViewById(R.id.et_deskripsi_fasilitas);
-
-        alertDialogBuilder.setTitle(R.string.fasilitas)
-                .setView(inflator)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-
-        final AlertDialog alertDialog = alertDialogBuilder.create();
-
-
-        // FAB
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialog.show();
-            }
-        });
-        if(!type.equals("2")){
-            fab.setVisibility(View.INVISIBLE);
-        }
 
         initComponent();
         setupComponent();
@@ -212,7 +179,31 @@ public class EditKuActivity extends AppCompatActivity {
                 }
             });
         } else if (type.equals("5")){
+            editKuRecyclerView = findViewById(R.id.rv_edit);
+            layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+            editKuRecyclerView.setLayoutManager(layoutManager);
+            editKuRecyclerView.setHasFixedSize(true);
 
+            DataUtil.dbTemuLurah.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    allKalenderKu = new ArrayList<>();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        Kalender temuLurah = ds.getValue(Kalender.class);
+                        if (temuLurah.getUserKey().equals(DataUtil.USER_KEY)) {
+                            allKalenderKu.add(temuLurah);
+                        }
+                    }
+                    lurahKuAdapter = new LurahKuAdapter(allKalenderKu);
+                    editKuRecyclerView.setAdapter(lurahKuAdapter);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         } else {
             title = "Error";
         }

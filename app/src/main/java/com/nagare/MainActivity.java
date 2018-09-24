@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity{
                         } else {
                             calendarFragment.setAcara(false);
                         }
-                        //calendarFragment.loadCalendar();
+                        calendarFragment.loadCalendar();
                     }
                 }
 
