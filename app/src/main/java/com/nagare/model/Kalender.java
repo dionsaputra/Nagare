@@ -10,17 +10,19 @@ public class Kalender {
     public String userKey;
     public String key;
     public long date;
+    public int status;
 
     public Kalender() {
 
     }
 
-    public Kalender(String title, String description, String userKey, String key, long date) {
+    public Kalender(String title, String description, String userKey, String key, long date, int status) {
         this.title = title;
         this.description = description;
         this.userKey = userKey;
         this.key = key;
         this.date = date;
+        this.status = status;
     }
 
     public String getTitle() {
@@ -61,5 +63,13 @@ public class Kalender {
 
     public void setDate(long date) {
         this.date = date;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

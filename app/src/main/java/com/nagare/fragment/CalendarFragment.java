@@ -70,6 +70,9 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!isAcara && DataUtil.USER_LURAH){
+                    fab.setVisibility(View.INVISIBLE);
+                }
                 View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_acara, null);
                 TextView titleDialog = inflator.findViewById(R.id.dialog_acara_title);
                 if(!isAcara){
@@ -125,7 +128,7 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
                                     mDate = mSimpleDateFormat.parse(tDate).getTime();
                                 } catch (ParseException e) {}
 
-                                Kalender mKalender = new Kalender(mName, mDesc, mUserKey, mKey, mDate);
+                                Kalender mKalender = new Kalender(mName, mDesc, mUserKey, mKey, mDate, 0);
 
                                 if(isAcara){
                                     DataUtil.dbAcara.child(mKey).setValue(mKalender);
