@@ -24,6 +24,7 @@ import com.nagare.EventDecorator;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
 import com.nagare.model.Kalender;
+import com.nagare.model.User;
 import com.nagare.util.DataUtil;
 
 import com.nagare.util.ViewUtil;
@@ -185,6 +186,28 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
         isAcara = acara;
     }
 
+    private void setDialogData(View view, Kalender acara, int size) {
+        final TextView title = view.findViewById(R.id.tv_acara_name);
+        final TextView counter = view.findViewById(R.id.tv_counter);
+        final TextView owner = view.findViewById(R.id.tv_acara_owner);
+        final TextView description = view.findViewById(R.id.tv_acara_description);
+
+        title.setText(acara.getTitle());
+        counter.setText(String.valueOf(1) + "/" + String.valueOf(size));
+
+        Query query = DataUtil.dbUser.child(acara.getUserKey());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                owner.setText(dataSnapshot.getValue(User.class).getName());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+        description.setText(acara.getDescription());
+    }
+
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         final ArrayList<Kalender> currentAcaras = new ArrayList<>();
@@ -199,17 +222,10 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
         LayoutInflater inflater = ((AppCompatActivity)getContext()).getLayoutInflater();
         final View view = inflater.inflate(R.layout.detail_acara,null);
 
-        final TextView title = view.findViewById(R.id.tv_acara_name);
-        final TextView counter = view.findViewById(R.id.tv_counter);
-        final TextView owner = view.findViewById(R.id.tv_acara_owner);
-        final TextView address = view.findViewById(R.id.tv_acara_address);
-        final TextView description = view.findViewById(R.id.tv_acara_description);
+        setDialogData(view, currentAcaras.get(0), currentAcaras.size());
 
         final ImageView leftArrow = view.findViewById(R.id.arrow_left);
         final ImageView rightArrow = view.findViewById(R.id.arrow_right);
-
-        title.setText(currentAcaras.get(0).getTitle());
-        counter.setText(String.valueOf(1) + "/" + String.valueOf(currentAcaras.size()));
 
         if (currentAcaras.size() < 2) {
             leftArrow.setVisibility(View.GONE);
@@ -221,8 +237,7 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
                 public void onClick(View v) {
                     position[0]--;
                     if (0 <= position[0] && position[0] < currentAcaras.size()) {
-                        title.setText(currentAcaras.get(position[0]).getTitle());
-                        counter.setText(String.valueOf(position[0]+1) + "/" + String.valueOf(currentAcaras.size()));
+                        setDialogData(view, currentAcaras.get(position[0]), currentAcaras.size());
                     }
                 }
             });
@@ -232,8 +247,7 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
                 public void onClick(View v) {
                     position[0]++;
                     if (0 <= position[0] && position[0] < currentAcaras.size()) {
-                        title.setText(currentAcaras.get(position[0]).getTitle());
-                        counter.setText(String.valueOf(position[0]+1) + "/" + String.valueOf(currentAcaras.size()));
+                        setDialogData(view, currentAcaras.get(position[0]), currentAcaras.size());
                     }
                 }
             });
