@@ -156,7 +156,7 @@ public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
     }
 
     private void editEntityInFirebase() {
-        DataUtil.dbAcara.child(galangDana.getKey()).setValue(galangDana);
+        DataUtil.dbGalangDana.child(galangDana.getKey()).setValue(galangDana);
     }
 
     public void bind(GalangDana galangDana) {

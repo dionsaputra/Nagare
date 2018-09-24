@@ -2,6 +2,7 @@ package com.nagare.model;
 
 public class User {
     private String parentKey, key, name, email, password;
+    private boolean lurah = false;
 
     public User() {
 
@@ -51,5 +52,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isLurah() {
+        return lurah;
+    }
+
+    public void setLurah(boolean lurah) {
+        this.lurah = lurah;
     }
 }

@@ -149,7 +149,7 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mainCalendar.removeDecorators();
                 ArrayList<CalendarDay> events = new ArrayList<>();
-
+                acaras.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Kalender kalender = item.getValue(Kalender.class);
                     events.add(new CalendarDay(new Date(kalender.getDate())));

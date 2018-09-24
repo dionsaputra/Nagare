@@ -67,41 +67,6 @@ public class EditKuActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Alert Dialog
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        final View inflator = getLayoutInflater().inflate(R.layout.dialog_fasilitas, null);
-
-        final EditText name = inflator.findViewById(R.id.et_nama_fasilitas);
-        final EditText desc = inflator.findViewById(R.id.et_deskripsi_fasilitas);
-
-        alertDialogBuilder.setTitle(R.string.fasilitas)
-                .setView(inflator)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-
-        final AlertDialog alertDialog = alertDialogBuilder.create();
-
-
-        // FAB
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialog.show();
-            }
-        });
-        if(!type.equals("2")){
-            fab.setVisibility(View.INVISIBLE);
-        }
-
         initComponent();
         setupComponent();
         showAToast("Tekan item untuk edit/delete.");
