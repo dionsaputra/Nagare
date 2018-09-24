@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.nagare.adapter.AcaraKuAdapter;
 import com.nagare.adapter.FasilitasKuAdapter;
 import com.nagare.adapter.GalangDanaAdapter;
+import com.nagare.adapter.GalangDanaKuAdapter;
 import com.nagare.adapter.LaporanKuAdapter;
 import com.nagare.adapter.LurahKuAdapter;
 import com.nagare.model.GalangDana;
@@ -33,7 +34,7 @@ public class EditKuActivity extends AppCompatActivity {
     private String type;
     private String title;
     private RecyclerView editKuRecyclerView;
-    private GalangDanaAdapter galangDanaAdapter;
+    private GalangDanaKuAdapter galangDanaKuAdapter;
     private FasilitasKuAdapter fasilitasKuAdapter;
     private LaporanKuAdapter laporanKuAdapter;
     private LurahKuAdapter lurahKuAdapter;
@@ -150,8 +151,8 @@ public class EditKuActivity extends AppCompatActivity {
                             allGalangDanaKu.add(galangDana);
                         }
                     }
-                    galangDanaAdapter = new GalangDanaAdapter(allGalangDanaKu);
-                    editKuRecyclerView.setAdapter(galangDanaAdapter);
+                    galangDanaKuAdapter = new GalangDanaKuAdapter(allGalangDanaKu);
+                    editKuRecyclerView.setAdapter(galangDanaKuAdapter);
                 }
 
                 @Override

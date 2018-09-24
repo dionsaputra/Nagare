@@ -1,9 +1,18 @@
 package com.nagare.holder;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,14 +21,19 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.nagare.EditKuActivity;
 import com.nagare.R;
 import com.nagare.model.GalangDana;
 import com.nagare.model.User;
 import com.nagare.util.DataUtil;
+import com.nagare.util.ViewUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements
+        View.OnClickListener{
 
     private ImageView descImage;
     private TextView title, owner, amount;
@@ -41,7 +55,16 @@ public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements Vie
 
     @Override
     public void onClick(View v) {
+        LayoutInflater inflater = ((AppCompatActivity) v.getContext()).getLayoutInflater();
+        View view = inflater.inflate(R.layout.detail_galang_dana,null);
+        ImageView imageView = view.findViewById(R.id.iv_selected_lokasi);
+        ViewUtil.loadImage((AppCompatActivity) v.getContext(), imageView,R.drawable.itb);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder((AppCompatActivity) v.getContext(), R.style.MyAlertDialogTheme);
+        builder.setView(view)
+                .setPositiveButton("OK",null);
+
+        builder.create().show();
     }
 
     public void bind(GalangDana galangDana) {

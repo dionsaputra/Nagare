@@ -23,17 +23,6 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-
-    <EditText
-        android:id="@+id/et_date_picker"
-        android:hint="Tanggal"
-        android:editable="false"
-        android:focusable="true"
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="datetime"/>
-
     <EditText
         android:id="@+id/et_nama_acara"
         android:hint="Nama Acara"
@@ -47,5 +36,15 @@
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/et_date_picker"
+        android:hint="Tanggal"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="datetime"
+        android:focusable="false"
+        android:clickable="true"/>
 
 </LinearLayout>

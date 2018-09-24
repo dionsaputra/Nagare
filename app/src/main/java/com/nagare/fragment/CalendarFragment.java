@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.nagare.EventDecorator;
 import com.nagare.R;
@@ -43,7 +45,7 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
     private MaterialCalendarView mainCalendar;
     private FloatingActionButton fab;
     private boolean isAcara = true;
-    private Map<Long, ArrayList<Kalender>> acaraMap = new HashMap<>();
+    private ArrayList<Kalender> acaras = new ArrayList<>();
 
     public CalendarFragment() {
         super();
@@ -59,12 +61,8 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
 
     @Override
     protected void setupComponent() {
-        setupMainCalendar();
         setupFloatingButton();
         loadCalendar();
-    }
-
-    private void setupMainCalendar() {
     }
 
     private void setupFloatingButton() {
@@ -96,7 +94,7 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
                                     @Override
                                     public void onDateSet(DatePicker view, int year,
                                                           int monthOfYear, int dayOfMonth) {
-                                        etTanggal.setText(year+"-"+monthOfYear+"-"+dayOfMonth);
+                                        etTanggal.setText(year + "-" + (monthOfYear+1) + "-" + dayOfMonth);
                                     }
                                 }, mYear, mMonth, mDay);
                         dpd.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -116,6 +114,7 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
                                 } else {
                                     mKey = DataUtil.dbTemuLurah.push().getKey();
                                 }
+
                                 String mUserKey = DataUtil.USER_KEY;
 
                                 SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
@@ -143,23 +142,18 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
 
     public void loadCalendar() {
         mainCalendar.removeDecorators();
+        acaras.clear();
 
         ValueEventListener calendarListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mainCalendar.removeDecorators();
                 ArrayList<CalendarDay> events = new ArrayList<>();
+
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Kalender kalender = item.getValue(Kalender.class);
                     events.add(new CalendarDay(new Date(kalender.getDate())));
-
-                    if (acaraMap.containsKey(kalender.getDate())) {
-                        acaraMap.get(kalender.getDate()).add(kalender);
-                    } else {
-                        ArrayList<Kalender> acaras = new ArrayList<>();
-                        acaras.add(kalender);
-                        acaraMap.put(kalender.getDate(), acaras);
-                    }
+                    acaras.add(kalender);
                 }
                 mainCalendar.addDecorator(new EventDecorator(Color.GREEN, events));
             }
@@ -169,19 +163,12 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
 
             }
         };
+
         if (isAcara) {
             DataUtil.dbAcara.addValueEventListener(calendarListener);
         } else {
             DataUtil.dbTemuLurah.addValueEventListener(calendarListener);
         }
-    }
-
-    public void showTemuLurah() {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.temu_lurah));
-    }
-
-    private void showAcara() {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.calendar));
     }
 
     @Override
@@ -200,21 +187,33 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-        final ArrayList<Kalender> acaras = acaraMap.get(date.getDate().getTime());
-        if (acaras == null) return;
+        final ArrayList<Kalender> currentAcaras = new ArrayList<>();
+        for (Kalender acara : acaras) {
+            if (acara.getDate() == date.getDate().getTime()) {
+                currentAcaras.add(acara);
+            }
+        }
+
+        System.out.println(currentAcaras.size());
+
+        if (currentAcaras.size() == 0) return;
 
         LayoutInflater inflater = ((AppCompatActivity)getContext()).getLayoutInflater();
-        final View view = inflater.inflate(R.layout.detail_dialog,null);
+        final View view = inflater.inflate(R.layout.detail_acara,null);
 
         final TextView title = view.findViewById(R.id.tv_acara_name);
         final TextView counter = view.findViewById(R.id.tv_counter);
-        title.setText(acaras.get(0).getTitle());
-        counter.setText("1/" + String.valueOf(acaras.size()));
+        final TextView owner = view.findViewById(R.id.tv_acara_owner);
+        final TextView address = view.findViewById(R.id.tv_acara_address);
+        final TextView description = view.findViewById(R.id.tv_acara_description);
 
         final ImageView leftArrow = view.findViewById(R.id.arrow_left);
         final ImageView rightArrow = view.findViewById(R.id.arrow_right);
 
-        if (acaras.size() < 2) {
+        title.setText(currentAcaras.get(0).getTitle());
+        counter.setText(String.valueOf(1) + "/" + String.valueOf(currentAcaras.size()));
+
+        if (currentAcaras.size() < 2) {
             leftArrow.setVisibility(View.GONE);
             rightArrow.setVisibility(View.GONE);
         } else {
@@ -223,9 +222,9 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
                 @Override
                 public void onClick(View v) {
                     position[0]--;
-                    if (0 <= position[0] && position[0] < acaras.size()) {
-                        title.setText(acaras.get(position[0]).getTitle());
-                        counter.setText(String.valueOf(position[0]+1) + "/" + String.valueOf(acaras.size()));
+                    if (0 <= position[0] && position[0] < currentAcaras.size()) {
+                        title.setText(currentAcaras.get(position[0]).getTitle());
+                        counter.setText(String.valueOf(position[0]+1) + "/" + String.valueOf(currentAcaras.size()));
                     }
                 }
             });
@@ -234,20 +233,20 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
                 @Override
                 public void onClick(View v) {
                     position[0]++;
-                    if (0 <= position[0] && position[0] < acaras.size()) {
-                        title.setText(acaras.get(position[0]).getTitle());
-                        counter.setText(String.valueOf(position[0]+1) + "/" + String.valueOf(acaras.size()));
+                    if (0 <= position[0] && position[0] < currentAcaras.size()) {
+                        title.setText(currentAcaras.get(position[0]).getTitle());
+                        counter.setText(String.valueOf(position[0]+1) + "/" + String.valueOf(currentAcaras.size()));
                     }
                 }
             });
         }
 
-        ImageView imageView = view.findViewById(R.id.iv_selected_lokasi);
+        ImageView imageView = view.findViewById(R.id.iv_selected_acara);
         ViewUtil.loadImage(getContext(),imageView,R.drawable.itb);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogTheme);
         builder.setView(view)
-                .setPositiveButton("NEXT", new DialogInterface.OnClickListener() {
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
