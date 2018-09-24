@@ -80,26 +80,26 @@
                         android:gravity="center_vertical"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
 
-                    <ImageView android:id="@+id/iv_acara_address"
-                        android:src="@drawable/address"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="4dp"/>
+                    <!--<ImageView android:id="@+id/iv_acara_address"-->
+                        <!--android:src="@drawable/address"-->
+                        <!--android:layout_width="40dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_margin="4dp"/>-->
 
-                    <TextView
-                        android:id="@+id/tv_acara_address"
-                        style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="#000011"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_margin="4dp"
-                        android:gravity="center_vertical"/>
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_acara_address"-->
+                        <!--style="@style/Base.TextAppearance.AppCompat.Small"-->
+                        <!--android:textColor="#000011"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_margin="4dp"-->
+                        <!--android:gravity="center_vertical"/>-->
 
-                </LinearLayout>
+                <!--</LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

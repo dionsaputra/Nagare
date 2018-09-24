@@ -16,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.util.DbUtils;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -28,10 +30,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.nagare.R;
 import com.nagare.base.BaseMainFragment;
+import com.nagare.model.Kelurahan;
 import com.nagare.model.Lokasi;
+import com.nagare.model.User;
 import com.nagare.util.DataUtil;
 import com.nagare.util.MapsUtil;
 import com.nagare.util.PermissionUtil;
@@ -63,6 +68,7 @@ public class MapsFragment extends BaseMainFragment  implements
 
     public MapsFragment() {
         super();
+
         layoutResId = R.layout.fragment_maps;
     }
 
@@ -288,6 +294,26 @@ public class MapsFragment extends BaseMainFragment  implements
         LayoutInflater inflater = ((AppCompatActivity)getContext()).getLayoutInflater();
         View view = inflater.inflate(R.layout.detail_lokasi,null);
         ImageView imageView = view.findViewById(R.id.iv_selected_lokasi);
+        TextView lokasiName = view.findViewById(R.id.tv_lokasi_name);
+        final TextView ownerName = view.findViewById(R.id.tv_lokasi_owner);
+        TextView description = view.findViewById(R.id.tv_lokasi_description);
+
+        Lokasi lokasi = markerMap.get(marker);
+        lokasiName.setText(lokasi.getName());
+
+        Query query = DataUtil.dbUser.child(markerMap.get(marker).getUserKey());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ownerName.setText(dataSnapshot.getValue(User.class).getName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+        description.setText(lokasi.getDescription());
+
         ViewUtil.loadImage(getContext(),imageView,R.drawable.itb);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogTheme);

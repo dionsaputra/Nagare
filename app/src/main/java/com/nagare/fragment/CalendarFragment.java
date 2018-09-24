@@ -183,8 +183,6 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
             }
         }
 
-        System.out.println(currentAcaras.size());
-
         if (currentAcaras.size() == 0) return;
 
         LayoutInflater inflater = ((AppCompatActivity)getContext()).getLayoutInflater();
