@@ -11,11 +11,13 @@
 
         <ImageView
             android:src="@drawable/calendar"
+            android:id="@+id/dialog_acara_image"
             android:layout_width="32dp"
             android:layout_height="32dp"/>
 
         <TextView
             android:text="Acara"
+            android:id="@+id/dialog_acara_title"
             style="@style/custom_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

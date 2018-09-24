@@ -29,6 +29,8 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,6 +72,14 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
             @Override
             public void onClick(View view) {
                 View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_acara, null);
+                TextView titleDialog = inflator.findViewById(R.id.dialog_acara_title);
+                if(!isAcara){
+                    titleDialog.setText("Jadwal Lurah");
+                }
+                ImageView imageDialog = inflator.findViewById(R.id.dialog_acara_image);
+                if(!isAcara){
+                    imageDialog.setImageDrawable(getResources().getDrawable(R.drawable.temu_lurah));
+                }
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                 final EditText etName = inflator.findViewById(R.id.et_nama_acara);
                 final EditText etDesc = inflator.findViewById(R.id.et_deskripsi_acara);
@@ -122,6 +132,7 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
                                 } else {
                                     DataUtil.dbTemuLurah.child(mKey).setValue(mKalender);
                                 }
+                                loadCalendar();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();

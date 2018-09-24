@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -152,6 +153,14 @@ public class MapsFragment extends BaseMainFragment  implements
     public void onMapLongClick(final LatLng latLng) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         final View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_fasilitas, null);
+        TextView titleDialog = inflator.findViewById(R.id.dialog_fasilitas_title);
+        if(!isKeliling){
+            titleDialog.setText("Lapor");
+        }
+        ImageView imageDialog = inflator.findViewById(R.id.dialog_fasilitas_image);
+        if(!isKeliling){
+            imageDialog.setImageDrawable(getResources().getDrawable(R.drawable.lapor));
+        }
 
         final EditText name = inflator.findViewById(R.id.et_nama_fasilitas);
         final EditText desc = inflator.findViewById(R.id.et_deskripsi_fasilitas);
