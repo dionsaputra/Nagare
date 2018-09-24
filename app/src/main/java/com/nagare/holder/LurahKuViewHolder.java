@@ -46,19 +46,45 @@ public class LurahKuViewHolder extends RecyclerView.ViewHolder implements View.O
     }
 
     public void showHolderOptions(final View v) {
+        String[] item;
+        if(DataUtil.USER_LURAH){
+            item = new String[]{"Edit", "Delete", "Accept", "Reject"};
+        } else {
+            item = new String[]{"Edit", "Delete"};
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Options")
-                .setItems(new String[]{"Edit", "Delete"}, new DialogInterface.OnClickListener() {
+                .setItems(item, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0 : editHolderEntity(v); break;
-                            case 1 : deleteHolderEntity(v); break;
+                        if (DataUtil.USER_LURAH){
+                            switch (which) {
+                                case 0 : editHolderEntity(v); break;
+                                case 1 : deleteHolderEntity(v); break;
+                                case 2 : acceptHolderEntity(v); break;
+                                case 3 : rejectHolderEntity(v); break;
+                            }
+                        } else {
+                            switch (which) {
+                                case 0 : editHolderEntity(v); break;
+                                case 1 : deleteHolderEntity(v); break;
+                            }
                         }
+
                     }
                 });
         builder.create().show();
     }
+    public void acceptHolderEntity(View v){
+        kalender.setStatus(1);
+        editEntityInFirebase();
+    }
+
+    public void rejectHolderEntity(View v){
+        kalender.setStatus(2);
+        editEntityInFirebase();
+    }
+
 
     public void deleteHolderEntity(View v) {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(v.getContext());
