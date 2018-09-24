@@ -286,7 +286,7 @@ public class MapsFragment extends BaseMainFragment  implements
     @Override
     public void onInfoWindowClick(Marker marker) {
         LayoutInflater inflater = ((AppCompatActivity)getContext()).getLayoutInflater();
-        View view = inflater.inflate(R.layout.detail_dialog,null);
+        View view = inflater.inflate(R.layout.detail_lokasi,null);
         ImageView imageView = view.findViewById(R.id.iv_selected_lokasi);
         ViewUtil.loadImage(getContext(),imageView,R.drawable.itb);
 

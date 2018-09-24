@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:elevation="4dp"
+    android:clipToPadding="false"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp">
+
+        <ImageView
+            android:id="@+id/iv_selected_lokasi"
+            android:transitionName="@string/tn_selected_acara"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@drawable/scrim"/>
+
+        <TextView
+            android:id="@+id/tv_acara_name"
+            android:text="Institut Teknologi Bandung"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:padding="4dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/pengelola_fasilitas"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="4dp"/>
+
+            <TextView
+                android:id="@+id/tv_acara_owner"
+                android:text="Prof. Kadarsah Suryadi"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="#000011"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/address"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="4dp"/>
+
+            <TextView
+                android:text="Jln Ganesha 10, Bandung, Jawa Barat"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000011"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/description"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="4dp"/>
+
+            <TextView
+                android:text="Lorem ipsum dolor sit amet, consectetur"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000011"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:gravity="center_vertical"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
