@@ -72,6 +72,8 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
             public void onClick(View view) {
                 if(!isAcara && DataUtil.USER_LURAH){
                     fab.setVisibility(View.INVISIBLE);
+                } else {
+                    fab.setVisibility(View.VISIBLE);
                 }
                 View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_acara, null);
                 TextView titleDialog = inflator.findViewById(R.id.dialog_acara_title);
@@ -147,7 +149,11 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
     public void loadCalendar() {
         mainCalendar.removeDecorators();
         acaras.clear();
-
+        if(!isAcara && DataUtil.USER_LURAH){
+            fab.setVisibility(View.INVISIBLE);
+        } else {
+            fab.setVisibility(View.VISIBLE);
+        }
         ValueEventListener calendarListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
