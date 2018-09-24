@@ -13,7 +13,7 @@
         android:layout_height="240dp">
 
         <ImageView
-            android:id="@+id/iv_selected_lokasi"
+            android:id="@+id/iv_selected_galang_dana_dialog"
             android:transitionName="@string/tn_selected_acara"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -21,8 +21,7 @@
             android:background="@drawable/scrim"/>
 
         <TextView
-            android:id="@+id/tv_acara_name"
-            android:text="Institut Teknologi Bandung"
+            android:id="@+id/tv_galang_dana_dialog_name"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:padding="4dp"
@@ -44,14 +43,13 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:src="@drawable/pengelola_fasilitas"
+                android:src="@drawable/masyarakat_biasa"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="4dp"/>
 
             <TextView
-                android:id="@+id/tv_acara_owner"
-                android:text="Prof. Kadarsah Suryadi"
+                android:id="@+id/tv_galang_dana_dialog_owner"
                 style="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="#000011"
                 android:layout_width="wrap_content"
@@ -60,26 +58,26 @@
                 android:gravity="center_vertical"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
 
-            <ImageView
-                android:src="@drawable/address"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="4dp"/>
+            <!--<ImageView-->
+                <!--android:src="@drawable/address"-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_margin="4dp"/>-->
 
-            <TextView
-                android:text="Jln Ganesha 10, Bandung, Jawa Barat"
-                style="@style/Base.TextAppearance.AppCompat.Small"
-                android:textColor="#000011"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:gravity="center_vertical"/>
+            <!--<TextView-->
+                <!--android:text="Jln Ganesha 10, Bandung, Jawa Barat"-->
+                <!--style="@style/Base.TextAppearance.AppCompat.Small"-->
+                <!--android:textColor="#000011"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_margin="4dp"-->
+                <!--android:gravity="center_vertical"/>-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,8 +89,7 @@
                 android:layout_height="40dp"
                 android:layout_margin="4dp"/>
 
-            <TextView
-                android:text="Lorem ipsum dolor sit amet, consectetur"
+            <TextView android:id="@+id/tv_galang_dana_description"
                 style="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="#000011"
                 android:layout_width="wrap_content"

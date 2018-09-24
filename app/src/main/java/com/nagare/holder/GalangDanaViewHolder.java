@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.nagare.EditKuActivity;
 import com.nagare.R;
 import com.nagare.model.GalangDana;
+import com.nagare.model.Kalender;
 import com.nagare.model.User;
 import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
@@ -58,6 +59,26 @@ public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements
         LayoutInflater inflater = ((AppCompatActivity) v.getContext()).getLayoutInflater();
         View view = inflater.inflate(R.layout.detail_galang_dana,null);
         ImageView imageView = view.findViewById(R.id.iv_selected_lokasi);
+
+        TextView gdName = view.findViewById(R.id.tv_galang_dana_dialog_name);
+        final TextView gdOwner = view.findViewById(R.id.tv_galang_dana_dialog_owner);
+        TextView gdDesc = view.findViewById(R.id.tv_galang_dana_description);
+
+        gdName.setText(galangDana.getTitle());
+
+        Query query = DataUtil.dbUser.child(galangDana.getUserKey());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                gdOwner.setText(dataSnapshot.getValue(User.class).getName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+        gdDesc.setText(galangDana.getDescription());
+
         ViewUtil.loadImage((AppCompatActivity) v.getContext(), imageView,R.drawable.itb);
 
         AlertDialog.Builder builder = new AlertDialog.Builder((AppCompatActivity) v.getContext(), R.style.MyAlertDialogTheme);
@@ -82,4 +103,5 @@ public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
+
 }
