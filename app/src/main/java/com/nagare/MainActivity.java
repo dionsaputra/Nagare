@@ -132,7 +132,9 @@ public class MainActivity extends AppCompatActivity{
                                 spLogin = getSharedPreferences("login",MODE_PRIVATE);
                                 spLogin.edit().putBoolean("logged",false).apply();
                                 spLogin.edit().putString("userKey","").apply();
+                                spLogin.edit().putBoolean("userLurah",false).apply();
                                 DataUtil.USER_KEY = "";
+                                DataUtil.USER_LURAH = false;
                                 MapsFragment.mapReady = false;
                                 finish();
                                 startActivity(editIntent);

@@ -190,9 +190,14 @@ public class EditKuActivity extends AppCompatActivity {
                     allKalenderKu = new ArrayList<>();
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Kalender temuLurah = ds.getValue(Kalender.class);
-                        if (temuLurah.getUserKey().equals(DataUtil.USER_KEY)) {
+                        if(DataUtil.USER_LURAH){
                             allKalenderKu.add(temuLurah);
+                        } else {
+                            if (temuLurah.getUserKey().equals(DataUtil.USER_KEY)) {
+                                allKalenderKu.add(temuLurah);
+                            }
                         }
+
                     }
                     lurahKuAdapter = new LurahKuAdapter(allKalenderKu);
                     editKuRecyclerView.setAdapter(lurahKuAdapter);
