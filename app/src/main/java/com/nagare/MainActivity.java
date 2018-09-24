@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -98,8 +99,12 @@ public class MainActivity extends AppCompatActivity{
 
     private void setupSideNavbar(){
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        final TextView header_name = findViewById(R.id.nav_header_name);
-        final TextView header_email = findViewById(R.id.nav_header_email);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.nav_header, null);
+
+        final TextView header_name = view.findViewById(R.id.nav_header_name);
+        final TextView header_email = view.findViewById(R.id.nav_header_email);
 
         Query query = DataUtil.dbUser.child(DataUtil.USER_KEY);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
