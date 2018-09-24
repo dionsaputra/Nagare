@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import java.util.Date;
 
 public class LurahKuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+    private LinearLayout background;
     private TextView title, description, date;
     private Kalender kalender;
     private Toast toast;
@@ -38,6 +41,15 @@ public class LurahKuViewHolder extends RecyclerView.ViewHolder implements View.O
         title       = view.findViewById(R.id.tv_calendar_ku_title);
         description = view.findViewById(R.id.tv_calendar_ku_description);
         date        = view.findViewById(R.id.tv_calendar_ku_date);
+        background  = view.findViewById(R.id.ll_fasilitas_ku_list_item);
+        if(kalender != null){
+            if(kalender.status == 1){
+                background.setBackgroundColor(Color.parseColor("#2ecc71"));
+            } else if (kalender.status == 2){
+                background.setBackgroundColor(Color.parseColor("#e74c3c"));
+            }
+        }
+
     }
 
     @Override
@@ -164,6 +176,13 @@ public class LurahKuViewHolder extends RecyclerView.ViewHolder implements View.O
     }
 
     private void editEntityInFirebase() {
+        if(kalender != null){
+            if(kalender.status == 1){
+                background.setBackgroundColor(Color.parseColor("#2ecc71"));
+            } else if (kalender.status == 2){
+                background.setBackgroundColor(Color.parseColor("#e74c3c"));
+            }
+        }
         DataUtil.dbTemuLurah.child(kalender.getKey()).setValue(kalender);
     }
 

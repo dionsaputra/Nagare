@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#00b795</color>
     <color name="colorAccent">#00B8D4</color>
     <color name="white">#FFFFFF</color>
+    <color name="accepted">#2ecc71</color>
+    <color name="rejected">#e74c3c</color>
 </resources>
