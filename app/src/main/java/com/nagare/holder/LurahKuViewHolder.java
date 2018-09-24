@@ -42,6 +42,7 @@ public class LurahKuViewHolder extends RecyclerView.ViewHolder implements View.O
         description = view.findViewById(R.id.tv_calendar_ku_description);
         date        = view.findViewById(R.id.tv_calendar_ku_date);
         background  = view.findViewById(R.id.ll_fasilitas_ku_list_item);
+
         if(kalender != null){
             if(kalender.status == 1){
                 background.setBackgroundColor(Color.parseColor("#2ecc71"));
@@ -89,12 +90,27 @@ public class LurahKuViewHolder extends RecyclerView.ViewHolder implements View.O
     }
     public void acceptHolderEntity(View v){
         kalender.setStatus(1);
+        if(kalender != null){
+            if(kalender.status == 1){
+                background.setBackgroundColor(Color.parseColor("#2ecc71"));
+            } else if (kalender.status == 2){
+                background.setBackgroundColor(Color.parseColor("#e74c3c"));
+            }
+        }
         editEntityInFirebase();
     }
 
     public void rejectHolderEntity(View v){
         kalender.setStatus(2);
+        if(kalender != null){
+            if(kalender.status == 1){
+                background.setBackgroundColor(Color.parseColor("#2ecc71"));
+            } else if (kalender.status == 2){
+                background.setBackgroundColor(Color.parseColor("#e74c3c"));
+            }
+        }
         editEntityInFirebase();
+
     }
 
 
@@ -117,6 +133,11 @@ public class LurahKuViewHolder extends RecyclerView.ViewHolder implements View.O
         title.setText(kalender.getTitle());
         description.setText(kalender.getDescription());
         date.setText(DateFormat.format("MM/dd/yyyy", new Date(kalender.getDate())).toString());
+        if(kalender.status == 1){
+            background.setBackgroundColor(Color.parseColor("#2ecc71"));
+        } else if (kalender.status == 2){
+            background.setBackgroundColor(Color.parseColor("#e74c3c"));
+        }
     }
 
     public void removeEntityFromFirebase() {
