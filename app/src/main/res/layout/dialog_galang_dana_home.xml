@@ -44,14 +44,6 @@
         android:inputType="number"/>
 
     <EditText
-        android:id="@+id/et_current_galang_dana"
-        android:hint="Current Dana"
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"/>
-
-    <EditText
         android:id="@+id/et_deadline_galang_dana"
         android:hint="Target Waktu"
         style="@style/TextAppearance.AppCompat.Medium"

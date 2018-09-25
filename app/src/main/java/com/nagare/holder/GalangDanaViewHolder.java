@@ -29,6 +29,10 @@ import com.nagare.model.User;
 import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -93,8 +97,8 @@ public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements
     public void bind(GalangDana galangDana) {
         this.galangDana = galangDana;
         title.setText(galangDana.getTitle());
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("in","ID"));
-        amount.setText(String.format(formatter.format(galangDana.getTargetDana())));
+        NumberFormat mNumberFormat = NumberFormat.getCurrencyInstance(new Locale("in", "ID"));
+        amount.setText(mNumberFormat.format(galangDana.getTargetDana()));
         progressBar.setMax(galangDana.getTargetDana().intValue());
         progressBar.setProgress(galangDana.getCurrentDana().intValue());
 
