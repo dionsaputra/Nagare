@@ -100,27 +100,19 @@ public class MainActivity extends AppCompatActivity{
     private void setupSideNavbar(){
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
-        LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.nav_header, null);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user = (TextView) hView.findViewById(R.id.nav_header_name);
 
-        final TextView header_name = view.findViewById(R.id.nav_header_name);
-        final TextView header_email = view.findViewById(R.id.nav_header_email);
+//        LayoutInflater inflater = getLayoutInflater();
+//        View view = inflater.inflate(R.layout.nav_header, null);
 
-        Query query = DataUtil.dbUser.child(DataUtil.USER_KEY);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                header_name.setText(dataSnapshot.getValue(User.class).getName());
-                header_email.setText(dataSnapshot.getValue(User.class).getEmail());
-            }
+        TextView header_name = hView.findViewById(R.id.nav_header_name);
+        header_name.setText(DataUtil.USER_NAMA);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        TextView header_email = hView.findViewById(R.id.nav_header_email);
+        header_email.setText(DataUtil.USER_EMAIL);
 
-            }
-        });
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -153,6 +145,11 @@ public class MainActivity extends AppCompatActivity{
                                 editIntent.putExtra("type","5");
                                 startActivity(editIntent);
                                 return true;
+                            case R.id.nav_side_pengaturan:
+                                editIntent = new Intent(MainActivity.this, EditKuActivity.class);
+                                editIntent.putExtra("type","5");
+                                startActivity(editIntent);
+                                return true;
                             case R.id.nav_side_logout:
                                 editIntent = new Intent(MainActivity.this, LoginActivity.class);
                                 SharedPreferences spLogin;
@@ -162,6 +159,8 @@ public class MainActivity extends AppCompatActivity{
                                 spLogin.edit().putBoolean("userLurah",false).apply();
                                 DataUtil.USER_KEY = "";
                                 DataUtil.USER_LURAH = false;
+                                DataUtil.USER_NAMA = "";
+                                DataUtil.USER_EMAIL = "";
                                 MapsFragment.mapReady = false;
                                 finish();
                                 startActivity(editIntent);

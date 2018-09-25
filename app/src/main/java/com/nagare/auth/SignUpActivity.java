@@ -92,11 +92,15 @@ public class SignUpActivity extends AppCompatActivity {
                 DataUtil.dbUser.child(key).setValue(user);
                 DataUtil.USER_KEY = key;
                 DataUtil.USER_LURAH = false;
+                DataUtil.USER_NAMA = name;
+                DataUtil.USER_EMAIL = email;
 
                 SharedPreferences spLogin;
                 spLogin = getSharedPreferences("login",MODE_PRIVATE);
                 spLogin.edit().putBoolean("logged",true).apply();
                 spLogin.edit().putString("userKey",DataUtil.USER_KEY ).apply();
+                spLogin.edit().putString("userNama",DataUtil.USER_NAMA ).apply();
+                spLogin.edit().putString("userEmail",DataUtil.USER_EMAIL ).apply();
                 spLogin.edit().putBoolean("userLurah",DataUtil.USER_LURAH ).apply();
 
                 startActivity(new Intent(context, MainActivity.class));

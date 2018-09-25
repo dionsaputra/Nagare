@@ -12,7 +12,7 @@ public class DataUtil {
             laporTable = "lapors",
             galangDanaTable = "galangdanas";
 
-    public static String USER_KEY;
+    public static String USER_KEY, USER_EMAIL, USER_NAMA;
     public static boolean USER_LURAH;
 
     public static DatabaseReference dbRoot = FirebaseDatabase.getInstance().getReference();
