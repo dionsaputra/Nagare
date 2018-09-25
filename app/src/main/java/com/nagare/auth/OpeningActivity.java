@@ -1,5 +1,6 @@
 package com.nagare.auth;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import com.nagare.MainActivity;
 import com.nagare.R;
 import com.nagare.util.DataUtil;
+import com.nagare.util.PermissionUtil;
 import com.nagare.util.ViewUtil;
 
 public class OpeningActivity extends AppCompatActivity {
@@ -31,6 +33,8 @@ public class OpeningActivity extends AppCompatActivity {
         setContentView(R.layout.auth_opening);
         initComponent();
         setOpeningLayoutAction();
+        PermissionUtil.requestPermission(this, 1, Manifest.permission.ACCESS_FINE_LOCATION, true);
+
     }
 
     /**

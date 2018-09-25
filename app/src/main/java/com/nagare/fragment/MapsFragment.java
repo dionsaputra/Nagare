@@ -45,15 +45,7 @@ import com.nagare.util.ViewUtil;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapsFragment extends BaseMainFragment  implements
-        GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener,
-        GoogleMap.OnMarkerClickListener,
-        GoogleMap.OnMarkerDragListener,
-        GoogleMap.OnMapLongClickListener,
-        GoogleMap.OnInfoWindowClickListener,
-        OnMapReadyCallback,
-        ActivityCompat.OnRequestPermissionsResultCallback {
+public class MapsFragment extends BaseMainFragment implements GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int LOC_PERMISSION_REQUEST = 1;
     private boolean permissionDenied = false;
@@ -62,7 +54,7 @@ public class MapsFragment extends BaseMainFragment  implements
     public static boolean mapReady = false;
     private GoogleMap map;
 
-    private Map<Marker,Lokasi> markerMap = new HashMap<>();
+    private Map<Marker, Lokasi> markerMap = new HashMap<>();
 
     public MapsFragment() {
         super();
@@ -71,12 +63,13 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     protected void initComponent() {
-        SupportMapFragment mapFragment =(SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
     @Override
-    protected void setupComponent() { }
+    protected void setupComponent() {
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -89,12 +82,18 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     public boolean onMyLocationButtonClick() {
+        if (!isMapReady()) {
+            Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         LocationManager lm = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
 
         try {
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch(Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         if (gps_enabled) {
             if (map.getMyLocation() != null) {
@@ -114,19 +113,32 @@ public class MapsFragment extends BaseMainFragment  implements
     }
 
     @Override
-    public void onMyLocationClick(@NonNull Location location) { }
+    public void onMyLocationClick(@NonNull Location location) {
+        if (!isMapReady()) {
+            Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
+            return;
+        }
+    }
 
     @Override
     public void onResume() {
         super.onResume();
+        if (!isMapReady()) {
+            Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (permissionDenied) {
-            PermissionUtil.PermissionDeniedDialog.newInstance(true).show(getActivity().getSupportFragmentManager(),"dialog");
+            PermissionUtil.PermissionDeniedDialog.newInstance(true).show(getActivity().getSupportFragmentManager(), "dialog");
             permissionDenied = false;
         }
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        if (!isMapReady()) {
+            Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         marker.showInfoWindow();
         return true;
     }
@@ -157,7 +169,6 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     public void onMapLongClick(final LatLng latLng) {
-
         if (!isMapReady()) {
             Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
             return;
@@ -166,26 +177,24 @@ public class MapsFragment extends BaseMainFragment  implements
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         final View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_fasilitas, null);
         TextView titleDialog = inflator.findViewById(R.id.dialog_fasilitas_title);
-        if(!isKeliling){
+        if (!isKeliling) {
             titleDialog.setText("Lapor");
         }
         ImageView imageDialog = inflator.findViewById(R.id.dialog_fasilitas_image);
-        if(!isKeliling){
+        if (!isKeliling) {
             imageDialog.setImageDrawable(getResources().getDrawable(R.drawable.lapor));
         }
 
         final EditText name = inflator.findViewById(R.id.et_nama_fasilitas);
         final EditText desc = inflator.findViewById(R.id.et_deskripsi_fasilitas);
 
-        alertDialogBuilder.setView(inflator)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Lokasi lokasi = new Lokasi(name.getText().toString(), desc.getText().toString(), latLng);
-                        addLokasi(lokasi);
-                    }
-                })
-                .setNegativeButton("Cancel",null);
+        alertDialogBuilder.setView(inflator).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Lokasi lokasi = new Lokasi(name.getText().toString(), desc.getText().toString(), latLng);
+                addLokasi(lokasi);
+            }
+        }).setNegativeButton("Cancel", null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
@@ -204,12 +213,10 @@ public class MapsFragment extends BaseMainFragment  implements
         map.setOnInfoWindowClickListener(this);
     }
 
-    private void checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            PermissionUtil.requestPermission((AppCompatActivity) getActivity(), LOC_PERMISSION_REQUEST,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
-        } else if (map != null) {
+    public void checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            PermissionUtil.requestPermission((AppCompatActivity) getActivity(), LOC_PERMISSION_REQUEST, Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } else {
             map.setMyLocationEnabled(true);
         }
     }
