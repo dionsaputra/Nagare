@@ -104,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
                 spLogin.edit().putString("userPassword",DataUtil.USER_PASSWORD ).apply();
                 spLogin.edit().putString("userEmail",DataUtil.USER_EMAIL ).apply();
                 spLogin.edit().putBoolean("userLurah",DataUtil.USER_LURAH ).apply();
-
+                finish();
                 startActivity(new Intent(context, MainActivity.class));
 
             } else {
