@@ -10,54 +10,45 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:src="@drawable/galang_dana"
+            android:src="@drawable/pengaturan"
+            android:id="@+id/dialog_user_image"
             android:layout_width="32dp"
             android:layout_height="32dp"/>
 
         <TextView
-            android:text="@string/galang_dana"
+            android:text="Pengaturan"
             style="@style/custom_title"
+            android:id="@+id/dialog_user_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <EditText
-        android:id="@+id/et_nama_galang_dana"
-        android:hint="Tujuan"
+        android:id="@+id/et_nama_user"
+        android:hint="Nama"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/et_deskripsi_galang_dana"
-        android:hint="Deskripsi"
+        android:id="@+id/et_email_user"
+        android:hint="Email"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/et_target_galang_dana"
-        android:hint="Target Dana"
+        android:id="@+id/et_password_user"
+        android:hint="New password"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"/>
+        android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/et_current_galang_dana"
-        android:hint="Current Dana"
+        android:id="@+id/et_confirm_user"
+        android:hint="Confirm password"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"/>
-
-    <EditText
-        android:id="@+id/et_deadline_galang_dana"
-        android:hint="Target Waktu"
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        android:clickable="true"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

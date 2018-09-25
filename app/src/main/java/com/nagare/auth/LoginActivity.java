@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                         authenticate[0] = true;
                         DataUtil.USER_KEY = user.getKey();
                         DataUtil.USER_NAMA = user.getName();
+                        DataUtil.USER_PASSWORD = user.getPassword();
                         DataUtil.USER_EMAIL = user.getEmail();
                         DataUtil.USER_LURAH = user.isLurah();
 
@@ -90,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                     spLogin.edit().putBoolean("logged",true).apply();
                     spLogin.edit().putString("userKey",DataUtil.USER_KEY).apply();
                     spLogin.edit().putString("userNama",DataUtil.USER_NAMA).apply();
+                    spLogin.edit().putString("userPassword",DataUtil.USER_PASSWORD).apply();
                     spLogin.edit().putString("userEmail",DataUtil.USER_EMAIL).apply();
                     spLogin.edit().putBoolean("userLurah",DataUtil.USER_LURAH ).apply();
                     finish();

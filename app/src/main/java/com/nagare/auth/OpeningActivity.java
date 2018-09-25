@@ -67,6 +67,7 @@ public class OpeningActivity extends AppCompatActivity {
         if(spLogin.getBoolean("logged",false)){
             DataUtil.USER_KEY = spLogin.getString("userKey","");
             DataUtil.USER_NAMA = spLogin.getString("userNama","");
+            DataUtil.USER_PASSWORD = spLogin.getString("userPassword","");
             DataUtil.USER_EMAIL = spLogin.getString("userEmail","");
             DataUtil.USER_LURAH = spLogin.getBoolean("userLurah",false);
             return true;

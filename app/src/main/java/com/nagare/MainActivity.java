@@ -1,6 +1,8 @@
 package com.nagare;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -19,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity{
     private ViewPager viewPager;
     private DrawerLayout mDrawerLayout;
     private Toast toast;
+    private TextView header_name;
+    private TextView header_email;
 
     private MenuItem activeMenuItem;
     private int activeFragment;
@@ -102,15 +107,13 @@ public class MainActivity extends AppCompatActivity{
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
-        TextView nav_user = (TextView) hView.findViewById(R.id.nav_header_name);
-
 //        LayoutInflater inflater = getLayoutInflater();
 //        View view = inflater.inflate(R.layout.nav_header, null);
 
-        TextView header_name = hView.findViewById(R.id.nav_header_name);
+        header_name = hView.findViewById(R.id.nav_header_name);
         header_name.setText(DataUtil.USER_NAMA);
 
-        TextView header_email = hView.findViewById(R.id.nav_header_email);
+        header_email = hView.findViewById(R.id.nav_header_email);
         header_email.setText(DataUtil.USER_EMAIL);
 
         navigationView.setNavigationItemSelectedListener(
@@ -146,9 +149,50 @@ public class MainActivity extends AppCompatActivity{
                                 startActivity(editIntent);
                                 return true;
                             case R.id.nav_side_pengaturan:
-                                editIntent = new Intent(MainActivity.this, EditKuActivity.class);
-                                editIntent.putExtra("type","5");
-                                startActivity(editIntent);
+                                final User user = new User(DataUtil.USER_NAMA, DataUtil.USER_EMAIL, DataUtil.USER_PASSWORD);
+                                user.setKey(DataUtil.USER_KEY);
+                                user.setLurah(DataUtil.USER_LURAH);
+                                LayoutInflater inflater = getLayoutInflater();
+                                View editView = inflater.inflate(R.layout.dialog_user,null);
+                                final EditText userName = editView.findViewById(R.id.et_nama_user);
+                                userName.setText(user.getName());
+
+                                final EditText userEmail = editView.findViewById(R.id.et_email_user);
+                                userEmail.setText(user.getEmail());
+
+                                final EditText userPassword = editView.findViewById(R.id.et_password_user);
+                                userPassword.setText(user.getPassword());
+
+                                final EditText userConfirm = editView.findViewById(R.id.et_confirm_user);
+                                userConfirm.setText(user.getPassword());
+
+                                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
+                                builder.setView(editView)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if(userPassword.getText().toString().equals(userConfirm.getText().toString())){
+                                                    user.setName(userName.getText().toString());
+                                                    user.setEmail(userEmail.getText().toString());
+                                                    user.setPassword(userPassword.getText().toString());
+                                                    DataUtil.USER_NAMA = user.getName();
+                                                    DataUtil.USER_EMAIL = user.getEmail();
+                                                    DataUtil.USER_PASSWORD = user.getPassword();
+                                                    SharedPreferences spLogin;
+                                                    spLogin = getSharedPreferences("login",MODE_PRIVATE);
+                                                    spLogin.edit().putString("userNama",DataUtil.USER_NAMA).apply();
+                                                    spLogin.edit().putString("userPassword",DataUtil.USER_PASSWORD).apply();
+                                                    spLogin.edit().putString("userEmail",DataUtil.USER_EMAIL).apply();
+                                                    header_name.setText(DataUtil.USER_NAMA);
+                                                    header_email.setText(DataUtil.USER_EMAIL);
+                                                    DataUtil.dbUser.child(user.getKey()).setValue(user);
+                                                } else {
+                                                    Toast.makeText(context,"Password tidak sama", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        })
+                                        .setNegativeButton("Cancel",null);
+                                builder.create().show();
                                 return true;
                             case R.id.nav_side_logout:
                                 editIntent = new Intent(MainActivity.this, LoginActivity.class);
@@ -161,6 +205,7 @@ public class MainActivity extends AppCompatActivity{
                                 DataUtil.USER_LURAH = false;
                                 DataUtil.USER_NAMA = "";
                                 DataUtil.USER_EMAIL = "";
+                                DataUtil.USER_PASSWORD = "";
                                 MapsFragment.mapReady = false;
                                 finish();
                                 startActivity(editIntent);
