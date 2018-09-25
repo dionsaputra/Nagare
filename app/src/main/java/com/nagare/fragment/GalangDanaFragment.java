@@ -23,9 +23,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import java.text.DateFormat;
+import java.text.FieldPosition;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GalangDanaFragment extends BaseMainFragment{
 

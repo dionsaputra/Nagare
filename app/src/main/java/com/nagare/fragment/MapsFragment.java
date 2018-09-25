@@ -72,7 +72,6 @@ public class MapsFragment extends BaseMainFragment  implements
     @Override
     protected void initComponent() {
         SupportMapFragment mapFragment =(SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-
         mapFragment.getMapAsync(this);
     }
 
@@ -134,21 +133,36 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     public void onMarkerDragStart(Marker marker) {
-
+        if (!isMapReady()) {
+            Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
 
     @Override
     public void onMarkerDrag(Marker marker) {
-
+        if (!isMapReady()) {
+            Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
 
     @Override
     public void onMarkerDragEnd(Marker marker) {
-
+        if (!isMapReady()) {
+            Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
 
     @Override
     public void onMapLongClick(final LatLng latLng) {
+
+        if (!isMapReady()) {
+            Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         final View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_fasilitas, null);
         TextView titleDialog = inflator.findViewById(R.id.dialog_fasilitas_title);
@@ -175,6 +189,10 @@ public class MapsFragment extends BaseMainFragment  implements
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public boolean isMapReady() {
+        return (mapReady && map != null);
     }
 
     private void setMapListener() {
@@ -209,6 +227,11 @@ public class MapsFragment extends BaseMainFragment  implements
     }
 
     public void loadLokasi() {
+        if (!isMapReady()) {
+            Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         map.clear();
         markerMap.clear();
 
@@ -249,6 +272,11 @@ public class MapsFragment extends BaseMainFragment  implements
 
     @Override
     public void onInfoWindowClick(Marker marker) {
+        if (!isMapReady()) {
+            Toast.makeText(getContext(), "Maps isn't ready. Please check your location service", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         LayoutInflater inflater = ((AppCompatActivity)getContext()).getLayoutInflater();
         View view = inflater.inflate(R.layout.detail_lokasi,null);
         ImageView imageView = view.findViewById(R.id.iv_selected_lokasi);

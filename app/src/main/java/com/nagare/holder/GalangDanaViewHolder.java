@@ -94,7 +94,7 @@ public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements
         this.galangDana = galangDana;
         title.setText(galangDana.getTitle());
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("in","ID"));
-        amount.setText(String.format(formatter.format(galangDana.getTargetDana())));
+        amount.setText(formatter.format(galangDana.getTargetDana()));
         progressBar.setMax(galangDana.getTargetDana().intValue());
         progressBar.setProgress(galangDana.getCurrentDana().intValue());
 
