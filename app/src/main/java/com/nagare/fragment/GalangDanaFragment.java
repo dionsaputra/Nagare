@@ -56,7 +56,7 @@ public class GalangDanaFragment extends BaseMainFragment{
     }
 
     private void showAddGalangDanaDialog() {
-        View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_galang_dana, null);
+        View inflator = getActivity().getLayoutInflater().inflate(R.layout.dialog_galang_dana_home, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         final EditText gdName = inflator.findViewById(R.id.et_nama_galang_dana);
@@ -80,7 +80,6 @@ public class GalangDanaFragment extends BaseMainFragment{
                         Long nominal = Long.parseLong(gdNominal.getText().toString());
                         String key = DataUtil.dbGalangDana.push().getKey();
                         String userKey = DataUtil.USER_KEY;
-
                         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
                         String strDate = gdDeadline.getText().toString();
 
@@ -90,6 +89,7 @@ public class GalangDanaFragment extends BaseMainFragment{
                         } catch (ParseException e) {}
 
                         GalangDana galangDana = new GalangDana(name, desc, nominal, deadline);
+                        galangDana.setCurrentDana(0L);
                         galangDana.setKey(key);
                         galangDana.setUserKey(userKey);
 

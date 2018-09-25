@@ -27,8 +27,11 @@ import com.nagare.model.User;
 import com.nagare.util.DataUtil;
 import com.nagare.util.ViewUtil;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
         View.OnClickListener {
@@ -101,6 +104,7 @@ public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
         final EditText gdName = inflator.findViewById(R.id.et_nama_galang_dana);
         final EditText gdDesc = inflator.findViewById(R.id.et_deskripsi_galang_dana);
         final EditText gdNominal = inflator.findViewById(R.id.et_target_galang_dana);
+        final EditText gdcurrent = inflator.findViewById(R.id.et_current_galang_dana);
         final EditText gdDeadline = inflator.findViewById(R.id.et_deadline_galang_dana);
 
         gdDeadline.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +117,10 @@ public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
         gdName.setText(galangDana.getTitle());
         gdDesc.setText(galangDana.getDescription());
         gdNominal.setText(String.valueOf(galangDana.getTargetDana()));
+        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
+        Date limitWaktu = new Date(galangDana.getLimitWaktu());
+        String limitWaktuString = mSimpleDateFormat.format(limitWaktu);
+        gdDeadline.setText(limitWaktuString);
 
         builder.setView(inflator)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -121,7 +129,7 @@ public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
                         String name = gdName.getText().toString();
                         String desc = gdDesc.getText().toString();
                         Long nominal = Long.parseLong(gdNominal.getText().toString());
-
+                        Long current = Long.parseLong(gdcurrent.getText().toString());
                         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
                         String strDate = gdDeadline.getText().toString();
 
@@ -134,6 +142,7 @@ public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
                         galangDana.setDescription(desc);
                         galangDana.setTargetDana(nominal);
                         galangDana.setLimitWaktu(deadline);
+                        galangDana.setCurrentDana(current);
 
                         DataUtil.dbGalangDana.child(galangDana.getKey()).setValue(galangDana);
                     }
@@ -164,7 +173,10 @@ public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
     public void bind(GalangDana galangDana) {
         this.galangDana = galangDana;
         title.setText(galangDana.getTitle());
-        amount.setText(String.valueOf(galangDana.getTargetDana()));
+        NumberFormat mNumberFormat = NumberFormat.getCurrencyInstance(new Locale("in", "ID"));
+        amount.setText(mNumberFormat.format(galangDana.getTargetDana()));
+        progressBar.setMax(galangDana.getTargetDana().intValue());
+        progressBar.setProgress(galangDana.getCurrentDana().intValue());
 
         Query query = DataUtil.dbUser.child(galangDana.getUserKey());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
