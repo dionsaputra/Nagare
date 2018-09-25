@@ -93,6 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
                 DataUtil.USER_KEY = key;
                 DataUtil.USER_LURAH = false;
                 DataUtil.USER_NAMA = name;
+                DataUtil.USER_PASSWORD = password;
                 DataUtil.USER_EMAIL = email;
 
                 SharedPreferences spLogin;
@@ -100,6 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
                 spLogin.edit().putBoolean("logged",true).apply();
                 spLogin.edit().putString("userKey",DataUtil.USER_KEY ).apply();
                 spLogin.edit().putString("userNama",DataUtil.USER_NAMA ).apply();
+                spLogin.edit().putString("userPassword",DataUtil.USER_PASSWORD ).apply();
                 spLogin.edit().putString("userEmail",DataUtil.USER_EMAIL ).apply();
                 spLogin.edit().putBoolean("userLurah",DataUtil.USER_LURAH ).apply();
 
