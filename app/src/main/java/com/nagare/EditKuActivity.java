@@ -52,15 +52,15 @@ public class EditKuActivity extends AppCompatActivity {
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
         if (type.equals("1")){
-            title = "Fasilitas Ku";
+            title = "Fasilitasku";
         } else if (type.equals("2")){
-            title = "Galang Dana Ku";
+            title = "Galang Danaku";
         } else if (type.equals("3")){
-            title = "Acara Ku";
+            title = "Acaraku";
         } else if (type.equals("4")){
-            title = "Laporan Ku";
+            title = "Laporanku";
         } else if (type.equals("5")){
-            title = "Jadwal Ku";
+            title = "Jadwalku";
         } else {
             title = "Error";
         }

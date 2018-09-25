@@ -117,6 +117,8 @@ public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
         gdName.setText(galangDana.getTitle());
         gdDesc.setText(galangDana.getDescription());
         gdNominal.setText(String.valueOf(galangDana.getTargetDana()));
+        gdcurrent.setText(String.valueOf(galangDana.getCurrentDana()));
+
         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
         Date limitWaktu = new Date(galangDana.getLimitWaktu());
         String limitWaktuString = mSimpleDateFormat.format(limitWaktu);
@@ -128,8 +130,17 @@ public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
                     public void onClick(DialogInterface dialog, int which) {
                         String name = gdName.getText().toString();
                         String desc = gdDesc.getText().toString();
-                        Long nominal = Long.parseLong(gdNominal.getText().toString());
-                        Long current = Long.parseLong(gdcurrent.getText().toString());
+
+                        Long nominal = galangDana.getTargetDana();
+                        if (gdNominal.getText().toString().length() > 0) {
+                            nominal = Long.parseLong(gdNominal.getText().toString());
+                        }
+
+                        Long current = galangDana.getCurrentDana();
+                        if (gdcurrent.getText().toString().length() > 0) {
+                            current = Long.parseLong(gdcurrent.getText().toString());
+                        }
+
                         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
                         String strDate = gdDeadline.getText().toString();
 
