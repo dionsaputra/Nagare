@@ -7,15 +7,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nagare.R;
 import com.nagare.model.Lokasi;
 import com.nagare.util.DataUtil;
+import com.nagare.util.ViewUtil;
 
 public class FasilitasKuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     private TextView name, description;
+    private ImageView imageView;
     private Lokasi fasilitas;
     private Toast toast;
 
@@ -28,6 +31,8 @@ public class FasilitasKuViewHolder extends RecyclerView.ViewHolder implements Vi
     private void initComponent(View view) {
         name        = view.findViewById(R.id.tv_lokasi_ku_name);
         description = view.findViewById(R.id.tv_lokasi_ku_description);
+        imageView = view.findViewById(R.id.iv_selected_fasilitas_ku);
+        ViewUtil.loadImage(view.getContext(),imageView,ViewUtil.getRandomPlaceHolder());
     }
 
     @Override
@@ -103,11 +108,4 @@ public class FasilitasKuViewHolder extends RecyclerView.ViewHolder implements Vi
         DataUtil.dbFasilitas.child(fasilitas.getKey()).setValue(fasilitas);
     }
 
-    public void showAToast (View v,String message){
-        if (toast != null) {
-            toast.cancel();
-        }
-        toast = Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
 }

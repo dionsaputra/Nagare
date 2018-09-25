@@ -5,32 +5,32 @@
         <item
             android:id="@+id/nav_side_fasilitas"
             android:icon="@drawable/keliling"
-            android:title="Fasilitas Ku" />
+            android:title="Fasilitasku" />
 
         <item
             android:id="@+id/nav_side_galang_dana"
             android:icon="@drawable/galang_dana"
-            android:title="Galang Dana Ku" />
+            android:title="Galang Danaku" />
 
         <item
             android:id="@+id/nav_side_acara"
             android:icon="@drawable/calendar"
-            android:title="Acara Ku" />
+            android:title="Acaraku" />
 
         <item
             android:id="@+id/nav_side_lapor"
             android:icon="@drawable/lapor"
-            android:title="Laporan Ku" />
+            android:title="Laporanku" />
 
         <item
             android:id="@+id/nav_side_temu_lurah"
             android:icon="@drawable/temu_lurah"
-            android:title="Jadwal Ku" />
+            android:title="Jadwalku" />
 
         <item
             android:id="@+id/nav_side_pengaturan"
             android:icon="@drawable/pengaturan"
-            android:title="Pengaturan Ku" />
+            android:title="Pengaturanku" />
 
         <item
             android:id="@+id/nav_side_logout"
