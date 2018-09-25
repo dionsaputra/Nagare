@@ -33,7 +33,7 @@ import java.text.SimpleDateFormat;
 public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
         View.OnClickListener {
 
-    private ImageView descImage;
+    private ImageView imageView;
     private TextView title, owner, amount;
     private ProgressBar progressBar;
     private GalangDana galangDana;
@@ -49,6 +49,8 @@ public class GalangDanaKuViewHolder extends RecyclerView.ViewHolder implements
         owner       = view.findViewById(R.id.tv_galang_dana_owner);
         amount      = view.findViewById(R.id.tv_galang_dana_amount);
         progressBar = view.findViewById(R.id.pb_galang_dana_progress);
+        imageView   = view.findViewById(R.id.iv_selected_galang_dana);
+        ViewUtil.loadImage(view.getContext(), imageView, ViewUtil.getRandomPlaceHolder());
     }
 
     @Override

@@ -11,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nagare.R;
 import com.nagare.model.Kalender;
 import com.nagare.util.DataUtil;
+import com.nagare.util.ViewUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +26,7 @@ import java.util.Date;
 
 public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+    private ImageView imageView;
     private TextView title, description, date;
     private Kalender kalender;
     private Toast toast;
@@ -38,6 +41,8 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
         title       = view.findViewById(R.id.tv_calendar_ku_title);
         description = view.findViewById(R.id.tv_calendar_ku_description);
         date        = view.findViewById(R.id.tv_calendar_ku_date);
+        imageView   = view.findViewById(R.id.iv_selected_acaraku);
+        ViewUtil.loadImage(view.getContext(), imageView, ViewUtil.getRandomPlaceHolder());
     }
 
     @Override
@@ -78,7 +83,7 @@ public class AcaraKuViewHolder extends RecyclerView.ViewHolder implements View.O
         this.kalender = kalender;
         title.setText(kalender.getTitle());
         description.setText(kalender.getDescription());
-        date.setText(DateFormat.format("MM/dd/yyyy", new Date(kalender.getDate())).toString());
+        date.setText(DateFormat.format("dd/MM/yyyy", new Date(kalender.getDate())).toString());
     }
 
     public void removeEntityFromFirebase() {

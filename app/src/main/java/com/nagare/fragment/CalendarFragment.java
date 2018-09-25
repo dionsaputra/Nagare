@@ -126,18 +126,21 @@ public class CalendarFragment extends BaseMainFragment implements OnDateSelected
                                 SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
                                 String tDate = etTanggal.getText().toString();
                                 long mDate = 0;
+
                                 try {
                                     mDate = mSimpleDateFormat.parse(tDate).getTime();
-                                } catch (ParseException e) {}
+                                    Kalender mKalender = new Kalender(mName, mDesc, mUserKey, mKey, mDate, 0);
 
-                                Kalender mKalender = new Kalender(mName, mDesc, mUserKey, mKey, mDate, 0);
+                                    if(isAcara){
+                                        DataUtil.dbAcara.child(mKey).setValue(mKalender);
+                                    } else {
+                                        DataUtil.dbTemuLurah.child(mKey).setValue(mKalender);
+                                    }
+                                    loadCalendar();
 
-                                if(isAcara){
-                                    DataUtil.dbAcara.child(mKey).setValue(mKalender);
-                                } else {
-                                    DataUtil.dbTemuLurah.child(mKey).setValue(mKalender);
+                                } catch (ParseException e) {
+                                    Log.e("Calendar::",e.getMessage());
                                 }
-                                loadCalendar();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();

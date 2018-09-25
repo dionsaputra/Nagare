@@ -36,7 +36,7 @@ import java.util.Date;
 public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements
         View.OnClickListener{
 
-    private ImageView descImage;
+    private ImageView imageView;
     private TextView title, owner, amount;
     private ProgressBar progressBar;
     private GalangDana galangDana;
@@ -52,13 +52,15 @@ public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements
         owner       = view.findViewById(R.id.tv_galang_dana_owner);
         amount      = view.findViewById(R.id.tv_galang_dana_amount);
         progressBar = view.findViewById(R.id.pb_galang_dana_progress);
+        imageView   = view.findViewById(R.id.iv_selected_acaraku);
+        ViewUtil.loadImage(view.getContext(), imageView, ViewUtil.getRandomPlaceHolder());
     }
 
     @Override
     public void onClick(View v) {
         LayoutInflater inflater = ((AppCompatActivity) v.getContext()).getLayoutInflater();
         View view = inflater.inflate(R.layout.detail_galang_dana,null);
-        ImageView imageView = view.findViewById(R.id.iv_selected_lokasi);
+        ImageView imageView = view.findViewById(R.id.iv_selected_galang_dana_dialog);
 
         TextView gdName = view.findViewById(R.id.tv_galang_dana_dialog_name);
         final TextView gdOwner = view.findViewById(R.id.tv_galang_dana_dialog_owner);
@@ -79,7 +81,7 @@ public class GalangDanaViewHolder extends RecyclerView.ViewHolder implements
 
         gdDesc.setText(galangDana.getDescription());
 
-        ViewUtil.loadImage((AppCompatActivity) v.getContext(), imageView,R.drawable.itb);
+        ViewUtil.loadImage((AppCompatActivity) v.getContext(), imageView, ViewUtil.getRandomPlaceHolder());
 
         AlertDialog.Builder builder = new AlertDialog.Builder((AppCompatActivity) v.getContext(), R.style.MyAlertDialogTheme);
         builder.setView(view)

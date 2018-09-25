@@ -5,9 +5,8 @@
     style="@style/custom_card_96dp">
 
     <ImageView
-        android:src="@drawable/itb"
         android:layout_margin="8dp"
-        android:id="@+id/iv_selected_fasilitas_ku"
+        android:id="@+id/iv_selected_acaraku"
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.nagare.R;
 import com.nagare.model.Kalender;
 import com.nagare.util.DataUtil;
+import com.nagare.util.ViewUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +28,7 @@ import java.util.Date;
 
 public class LurahKuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+    private ImageView imageView;
     private LinearLayout background;
     private TextView title, description, date;
     private Kalender kalender;
@@ -42,6 +45,8 @@ public class LurahKuViewHolder extends RecyclerView.ViewHolder implements View.O
         description = view.findViewById(R.id.tv_calendar_ku_description);
         date        = view.findViewById(R.id.tv_calendar_ku_date);
         background  = view.findViewById(R.id.ll_fasilitas_ku_list_item);
+        imageView   = view.findViewById(R.id.iv_selected_);
+        ViewUtil.loadImage(view.getContext(), imageView, ViewUtil.getRandomPlaceHolder());
 
         if(kalender != null){
             if(kalender.status == 1){

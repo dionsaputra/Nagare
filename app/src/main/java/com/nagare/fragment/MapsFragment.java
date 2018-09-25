@@ -61,14 +61,11 @@ public class MapsFragment extends BaseMainFragment  implements
 
     public static boolean mapReady = false;
     private GoogleMap map;
-    private GoogleApiClient googleApiClient;
-    private LocationManager locationManager;
 
     private Map<Marker,Lokasi> markerMap = new HashMap<>();
 
     public MapsFragment() {
         super();
-
         layoutResId = R.layout.fragment_maps;
     }
 
@@ -80,9 +77,7 @@ public class MapsFragment extends BaseMainFragment  implements
     }
 
     @Override
-    protected void setupComponent() {
-
-    }
+    protected void setupComponent() { }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -120,9 +115,7 @@ public class MapsFragment extends BaseMainFragment  implements
     }
 
     @Override
-    public void onMyLocationClick(@NonNull Location location) {
-
-    }
+    public void onMyLocationClick(@NonNull Location location) { }
 
     @Override
     public void onResume() {
@@ -178,12 +171,7 @@ public class MapsFragment extends BaseMainFragment  implements
                         addLokasi(lokasi);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showPictureDialog();
-                    }
-                });
+                .setNegativeButton("Cancel",null);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
@@ -208,7 +196,6 @@ public class MapsFragment extends BaseMainFragment  implements
         }
     }
 
-
     private void addLokasi(Lokasi lokasi) {
         String key = isKeliling ? DataUtil.dbFasilitas.push().getKey() : DataUtil.dbLapor.push().getKey();
         lokasi.setKey(key);
@@ -219,43 +206,6 @@ public class MapsFragment extends BaseMainFragment  implements
         } else {
             DataUtil.dbLapor.child(key).setValue(lokasi);
         }
-    }
-
-    private void showPictureDialog(){
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getContext());
-        pictureDialog.setTitle("Select Action");
-        String[] pictureDialogItems = {
-                "Select photo from gallery",
-                "Capture photo from camera" };
-        pictureDialog.setItems(pictureDialogItems,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                choosePhotoFromGallery();
-                                break;
-                            case 1:
-                                takePhotoFromCamera();
-                                break;
-                        }
-                    }
-                });
-        pictureDialog.show();
-    }
-
-    public void choosePhotoFromGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        startActivityForResult(galleryIntent, GALLERY);
-    }
-
-    private int GALLERY = 1, CAMERA = 2;
-
-    private void takePhotoFromCamera() {
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA);
     }
 
     public void loadLokasi() {
@@ -322,7 +272,7 @@ public class MapsFragment extends BaseMainFragment  implements
 
         description.setText(lokasi.getDescription());
 
-        ViewUtil.loadImage(getContext(),imageView,R.drawable.itb);
+        ViewUtil.loadImage(getContext(),imageView,ViewUtil.getRandomPlaceHolder());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogTheme);
         builder.setView(view)
