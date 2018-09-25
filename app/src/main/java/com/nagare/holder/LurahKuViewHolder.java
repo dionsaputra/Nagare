@@ -45,7 +45,7 @@ public class LurahKuViewHolder extends RecyclerView.ViewHolder implements View.O
         description = view.findViewById(R.id.tv_calendar_ku_description);
         date        = view.findViewById(R.id.tv_calendar_ku_date);
         background  = view.findViewById(R.id.ll_fasilitas_ku_list_item);
-        imageView   = view.findViewById(R.id.iv_selected_);
+        imageView   = view.findViewById(R.id.iv_selected_acaraku);
         ViewUtil.loadImage(view.getContext(), imageView, ViewUtil.getRandomPlaceHolder());
 
         if(kalender != null){
