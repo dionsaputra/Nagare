@@ -99,7 +99,7 @@ public class MapsFragment extends BaseMainFragment implements GoogleMap.OnMyLoca
             if (map.getMyLocation() != null) {
                 LatLng latLng = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
                 CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(17).bearing(0).tilt(90).build();
-                MapsUtil.changeCamera(map, position, 1000);
+                MapsUtil.changeCamera(map, position, 2000);
                 return true;
             } else {
 //                Toast.makeText(getContext(), "Failed Location Null", Toast.LENGTH_SHORT).show();
