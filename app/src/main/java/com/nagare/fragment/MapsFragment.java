@@ -98,7 +98,7 @@ public class MapsFragment extends BaseMainFragment implements GoogleMap.OnMyLoca
         if (gps_enabled) {
             if (map.getMyLocation() != null) {
                 LatLng latLng = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
-                CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(17).bearing(0).tilt(0).build();
+                CameraPosition position = new CameraPosition.Builder().target(latLng).zoom(17).bearing(0).tilt(90).build();
                 MapsUtil.changeCamera(map, position, 1000);
                 return true;
             } else {
