@@ -137,6 +137,7 @@ public class GalangDanaFragment extends BaseMainFragment{
 
             }
         });
+
     }
 
     private void getAllGalangDana(DataSnapshot dataSnapshot) {
