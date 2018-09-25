@@ -77,7 +77,12 @@ public class GalangDanaFragment extends BaseMainFragment{
                     public void onClick(DialogInterface dialog, int which) {
                         String name = gdName.getText().toString();
                         String desc = gdDesc.getText().toString();
-                        Long nominal = Long.parseLong(gdNominal.getText().toString());
+                        Long nominal = 0L;
+
+                        if (gdNominal.getText().toString().length() > 0) {
+                            nominal = Long.parseLong(gdNominal.getText().toString());
+                        }
+
                         String key = DataUtil.dbGalangDana.push().getKey();
                         String userKey = DataUtil.USER_KEY;
                         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("y-M-d");
@@ -131,18 +136,7 @@ public class GalangDanaFragment extends BaseMainFragment{
 
             }
         });
-    }
 
-    private void removeAllGalangDana(DataSnapshot dataSnapshot) {
-        for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-            for (int i=0; i<allGalangDana.size(); i++) {
-                if (allGalangDana.get(i).equals(singleSnapshot.getValue(GalangDana.class))) {
-                    allGalangDana.remove(i);
-                }
-            }
-        }
-        galangDanaAdapter = new GalangDanaAdapter(allGalangDana);
-        galangDanaRecyclerView.setAdapter(galangDanaAdapter);
     }
 
     private void getAllGalangDana(DataSnapshot dataSnapshot) {

@@ -77,7 +77,10 @@ public class LoginActivity extends AppCompatActivity {
                     if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equals(password)) {
                         authenticate[0] = true;
                         DataUtil.USER_KEY = user.getKey();
+                        DataUtil.USER_NAMA = user.getName();
+                        DataUtil.USER_EMAIL = user.getEmail();
                         DataUtil.USER_LURAH = user.isLurah();
+
                         break;
                     }
                 }
@@ -86,6 +89,8 @@ public class LoginActivity extends AppCompatActivity {
                     spLogin = getSharedPreferences("login",MODE_PRIVATE);
                     spLogin.edit().putBoolean("logged",true).apply();
                     spLogin.edit().putString("userKey",DataUtil.USER_KEY).apply();
+                    spLogin.edit().putString("userNama",DataUtil.USER_NAMA).apply();
+                    spLogin.edit().putString("userEmail",DataUtil.USER_EMAIL).apply();
                     spLogin.edit().putBoolean("userLurah",DataUtil.USER_LURAH ).apply();
                     finish();
                     startActivity(new Intent(context, MainActivity.class));

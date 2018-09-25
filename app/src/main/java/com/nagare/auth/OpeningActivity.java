@@ -66,6 +66,8 @@ public class OpeningActivity extends AppCompatActivity {
         spLogin = getSharedPreferences("login",MODE_PRIVATE);
         if(spLogin.getBoolean("logged",false)){
             DataUtil.USER_KEY = spLogin.getString("userKey","");
+            DataUtil.USER_NAMA = spLogin.getString("userNama","");
+            DataUtil.USER_EMAIL = spLogin.getString("userEmail","");
             DataUtil.USER_LURAH = spLogin.getBoolean("userLurah",false);
             return true;
         } else {
