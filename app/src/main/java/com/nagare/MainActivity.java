@@ -160,11 +160,10 @@ public class MainActivity extends AppCompatActivity{
                                 userEmail.setText(user.getEmail());
 
                                 final EditText userPassword = editView.findViewById(R.id.et_password_user);
-                                userPassword.setText(user.getPassword());
+//                                userPassword.setText(user.getPassword());
 
                                 final EditText userConfirm = editView.findViewById(R.id.et_confirm_user);
-                                userConfirm.setText(user.getPassword());
-
+//                                userConfirm.setText(user.getPassword());
                                 android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
                                 builder.setView(editView)
                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
